@@ -20,13 +20,16 @@ document.addEventListener("DOMContentLoaded", function () {
   const cmsItems = document.querySelectorAll("[data-left][data-bottom]");
   const popupBg = document.querySelector(".bundle_popup-bg");
   const map = document.querySelector("[map]");
-  const bundleCart = document.querySelector("[bundle-cart]");
   const mapImg = document.querySelector("[map-img]");
   const mapText = document.querySelector("[map-text]");
   const indicatorMap = document.querySelector("[indicator-map]");
+
+  const bundleCart = document.querySelector("[bundle-cart]");
   const bundleCartIndicator = document.querySelector("[bundle-cart-indicator]");
   const bundleMapItem = document.querySelectorAll(".bundle_map-spot-item");
   const bundleOverflow = document.querySelector(".bundle_overflow");
+  const bundleGuide = document.querySelector("[bundle-guide]");
+
 
   function isMobile() {
     return tablet.matches || mobileLandscape.matches || mobile.matches;
@@ -392,8 +395,6 @@ document.addEventListener("DOMContentLoaded", function () {
       prepareNextStepUI(mapStepsItems);
     });
   });
-
-  const bundleGuide = document.querySelector("[bundle-guide]");
 
   // User Clicks the Next Step Button
   document.querySelectorAll("[next-step-btn]").forEach((button) => {
