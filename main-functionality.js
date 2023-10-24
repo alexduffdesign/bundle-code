@@ -20,13 +20,16 @@ document.addEventListener("DOMContentLoaded", function () {
   const cmsItems = document.querySelectorAll("[data-left][data-bottom]");
   const popupBg = document.querySelector(".bundle_popup-bg");
   const map = document.querySelector("[map]");
-  const bundleCart = document.querySelector("[bundle-cart]");
   const mapImg = document.querySelector("[map-img]");
   const mapText = document.querySelector("[map-text]");
   const indicatorMap = document.querySelector("[indicator-map]");
+
+  const bundleCart = document.querySelector("[bundle-cart]");
   const bundleCartIndicator = document.querySelector("[bundle-cart-indicator]");
   const bundleMapItem = document.querySelectorAll(".bundle_map-spot-item");
   const bundleOverflow = document.querySelector(".bundle_overflow");
+  const bundleGuide = document.querySelector("[bundle-guide]");
+
 
   function isMobile() {
     return tablet.matches || mobileLandscape.matches || mobile.matches;
@@ -393,7 +396,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  const bundleGuide = document.querySelector("[bundle-guide]");
 
   // User Clicks the Next Step Button
   document.querySelectorAll("[next-step-btn]").forEach((button) => {
@@ -405,7 +407,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
 
-  // User clicks the popup exit button 
+  // User exits the popup using exit button 
   document.querySelector("[popup-exit]").addEventListener("click", function () {
     popupBg.classList.remove("is--open");
     body.style.overflow = "auto";
@@ -559,17 +561,6 @@ document.addEventListener("DOMContentLoaded", function () {
             stepElement.dataset.stepBannerBtnActiveTextColour
           );
         }
-      }
-
-      bundleGuide.style.setProperty(
-        "--banner-btn-active-text-color",
-        stepElement.dataset.stepBannerBtnActiveTextColour
-      );
-
-      bundleGuide.style.setProperty(
-        "--banner-btn-active-bg-color",
-        stepElement.dataset.stepBannerBtnActiveBgColour
-      );
 
 
       // Background and text colors would be applied directly to the `products` element
@@ -679,6 +670,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   updateProductArea(getCurrentStepData(0));
   updateMobileIndicator(getCurrentStepData(0));
+
+
+
+
+
+  
 
   ///////////////////////////////// Functional Code For Menus ///////////////////////////////
 
