@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const body = document.querySelector("body");
   const nextStepEl = document.querySelector(".bundle_next-step");
 
-  const products = document.querySelector("[bundle-products]");
+  const products = document.querySelector("[products-area]");
   const cmsItems = document.querySelectorAll("[data-left][data-bottom]");
   const popupBg = document.querySelector(".bundle_popup-bg");
   const map = document.querySelector("[map]");
