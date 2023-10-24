@@ -1,4 +1,5 @@
 // DEFAULTS
+
 document.addEventListener("DOMContentLoaded", function () {
   // START BUNDLE
   const openingSlide = document.querySelector(".opening-slide");
