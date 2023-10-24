@@ -401,6 +401,12 @@ document.addEventListener("DOMContentLoaded", function () {
       handlePopupExit();
     });
 
+  document.querySelector("[popup-exit]").addEventListener("click", function () {
+    popupBg.classList.remove("is--open");
+    body.style.overflow = "auto";
+    nextStepEl.classList.remove("is--open");
+  })
+
   // PopUp Exit
   function handlePopupExit() {
     nextStepEl.classList.remove("is--open");
