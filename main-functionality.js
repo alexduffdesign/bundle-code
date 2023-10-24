@@ -394,12 +394,12 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Add an event listener for the "Next" button where you'll increase the current step
-  document
-    .querySelector("[next-step-btn]")
-    .addEventListener("click", function () {
+  document.querySelectorAll("[next-step-btn]").forEach((button) => {
+    button.addEventListener("click", function () {
       currentStep++;
       handlePopupExit();
     });
+  });
 
   document.querySelector("[popup-exit]").addEventListener("click", function () {
     popupBg.classList.remove("is--open");
