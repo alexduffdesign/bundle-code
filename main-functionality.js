@@ -393,18 +393,24 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Add an event listener for the "Next" button where you'll increase the current step
+  const bundleGuide = document.querySelector("[bundle-guide]");
+
+  // User Clicks the Next Step Button
   document.querySelectorAll("[next-step-btn]").forEach((button) => {
     button.addEventListener("click", function () {
       currentStep++;
       handlePopupExit();
+      bundleGuide.classList.remove("is--active");
     });
   });
 
+
+  // User clicks the popup exit button 
   document.querySelector("[popup-exit]").addEventListener("click", function () {
     popupBg.classList.remove("is--open");
     body.style.overflow = "auto";
     nextStepEl.classList.remove("is--open");
+    bundleGuide.classList.add("is--active");
   })
 
   // PopUp Exit
@@ -554,6 +560,18 @@ document.addEventListener("DOMContentLoaded", function () {
           );
         }
       }
+
+      bundleGuide.style.setProperty(
+        "--banner-btn-active-text-color",
+        stepElement.dataset.stepBannerBtnActiveTextColour
+      );
+
+      bundleGuide.style.setProperty(
+        "--banner-btn-active-bg-color",
+        stepElement.dataset.stepBannerBtnActiveBgColour
+      );
+
+
       // Background and text colors would be applied directly to the `products` element
       const productBgColour = stepElement.dataset.stepBgColour;
 
