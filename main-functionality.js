@@ -722,6 +722,7 @@ function getCurrentStepData(currentStep) {
 // UI Update Functions
 // Update Product Area based on Step Data
 function updateProductArea(stepElement) {
+  console.log(stepElement);
   if (stepElement.dataset.stepPrize !== "true") {
     // Get the target elements inside the products area
     const productImgEl = products.querySelector("[data-step-img]");
