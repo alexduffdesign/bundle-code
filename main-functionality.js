@@ -926,6 +926,49 @@ function handlePopupExit() {
   }
 }
 
+ // PopUp Exit
+  function handlePopupExit() {
+    nextStepEl.classList.remove("is--open");
+    if (isPrizeStep(currentStep - 1)) {
+      products.classList.add("is--active");
+      deactivatePrizeElements();
+    }
+    popupBg.classList.remove("is--open");
+    body.style.overflow = "auto";
+
+    // Fetch the current step data
+    const stepElement = getCurrentStepData(currentStep);
+    if (stepElement) {
+      // Update the product area immediately
+      updateProductArea(stepElement);
+      updateMobileIndicator(stepElement);
+      activatePrizes(currentStep);
+
+      // Listen for the transition to complete, then update the popup's data
+      nextStepEl.addEventListener(
+        "transitionend",
+        function transitionEndHandler() {
+          afterTransitionUpdates(stepElement);
+          // Remove the event listener so it doesn't keep firing on subsequent transitions
+          nextStepEl.removeEventListener("transitionend", transitionEndHandler);
+        }
+      );
+    }
+
+    // Initial state
+    const initialState = [
+      [bundleComponent, { opacity: 1 }, { duration: 0.3 }],
+      [".bundle_map-wrap", { opacity: 1 }, { duration: 0.3, at: "<" }]
+    ];
+    Motion.timeline(initialState);
+
+    // Scroll to the top
+    const topElement = document.getElementById("top");
+    if (topElement) {
+      topElement.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+
 
 document.querySelectorAll("[next-step-btn]").forEach((button) => {
   button.addEventListener("click", function () {
