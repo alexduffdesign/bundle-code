@@ -832,11 +832,12 @@ function updatePopup(stepElement) {
   console.log("updatePopup called with:", stepElement.dataset);
   
   const nextStepColour = document.querySelector("[next-step-popup]");
-  nextStepColour.style.setProperty(
+
+  nextStepColour?.style.setProperty(
     "--popup-bg-color",
     stepElement.dataset.nextStepBgColour
   );
-  nextStepColour.style.setProperty(
+  nextStepColour?.style.setProperty(
     "--popup-text-color",
     stepElement.dataset.nextStepTextColour
   );
