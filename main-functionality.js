@@ -935,6 +935,7 @@ document.querySelector("[popup-exit]").addEventListener("click", function () {
 // Initialize the initial step
 const initialStepElement = getCurrentStepData(0);
 if (initialStepElement) {
+  console.log('Initial step element data:', initialStepElement.dataset);  // Debug log
   updateProductArea(initialStepElement);
   updateMobileBundleStepInfo(initialStepElement);
 }
