@@ -324,13 +324,15 @@ document.addEventListener("DOMContentLoaded", function () {
       // Add the product id to the bundle array 
 
       const idEl = productBlock.querySelector("[data-id]");
+
+      if (idEl) {
       const id = idEl.getAttribute("data-id");
       const idNumber = parseInt(id, 10);
       let step = currentStep +1;
 
       // Append the new step to the bundle array
        bundle.push({ step, idNumber });
-
+      }
     });
   }
 
