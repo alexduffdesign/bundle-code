@@ -314,7 +314,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const title = productBlock.querySelector("[data-title]").textContent;
       const price = productBlock.querySelector("[data-price]").textContent;
       const id = productBlock.querySelector("[data-id]").textContent;
-      console.log("id", id)
+      console.log(id);
       const idNumber = parseInt(id, 10);
 
       const targetProductContainer = productContainers[index];
