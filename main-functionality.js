@@ -293,9 +293,6 @@ document.addEventListener("DOMContentLoaded", function () {
         );
         clonedProductBlock?.remove();
       });
-
-      editingStep = null;
-
     });
   }
 
@@ -425,6 +422,7 @@ document.addEventListener("DOMContentLoaded", function () {
       updateIndicatorPosition(currentStep, bundleStepsItems.length);
       prepareNextStepUI(bundleStepsItems);
       prepareNextStepUI(mapStepsItems);
+      editingStep = null;
       console.log(bundle);
     });
   });
