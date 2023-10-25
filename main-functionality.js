@@ -344,10 +344,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 4. Remove the title cover
   function clearTitleOverlay(bundleStepsItems) {
-    const currentBundleItem = bundleStepsItems[currentStep];
-    if (!currentBundleItem) return;
+    const targetBundleItem = editingStep !== null ? bundleStepsItems[editingStep - 1] : bundleStepsItems[currentStep];
+    if (!targetBundleItem) return;
 
-    const titleCoveredElements = currentBundleItem.querySelectorAll(
+    const titleCoveredElements = targetBundleItem.querySelectorAll(
       ".title-covered"
     );
     titleCoveredElements.forEach((element) => {
@@ -417,7 +417,8 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      populateCartWithProduct(currentBundleItem, productBlocks);
+      const targetBundleItem = editingStep !== null ? bundleStepsItems[editingStep - 1] : bundleStepsItems[currentStep];
+      populateCartWithProduct(targetBundleItem, productBlocks);
       clearTitleOverlay(bundleStepsItems);
       updateIndicatorPosition(currentStep, bundleStepsItems.length);
       prepareNextStepUI(bundleStepsItems);
