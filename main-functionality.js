@@ -837,6 +837,7 @@ function updatePopup(stepElement) {
     console.log('Updating nextStepImgEl src to:', stepElement.dataset.nextStepImg);
     nextStepImgEl.src = stepElement.dataset.nextStepImg;
     nextStepImgEl.srcset = stepElement.dataset.nextStepImg;
+    console.log('Updated src attribute:', nextStepImgEl.src);
   }
 
   if (nextStepBtnTextEl) {
@@ -936,6 +937,7 @@ document.querySelector("[popup-exit]").addEventListener("click", function () {
 const initialStepElement = getCurrentStepData(0);
 if (initialStepElement) {
   console.log('Initial step element data:', initialStepElement.dataset);  // Debug log
+  console.log('Element to update:', nextStepImgEl);
   updateProductArea(initialStepElement);
   updateMobileBundleStepInfo(initialStepElement);
 }
