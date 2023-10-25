@@ -423,6 +423,11 @@ document.addEventListener("DOMContentLoaded", function () {
       updateIndicatorPosition(currentStep, bundleStepsItems.length);
       prepareNextStepUI(bundleStepsItems);
       prepareNextStepUI(mapStepsItems);
+       // After all operations
+         if (editingStep === null) {
+         // Only update the currentStep if you are not in "editing" mode
+            currentStep++;
+           }
       editingStep = null;
       console.log(bundle);
     });
