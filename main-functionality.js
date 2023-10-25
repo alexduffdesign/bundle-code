@@ -935,26 +935,7 @@ function handlePopupExit() {
     }
     popupBg.classList.remove("is--open");
     body.style.overflow = "auto";
-
-    // Fetch the current step data
-    const stepElement = getCurrentStepData(currentStep);
-    if (stepElement) {
-      // Update the product area immediately
-      updateProductArea(stepElement);
-      updateMobileIndicator(stepElement);
-      activatePrizes(currentStep);
-
-      // Listen for the transition to complete, then update the popup's data
-      nextStepEl.addEventListener(
-        "transitionend",
-        function transitionEndHandler() {
-          afterTransitionUpdates(stepElement);
-          // Remove the event listener so it doesn't keep firing on subsequent transitions
-          nextStepEl.removeEventListener("transitionend", transitionEndHandler);
-        }
-      );
-    }
-
+    
     // Initial state
     const initialState = [
       [bundleComponent, { opacity: 1 }, { duration: 0.3 }],
