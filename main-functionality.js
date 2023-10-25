@@ -410,7 +410,7 @@ document.addEventListener("DOMContentLoaded", function () {
       updateIndicatorPosition(currentStep, bundleStepsItems.length);
       prepareNextStepUI(bundleStepsItems);
       prepareNextStepUI(mapStepsItems);
-      getProductIdAddToArray(e);
+      console.log(bundle);
     });
   });
 
