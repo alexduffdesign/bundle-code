@@ -804,6 +804,7 @@ function updateProductArea(stepElement) {
 }
 
 function updatePopup(stepElement) {
+  
   const nextStepColour = document.querySelector("[next-step-popup]");
   nextStepColour.style.setProperty(
     "--popup-bg-color",
@@ -821,6 +822,8 @@ function updatePopup(stepElement) {
     "[data-next-step-paragraph]"
   );
   const nextStepImgEl = nextStepEl.querySelector("[data-next-step-img]");
+  console.log('Element to update:', nextStepImgEl);  // Debug log here
+
   const nextStepBtnTextEl = nextStepEl.querySelector(
     "[data-next-step-btn-text]"
   );
@@ -937,7 +940,6 @@ document.querySelector("[popup-exit]").addEventListener("click", function () {
 const initialStepElement = getCurrentStepData(0);
 if (initialStepElement) {
   console.log('Initial step element data:', initialStepElement.dataset);  // Debug log
-  console.log('Element to update:', nextStepImgEl);
   updateProductArea(initialStepElement);
   updateMobileBundleStepInfo(initialStepElement);
 }
