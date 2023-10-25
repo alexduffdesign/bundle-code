@@ -167,7 +167,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  console.log("Animating product to bundle. popupBg is:", popupBg);
 
   let currentStep = 0;
 
