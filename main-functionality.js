@@ -830,8 +830,6 @@ function updateProductArea(stepElement) {
 }
 
 function updatePopup(stepElement) {
-
-  console.log("updatePopup called with:", stepElement.dataset);
   
   const nextStepColour = document.querySelector("[next-step-popup]");
 
@@ -990,7 +988,6 @@ document.querySelector("[popup-exit]").addEventListener("click", function () {
 // Initialize the initial step
 const initialStepElement = getCurrentStepData(0);
 if (initialStepElement) {
-  console.log('Initial step element data:', initialStepElement.dataset);
   updatePopup(initialStepElement);  // Debug log
   updateProductArea(initialStepElement);
   updateMobileBundleStepInfo(initialStepElement);
