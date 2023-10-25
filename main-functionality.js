@@ -325,7 +325,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
       // Explicitly define step
-      const step = currentStep;
+      const step = currentStep +1;
 
       // Append the new step to the bundle array
        bundle.push({ step, idNumber });
