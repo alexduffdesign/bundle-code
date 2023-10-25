@@ -313,10 +313,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const imgSrc = productBlock.querySelector("[data-img]").src;
       const title = productBlock.querySelector("[data-title]").textContent;
       const price = productBlock.querySelector("[data-price]").textContent;
-      const idEl = productBlock.querySelector("[data-id]");
-      const id = idEl.getAttribute("data-id");
-      console.log(id);
-      const idNumber = parseInt(id, 10);
+      
 
       const targetProductContainer = productContainers[index];
       targetProductContainer.querySelector("[data-img]").src = imgSrc;
@@ -324,8 +321,12 @@ document.addEventListener("DOMContentLoaded", function () {
       targetProductContainer.querySelector("[data-price]").textContent = price;
 
 
-      // Explicitly define step
-      const step = currentStep +1;
+      // Add the product id to the bundle array 
+
+      const idEl = productBlock.querySelector("[data-id]");
+      const id = idEl.getAttribute("data-id");
+      const idNumber = parseInt(id, 10);
+      let step = currentStep +1;
 
       // Append the new step to the bundle array
        bundle.push({ step, idNumber });
@@ -1003,6 +1004,7 @@ changeBundleProductBtn.forEach((button) => {
     // Checking what step product they want to change
     const stepValue = button.getAttribute('step');
     const stepNumber = parseInt(stepValue, 10) - 1;
+    console.log("step number", stepNumber);
 
     // Updating the product area with that steps data
     updateProductArea(stepNumber);
