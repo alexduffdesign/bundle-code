@@ -835,6 +835,7 @@ function updatePopup(stepElement) {
   }
 
   if (nextStepImgEl) {
+    console.log('Updating nextStepImgEl src to:', stepElement.dataset.nextStepImg);
     nextStepImgEl.src = stepElement.dataset.nextStepImg;
     nextStepImgEl.srcset = stepElement.dataset.nextStepImg;
   }
