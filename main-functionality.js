@@ -169,6 +169,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   let currentStep = 0;
+  let bundle = [];
+
 
   function getClosestProductBlock(element) {
     const commonAncestor = element.closest("[find-product-block]");
@@ -305,11 +307,21 @@ document.addEventListener("DOMContentLoaded", function () {
       const imgSrc = productBlock.querySelector("[data-img]").src;
       const title = productBlock.querySelector("[data-title]").textContent;
       const price = productBlock.querySelector("[data-price]").textContent;
+      const id = productBlock.querySelector("[data-id]").textContent;
+      const idNumber = parseInt(id, 10);
 
       const targetProductContainer = productContainers[index];
       targetProductContainer.querySelector("[data-img]").src = imgSrc;
       targetProductContainer.querySelector("[data-title]").textContent = title;
       targetProductContainer.querySelector("[data-price]").textContent = price;
+
+
+      // Explicitly define step
+      const step = currentStep;
+
+      // Append the new step to the bundle array
+       bundle.push({ step, idNumber });
+       
     });
   }
 
@@ -373,6 +385,7 @@ document.addEventListener("DOMContentLoaded", function () {
     nextStepImage?.classList.add("is--active");
   }
 
+
   // Event listener for the "Add to Bundle" click action
   document.addEventListener("click", function (e) {
     if (!e.target.matches("[add-to-bundle]")) return;
@@ -392,6 +405,7 @@ document.addEventListener("DOMContentLoaded", function () {
       updateIndicatorPosition(currentStep, bundleStepsItems.length);
       prepareNextStepUI(bundleStepsItems);
       prepareNextStepUI(mapStepsItems);
+      getProductIdAddToArray(e);
     });
   });
 
@@ -685,7 +699,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // Utility Functions
-function isPrizeStep(step) {
+
+  function isPrizeStep(step) {
   const prizeSteps = [2, 4, 6];
   return prizeSteps.includes(step);
 }
@@ -965,6 +980,23 @@ if (initialStepElement) {
   updateProductArea(initialStepElement);
   updateMobileBundleStepInfo(initialStepElement);
 }
+
+
+// Change Btn
+
+const changeBundleProductBtn = document.querySelectorAll("[change-btn]");
+
+changeBundleProductBtn.forEach((button) => {
+  button.addEventListener('click', function() {
+
+    // Checking what step product they want to change
+    const stepValue = button.getAttribute('step');
+    const stepNumber = parseInt(stepValue, 10) - 1;
+
+    // Updating the product area with that steps data
+    updateProductArea(stepNumber);
+  })
+});
 
 
   ///////////////////////////////// Functional Code For Menus ///////////////////////////////
