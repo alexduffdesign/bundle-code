@@ -122,6 +122,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // INTRO CODE
   let clickCount = 0;
+  const introButton = document.querySelector("[intro-btn]");
+
 
   if (introButton) {
     introButton.addEventListener("click", function () {
@@ -169,7 +171,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let currentStep = 0;
   let bundle = [];
-  const introButton = document.querySelector("[intro-btn]");
   let lastUncompletedStep = 1; 
 
   if (currentStep > lastUncompletedStep) {
