@@ -923,19 +923,6 @@ function handlePopupBtnClick() {
       afterTransitionUpdates(stepElement);
       nextStepEl.removeEventListener("transitionend", transitionEndHandler);
     });
-  }
-}
-
- // PopUp Exit
-  function handlePopupBtnClick() {
-    nextStepEl.classList.remove("is--open");
-    if (isPrizeStep(currentStep - 1)) {
-      products.classList.add("is--active");
-      deactivatePrizeElements();
-    }
-    popupBg.classList.remove("is--open");
-    body.style.overflow = "auto";
-
     // Initial state
     const initialState = [
       [bundleComponent, { opacity: 1 }, { duration: 0.3 }],
@@ -949,6 +936,7 @@ function handlePopupBtnClick() {
       topElement.scrollIntoView({ behavior: "smooth" });
     }
   }
+}
 
 
 document.querySelectorAll("[next-step-btn]").forEach((button) => {
@@ -957,8 +945,8 @@ document.querySelectorAll("[next-step-btn]").forEach((button) => {
     handlePopupBtnClick();
     bundleGuide.classList.remove("is--active");
     updatePopup(initialStepElement);  // Debug log
-  updateProductArea(initialStepElement);
-  updateMobileBundleStepInfo(initialStepElement);
+    updateProductArea(initialStepElement);
+    updateMobileBundleStepInfo(initialStepElement);
   });
 });
 
