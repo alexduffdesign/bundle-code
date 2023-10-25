@@ -904,7 +904,7 @@ function afterTransitionUpdates(stepElement) {
 }
 
 // Main Functionality
-function handlePopupExit() {
+function handlePopupBtnClick() {
   nextStepEl.classList.remove("is--open");
   if (isPrizeStep(currentStep - 1)) {
     products.classList.add("is--active");
@@ -927,7 +927,7 @@ function handlePopupExit() {
 }
 
  // PopUp Exit
-  function handlePopupExit() {
+  function handlePopupBtnClick() {
     nextStepEl.classList.remove("is--open");
     if (isPrizeStep(currentStep - 1)) {
       products.classList.add("is--active");
@@ -935,7 +935,7 @@ function handlePopupExit() {
     }
     popupBg.classList.remove("is--open");
     body.style.overflow = "auto";
-    
+
     // Initial state
     const initialState = [
       [bundleComponent, { opacity: 1 }, { duration: 0.3 }],
@@ -954,7 +954,7 @@ function handlePopupExit() {
 document.querySelectorAll("[next-step-btn]").forEach((button) => {
   button.addEventListener("click", function () {
     currentStep++;
-    handlePopupExit();
+    handlePopupBtnClick();
     bundleGuide.classList.remove("is--active");
   });
 });
