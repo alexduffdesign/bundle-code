@@ -844,7 +844,7 @@ function updatePopup(stepElement) {
   }
 }
 
-function updateMobileIndicator(stepElement) {
+function updateMobileBundleStepInfo(stepElement) {
   if (isMobile()) {
     const mobileIndicator = document.querySelector(
       "[bundle-mobile-indicator]"
@@ -907,7 +907,7 @@ function handlePopupExit() {
   const stepElement = getCurrentStepData(currentStep);
   if (stepElement) {
     updateProductArea(stepElement);
-    updateMobileIndicator(stepElement);
+    updateMobileBundleStepInfo(stepElement);
     activatePrizes(currentStep);
     nextStepEl.addEventListener("transitionend", function transitionEndHandler() {
       afterTransitionUpdates(stepElement);
@@ -936,7 +936,7 @@ document.querySelector("[popup-exit]").addEventListener("click", function () {
 const initialStepElement = getCurrentStepData(0);
 if (initialStepElement) {
   updateProductArea(initialStepElement);
-  updateMobileIndicator(initialStepElement);
+  updateMobileBundleStepInfo(initialStepElement);
 }
 
 
