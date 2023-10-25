@@ -326,12 +326,19 @@ document.addEventListener("DOMContentLoaded", function () {
       const idEl = productBlock.querySelector("[data-id]");
 
       if (idEl) {
-      const id = idEl.getAttribute("data-id");
-      const idNumber = parseInt(id, 10);
-      let step = currentStep +1;
-
-      // Append the new step to the bundle array
-       bundle.push({ step, idNumber });
+        const id = idEl.getAttribute("data-id");
+        const idNumber = parseInt(id, 10);
+        let step = currentStep + 1;
+    
+        // Find the index of the step in the bundle array
+        const stepIndex = bundle.findIndex((item) => item.step === step);
+    
+        // If the step is already in the bundle, update it. Otherwise, add a new entry.
+        if (stepIndex !== -1) {
+          bundle[stepIndex].idNumber = idNumber;
+        } else {
+          bundle.push({ step, idNumber });
+        }
       }
     });
   }
@@ -419,6 +426,25 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log(bundle);
     });
   });
+
+
+  // Change Btn
+
+const changeBundleProductBtn = document.querySelectorAll("[change-btn]");
+
+changeBundleProductBtn.forEach((button) => {
+  button.addEventListener('click', function() {
+
+    // Checking what step product they want to change
+    const stepValue = button.getAttribute('step');
+    const stepNumber = parseInt(stepValue, 10) - 1;
+    console.log("step number", stepNumber);
+
+    // Updating the product area with that steps data
+    const stepData = getCurrentStepData(stepNumber);
+    updateProductArea(stepData);
+  })
+});
 
 
   // ----- Next Step Click ------ 
@@ -992,26 +1018,6 @@ if (initialStepElement) {
   updateProductArea(initialStepElement);
   updateMobileBundleStepInfo(initialStepElement);
 }
-
-
-// Change Btn
-
-const changeBundleProductBtn = document.querySelectorAll("[change-btn]");
-
-changeBundleProductBtn.forEach((button) => {
-  button.addEventListener('click', function() {
-
-    // Checking what step product they want to change
-    const stepValue = button.getAttribute('step');
-    const stepNumber = parseInt(stepValue, 10) - 1;
-    console.log("step number", stepNumber);
-
-    const step = getCurrentStepData(stepNumber);
-
-    // Updating the product area with that steps data
-    updateProductArea(step);
-  })
-});
 
 
   ///////////////////////////////// Functional Code For Menus ///////////////////////////////
