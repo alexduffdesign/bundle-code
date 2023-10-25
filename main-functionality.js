@@ -313,7 +313,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const imgSrc = productBlock.querySelector("[data-img]").src;
       const title = productBlock.querySelector("[data-title]").textContent;
       const price = productBlock.querySelector("[data-price]").textContent;
-      const id = productBlock.getAttribute("[data-id]");
+      const id = productBlock.getAttribute("data-id");
       console.log(id);
       const idNumber = parseInt(id, 10);
 
