@@ -202,9 +202,8 @@ document.addEventListener("DOMContentLoaded", function () {
       body.appendChild(clonedProductBlock);
 
       // Retrieve all [bundle-product] containers inside the current [bundle-item]
-      const productContainers = bundleStepsItems[currentStep].querySelectorAll(
-        "[bundle-product]"
-      );
+      const productContainers = bundleStepsItems[editingStep !== null ? (editingStep - 1) : currentStep].querySelectorAll("[bundle-product]");
+
 
       console.log(productContainers);
 
@@ -294,6 +293,9 @@ document.addEventListener("DOMContentLoaded", function () {
         );
         clonedProductBlock?.remove();
       });
+
+      editingStep = null;
+
     });
   }
 
@@ -328,7 +330,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (idEl) {
         const id = idEl.getAttribute("data-id");
         const idNumber = parseInt(id, 10);
-        let step = currentStep + 1;
+        let step = editingStep !== null ? editingStep : (currentStep + 1);
     
         // Find the index of the step in the bundle array
         const stepIndex = bundle.findIndex((item) => item.step === step);
@@ -431,12 +433,16 @@ document.addEventListener("DOMContentLoaded", function () {
   // Change Btn
 
 const changeBundleProductBtn = document.querySelectorAll("[change-btn]");
+let editingStep = null; // Declare it at the beginning of your script
+
 
 changeBundleProductBtn.forEach((button) => {
   button.addEventListener('click', function() {
 
     // Checking what step product they want to change
     const stepValue = button.getAttribute('step');
+    editingStep = parseInt(stepValue, 10); 
+
     const stepNumber = parseInt(stepValue, 10) - 1;
     console.log("step number", stepNumber);
 
