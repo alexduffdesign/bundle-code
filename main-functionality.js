@@ -439,7 +439,7 @@ let editingStep = null; // Declare it at the beginning of your script
 changeBundleProductBtn.forEach((button) => {
   button.addEventListener('click', function() {
 
-    console.log(editingStep);
+    console.log("editing step", editingStep);
 
     // Checking what step product they want to change
     const stepValue = button.getAttribute('step');
