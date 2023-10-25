@@ -121,7 +121,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // INTRO CODE
-  const introButton = document.querySelector("[intro-btn]");
   let clickCount = 0;
 
   if (introButton) {
@@ -170,6 +169,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let currentStep = 0;
   let bundle = [];
+  const introButton = document.querySelector("[intro-btn]");
+  let lastUncompletedStep = 1; 
+
+  if (currentStep > lastUncompletedStep) {
+    lastUncompletedStep = currentStep;
+  }
 
 
   function getClosestProductBlock(element) {
@@ -321,7 +326,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Append the new step to the bundle array
        bundle.push({ step, idNumber });
-       
+
     });
   }
 
@@ -957,6 +962,9 @@ function handlePopupBtnClick() {
 document.querySelectorAll("[next-step-btn]").forEach((button) => {
   button.addEventListener("click", function () {
     currentStep++;
+    if (currentStep > lastUncompletedStep) {
+      lastUncompletedStep = currentStep;
+    }
     handlePopupBtnClick();
     bundleGuide.classList.remove("is--active");
     updatePopup(currentStep);  // Debug log
