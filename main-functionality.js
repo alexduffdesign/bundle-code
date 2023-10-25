@@ -804,6 +804,8 @@ function updateProductArea(stepElement) {
 }
 
 function updatePopup(stepElement) {
+
+  console.log("updatePopup called with:", stepElement.dataset);
   
   const nextStepColour = document.querySelector("[next-step-popup]");
   nextStepColour.style.setProperty(
@@ -827,6 +829,9 @@ function updatePopup(stepElement) {
   const nextStepBtnTextEl = nextStepEl.querySelector(
     "[data-next-step-btn-text]"
   );
+
+  console.log("Updating button text to:", stepElement.dataset.nextStepBtnText);  // Debug
+
 
   if (nextStepHeadingEl) {
     nextStepHeadingEl.textContent = stepElement.dataset.nextStepHeading;
@@ -910,6 +915,7 @@ function handlePopupExit() {
 
   const stepElement = getCurrentStepData(currentStep);
   if (stepElement) {
+    console.log("handlePopupExit - stepElement found:", stepElement.dataset); // Debug
     updateProductArea(stepElement);
     updateMobileBundleStepInfo(stepElement);
     activatePrizes(currentStep);
