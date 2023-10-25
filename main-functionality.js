@@ -396,290 +396,549 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // User Clicks the Next Step Button
-  document.querySelectorAll("[next-step-btn]").forEach((button) => {
-    button.addEventListener("click", function () {
-      currentStep++;
-      handlePopupExit();
-      bundleGuide.classList.remove("is--active");
-    });
-  });
+
+  // ----- Next Step Click ------ 
+
+  // // User Clicks the Next Step Button
+  // document.querySelectorAll("[next-step-btn]").forEach((button) => {
+  //   button.addEventListener("click", function () {
+  //     currentStep++;
+  //     handlePopupExit();
+  //     bundleGuide.classList.remove("is--active");
+  //   });
+  // });
 
 
-  // User clicks the popup exit button 
-  document.querySelector("[popup-exit]").addEventListener("click", function () {
-    popupBg.classList.remove("is--open");
-    body.style.overflow = "auto";
-    nextStepEl.classList.remove("is--open");
-    bundleGuide.classList.add("is--active");
-  })
+  // // User clicks the popup exit button 
+  // document.querySelector("[popup-exit]").addEventListener("click", function () {
+  //   popupBg.classList.remove("is--open");
+  //   body.style.overflow = "auto";
+  //   nextStepEl.classList.remove("is--open");
+  //   bundleGuide.classList.add("is--active");
+  // })
 
-  // PopUp Exit
-  function handlePopupExit() {
-    nextStepEl.classList.remove("is--open");
-    if (isPrizeStep(currentStep - 1)) {
-      products.classList.add("is--active");
-      deactivatePrizeElements();
-    }
-    popupBg.classList.remove("is--open");
-    body.style.overflow = "auto";
+  // // PopUp Exit
+  // function handlePopupExit() {
+  //   nextStepEl.classList.remove("is--open");
+  //   if (isPrizeStep(currentStep - 1)) {
+  //     products.classList.add("is--active");
+  //     deactivatePrizeElements();
+  //   }
+  //   popupBg.classList.remove("is--open");
+  //   body.style.overflow = "auto";
 
-    // Fetch the current step data
-    const stepElement = getCurrentStepData(currentStep);
-    if (stepElement) {
-      // Update the product area immediately
-      updateProductArea(stepElement);
-      updateMobileIndicator(stepElement);
-      activatePrizes(currentStep);
+  //   // Fetch the current step data
+  //   const stepElement = getCurrentStepData(currentStep);
+  //   if (stepElement) {
+  //     // Update the product area immediately
+  //     updateProductArea(stepElement);
+  //     updateMobileIndicator(stepElement);
+  //     activatePrizes(currentStep);
 
-      // Listen for the transition to complete, then update the popup's data
-      nextStepEl.addEventListener(
-        "transitionend",
-        function transitionEndHandler() {
-          afterTransitionUpdates(stepElement);
-          // Remove the event listener so it doesn't keep firing on subsequent transitions
-          nextStepEl.removeEventListener("transitionend", transitionEndHandler);
-        }
-      );
-    }
+  //     // Listen for the transition to complete, then update the popup's data
+  //     nextStepEl.addEventListener(
+  //       "transitionend",
+  //       function transitionEndHandler() {
+  //         afterTransitionUpdates(stepElement);
+  //         // Remove the event listener so it doesn't keep firing on subsequent transitions
+  //         nextStepEl.removeEventListener("transitionend", transitionEndHandler);
+  //       }
+  //     );
+  //   }
 
-    // Initial state
-    const initialState = [
-      [bundleComponent, { opacity: 1 }, { duration: 0.3 }],
-      [".bundle_map-wrap", { opacity: 1 }, { duration: 0.3, at: "<" }]
-    ];
-    Motion.timeline(initialState);
+  //   // Initial state
+  //   const initialState = [
+  //     [bundleComponent, { opacity: 1 }, { duration: 0.3 }],
+  //     [".bundle_map-wrap", { opacity: 1 }, { duration: 0.3, at: "<" }]
+  //   ];
+  //   Motion.timeline(initialState);
 
-    // Scroll to the top
-    const topElement = document.getElementById("top");
-    if (topElement) {
-      topElement.scrollIntoView({ behavior: "smooth" });
-    }
-  }
+  //   // Scroll to the top
+  //   const topElement = document.getElementById("top");
+  //   if (topElement) {
+  //     topElement.scrollIntoView({ behavior: "smooth" });
+  //   }
+  // }
 
-  // Activate prizes at the right times
-  function activatePrizes(step) {
-    const seaEl = document.querySelector("[sea-el]");
-    const skyEl = document.querySelector("[sky-el]");
-    const meadowEl = document.querySelector("[meadow-el]");
+  // // Activate prizes at the right times
+  // function activatePrizes(step) {
+  //   const seaEl = document.querySelector("[sea-el]");
+  //   const skyEl = document.querySelector("[sky-el]");
+  //   const meadowEl = document.querySelector("[meadow-el]");
 
-    if (step === 2) {
-      products.classList.remove("is--active");
-      seaEl.classList.add("is--active");
-    } else if (step === 4) {
-      products.classList.remove("is--active");
-      skyEl.classList.add("is--active");
-    } else if (step === 6) {
-      products.classList.remove("is--active");
-      meadowEl.classList.add("is--active");
-    }
-  }
+  //   if (step === 2) {
+  //     products.classList.remove("is--active");
+  //     seaEl.classList.add("is--active");
+  //   } else if (step === 4) {
+  //     products.classList.remove("is--active");
+  //     skyEl.classList.add("is--active");
+  //   } else if (step === 6) {
+  //     products.classList.remove("is--active");
+  //     meadowEl.classList.add("is--active");
+  //   }
+  // }
 
-  function afterTransitionUpdates(stepElement) {
-    // Only the popup's data will be updated here
-    updatePopup(stepElement);
-    // Add any other updates that you want to happen after the transition here
-  }
+  // function afterTransitionUpdates(stepElement) {
+  //   // Only the popup's data will be updated here
+  //   updatePopup(stepElement);
+  //   // Add any other updates that you want to happen after the transition here
+  // }
 
-  function isPrizeStep(step) {
-    // Here, you can have the logic to determine if a step is a prize step
-    // For example, if prize steps are 2, 4, and 6:
-    const prizeSteps = [2, 4, 6];
-    return prizeSteps.includes(step);
-  }
+  // function isPrizeStep(step) {
+  //   // Here, you can have the logic to determine if a step is a prize step
+  //   // For example, if prize steps are 2, 4, and 6:
+  //   const prizeSteps = [2, 4, 6];
+  //   return prizeSteps.includes(step);
+  // }
 
-  function deactivatePrizeElements() {
-    const seaEl = document.querySelector("[sea-el]");
-    const skyEl = document.querySelector("[sky-el]");
-    const meadowEl = document.querySelector("[meadow-el]");
+  // function deactivatePrizeElements() {
+  //   const seaEl = document.querySelector("[sea-el]");
+  //   const skyEl = document.querySelector("[sky-el]");
+  //   const meadowEl = document.querySelector("[meadow-el]");
 
-    seaEl.classList.remove("is--active");
-    skyEl.classList.remove("is--active");
-    meadowEl.classList.remove("is--active");
-  }
+  //   seaEl.classList.remove("is--active");
+  //   skyEl.classList.remove("is--active");
+  //   meadowEl.classList.remove("is--active");
+  // }
 
-  // Update Product Area based on Step Data
-  function updateProductArea(stepElement) {
-    if (stepElement.dataset.stepPrize !== "true") {
-      // Get the target elements inside the products area
-      const productImgEl = products.querySelector("[data-step-img]");
-      const productLocationEl = products.querySelector("[data-step-location]");
-      const productBgImgEl = products.querySelector("[data-step-bg-img]");
-      const productHeadingEl = products.querySelector("[data-step-heading]");
-      const productParagraphEl = products.querySelector(
-        "[data-step-paragraph]"
-      );
-      const bannerElement = products.querySelector("[banner]");
-      const nextStepCharacterEl = products.querySelector(
-        "[data-step-character]"
-      );
-      console.log(nextStepCharacterEl);
+  // // Update Product Area based on Step Data
+  // function updateProductArea(stepElement) {
+  //   if (stepElement.dataset.stepPrize !== "true") {
+  //     // Get the target elements inside the products area
+  //     const productImgEl = products.querySelector("[data-step-img]");
+  //     const productLocationEl = products.querySelector("[data-step-location]");
+  //     const productBgImgEl = products.querySelector("[data-step-bg-img]");
+  //     const productHeadingEl = products.querySelector("[data-step-heading]");
+  //     const productParagraphEl = products.querySelector(
+  //       "[data-step-paragraph]"
+  //     );
+  //     const bannerElement = products.querySelector("[banner]");
+  //     const nextStepCharacterEl = products.querySelector(
+  //       "[data-step-character]"
+  //     );
+  //     console.log(nextStepCharacterEl);
 
-      if (nextStepCharacterEl) {
-        nextStepCharacterEl.src = stepElement.dataset.stepCharacter;
-        nextStepCharacterEl.srcset = stepElement.dataset.stepCharacter;
-      }
+  //     if (nextStepCharacterEl) {
+  //       nextStepCharacterEl.src = stepElement.dataset.stepCharacter;
+  //       nextStepCharacterEl.srcset = stepElement.dataset.stepCharacter;
+  //     }
 
-      if (bannerElement) {
-        if (stepElement.dataset.stepBannerBgColour) {
-          bannerElement.style.setProperty(
-            "--banner-bg-color",
-            stepElement.dataset.stepBannerBgColour
-          );
-        }
-        if (stepElement.dataset.stepBannerColour) {
-          bannerElement.style.setProperty(
-            "--banner-color",
-            stepElement.dataset.stepBannerColour
-          );
-        }
-      }
+  //     if (bannerElement) {
+  //       if (stepElement.dataset.stepBannerBgColour) {
+  //         bannerElement.style.setProperty(
+  //           "--banner-bg-color",
+  //           stepElement.dataset.stepBannerBgColour
+  //         );
+  //       }
+  //       if (stepElement.dataset.stepBannerColour) {
+  //         bannerElement.style.setProperty(
+  //           "--banner-color",
+  //           stepElement.dataset.stepBannerColour
+  //         );
+  //       }
+  //     }
 
-      if (bannerElement) {
-        if (stepElement.dataset.stepBannerBtnIdleBgColour) {
-          bannerElement.style.setProperty(
-            "--banner-btn-idle-bg-color",
-            stepElement.dataset.stepBannerBtnIdleBgColour
-          );
-        }
-        if (stepElement.dataset.stepBannerBtnActiveBgColour) {
-          bannerElement.style.setProperty(
-            "--banner-btn-active-bg-color",
-            stepElement.dataset.stepBannerBtnActiveBgColour
-          );
-        }
-        if (stepElement.dataset.stepBannerBtnIdleTextColour) {
-          bannerElement.style.setProperty(
-            "--banner-btn-idle-text-color",
-            stepElement.dataset.stepBannerBtnIdleTextColour
-          );
-        }
-        if (stepElement.dataset.stepBannerBtnActiveTextColour) {
-          bannerElement.style.setProperty(
-            "--banner-btn-active-text-color",
-            stepElement.dataset.stepBannerBtnActiveTextColour
-          );
-        }
-      }
+  //     if (bannerElement) {
+  //       if (stepElement.dataset.stepBannerBtnIdleBgColour) {
+  //         bannerElement.style.setProperty(
+  //           "--banner-btn-idle-bg-color",
+  //           stepElement.dataset.stepBannerBtnIdleBgColour
+  //         );
+  //       }
+  //       if (stepElement.dataset.stepBannerBtnActiveBgColour) {
+  //         bannerElement.style.setProperty(
+  //           "--banner-btn-active-bg-color",
+  //           stepElement.dataset.stepBannerBtnActiveBgColour
+  //         );
+  //       }
+  //       if (stepElement.dataset.stepBannerBtnIdleTextColour) {
+  //         bannerElement.style.setProperty(
+  //           "--banner-btn-idle-text-color",
+  //           stepElement.dataset.stepBannerBtnIdleTextColour
+  //         );
+  //       }
+  //       if (stepElement.dataset.stepBannerBtnActiveTextColour) {
+  //         bannerElement.style.setProperty(
+  //           "--banner-btn-active-text-color",
+  //           stepElement.dataset.stepBannerBtnActiveTextColour
+  //         );
+  //       }
+  //     }
 
-      bundleGuide.style.setProperty(
-        "--banner-btn-active-text-color",
-        stepElement.dataset.stepBannerBtnActiveTextColour
-      );
+  //     bundleGuide.style.setProperty(
+  //       "--banner-btn-active-text-color",
+  //       stepElement.dataset.stepBannerBtnActiveTextColour
+  //     );
 
-      bundleGuide.style.setProperty(
-        "--banner-btn-active-bg-color",
-        stepElement.dataset.stepBannerBtnActiveBgColour
-      );
+  //     bundleGuide.style.setProperty(
+  //       "--banner-btn-active-bg-color",
+  //       stepElement.dataset.stepBannerBtnActiveBgColour
+  //     );
 
 
-      // Background and text colors would be applied directly to the `products` element
-      const productBgColour = stepElement.dataset.stepBgColour;
+  //     // Background and text colors would be applied directly to the `products` element
+  //     const productBgColour = stepElement.dataset.stepBgColour;
 
-      if (productBgColour) {
-        products.style.backgroundColor = productBgColour;
-      }
+  //     if (productBgColour) {
+  //       products.style.backgroundColor = productBgColour;
+  //     }
 
-      // Update the properties of the target elements
-      if (productImgEl) {
-        productImgEl.src = stepElement.dataset.stepImg;
-        productImgEl.srcset = stepElement.dataset.stepImg;
-      }
+  //     // Update the properties of the target elements
+  //     if (productImgEl) {
+  //       productImgEl.src = stepElement.dataset.stepImg;
+  //       productImgEl.srcset = stepElement.dataset.stepImg;
+  //     }
 
-      if (productLocationEl) {
-        productLocationEl.textContent = stepElement.dataset.stepLocation;
-      }
+  //     if (productLocationEl) {
+  //       productLocationEl.textContent = stepElement.dataset.stepLocation;
+  //     }
 
-      if (productBgImgEl) {
-        productBgImgEl.src = stepElement.dataset.stepBgImg;
-        productBgImgEl.srcset = stepElement.dataset.stepBgImg;
-      }
+  //     if (productBgImgEl) {
+  //       productBgImgEl.src = stepElement.dataset.stepBgImg;
+  //       productBgImgEl.srcset = stepElement.dataset.stepBgImg;
+  //     }
 
-      if (productHeadingEl) {
-        productHeadingEl.textContent = stepElement.dataset.stepHeading;
-      }
+  //     if (productHeadingEl) {
+  //       productHeadingEl.textContent = stepElement.dataset.stepHeading;
+  //     }
 
-      if (productParagraphEl) {
-        productParagraphEl.textContent = stepElement.dataset.stepParagraph;
-      }
-    }
-  }
+  //     if (productParagraphEl) {
+  //       productParagraphEl.textContent = stepElement.dataset.stepParagraph;
+  //     }
+  //   }
+  // }
 
-  // Fetch Data for Current Step
-  function getCurrentStepData(currentStep) {
-    // Adjust the indexing
-    const adjustedStep = currentStep + 1;
-    return document.querySelector(`.step[data-step-name="${adjustedStep}"]`);
-  }
+  // // Fetch Data for Current Step
+  // function getCurrentStepData(currentStep) {
+  //   // Adjust the indexing
+  //   const adjustedStep = currentStep + 1;
+  //   return document.querySelector(`.step[data-step-name="${adjustedStep}"]`);
+  // }
 
-  function updatePopup(stepElement) {
-    const nextStepColour = document.querySelector("[next-step-popup]");
-    nextStepColour.style.setProperty(
-      "--popup-bg-color",
-      stepElement.dataset.nextStepBgColour
+  // function updatePopup(stepElement) {
+  //   const nextStepColour = document.querySelector("[next-step-popup]");
+  //   nextStepColour.style.setProperty(
+  //     "--popup-bg-color",
+  //     stepElement.dataset.nextStepBgColour
+  //   );
+  //   nextStepColour.style.setProperty(
+  //     "--popup-text-color",
+  //     stepElement.dataset.nextStepTextColour
+  //   );
+
+  //   const nextStepHeadingEl = nextStepEl.querySelector(
+  //     "[data-next-step-heading]"
+  //   );
+  //   const nextStepParagraphEl = nextStepEl.querySelector(
+  //     "[data-next-step-paragraph]"
+  //   );
+  //   const nextStepImgEl = nextStepEl.querySelector("[data-next-step-img]");
+  //   const nextStepBtnTextEl = nextStepEl.querySelector(
+  //     "[data-next-step-btn-text]"
+  //   );
+
+  //   if (nextStepHeadingEl) {
+  //     nextStepHeadingEl.textContent = stepElement.dataset.nextStepHeading;
+  //   }
+
+  //   if (nextStepParagraphEl) {
+  //     nextStepParagraphEl.textContent = stepElement.dataset.nextStepParagraph;
+  //   }
+
+  //   if (nextStepImgEl) {
+  //     nextStepImgEl.src = stepElement.dataset.nextStepImg;
+  //     nextStepImgEl.srcset = stepElement.dataset.nextStepImg;
+  //   }
+
+  //   if (nextStepBtnTextEl) {
+  //     nextStepBtnTextEl.textContent = stepElement.dataset.nextStepBtnText;
+  //   }
+  // }
+
+  // function updateMobileIndicator(stepElement) {
+  //   if (isMobile()) {
+  //     const mobileIndicator = document.querySelector(
+  //       "[bundle-mobile-indicator]"
+  //     );
+  //     const iconImgEl = mobileIndicator.querySelector("[data-step-icon-img]");
+  //     const locationEl = mobileIndicator.querySelector("[data-step-location]");
+
+  //     if (iconImgEl) {
+  //       iconImgEl.src = stepElement.dataset.stepIconImg;
+  //       iconImgEl.srcset = stepElement.dataset.stepIconImg;
+  //     }
+
+  //     if (locationEl) {
+  //       locationEl.textContent = stepElement.dataset.stepLocation;
+  //     }
+  //   }
+  // }
+
+  // const stepElement = getCurrentStepData(currentStep);
+  // if (stepElement) {
+  //   updateProductArea(stepElement);
+  //   updatePopup(stepElement);
+  //   updateMobileIndicator(stepElement);
+  // }
+
+  // updateProductArea(getCurrentStepData(0));
+  // updateMobileIndicator(getCurrentStepData(0));
+
+
+  // Utility Functions
+function isPrizeStep(step) {
+  const prizeSteps = [2, 4, 6];
+  return prizeSteps.includes(step);
+}
+
+function getCurrentStepData(currentStep) {
+  const adjustedStep = currentStep + 1;
+  return document.querySelector(`.step[data-step-name="${adjustedStep}"]`);
+}
+
+// UI Update Functions
+// Update Product Area based on Step Data
+function updateProductArea(stepElement) {
+  if (stepElement.dataset.stepPrize !== "true") {
+    // Get the target elements inside the products area
+    const productImgEl = products.querySelector("[data-step-img]");
+    const productLocationEl = products.querySelector("[data-step-location]");
+    const productBgImgEl = products.querySelector("[data-step-bg-img]");
+    const productHeadingEl = products.querySelector("[data-step-heading]");
+    const productParagraphEl = products.querySelector(
+      "[data-step-paragraph]"
     );
-    nextStepColour.style.setProperty(
-      "--popup-text-color",
-      stepElement.dataset.nextStepTextColour
+    const bannerElement = products.querySelector("[banner]");
+    const nextStepCharacterEl = products.querySelector(
+      "[data-step-character]"
     );
+    console.log(nextStepCharacterEl);
 
-    const nextStepHeadingEl = nextStepEl.querySelector(
-      "[data-next-step-heading]"
-    );
-    const nextStepParagraphEl = nextStepEl.querySelector(
-      "[data-next-step-paragraph]"
-    );
-    const nextStepImgEl = nextStepEl.querySelector("[data-next-step-img]");
-    const nextStepBtnTextEl = nextStepEl.querySelector(
-      "[data-next-step-btn-text]"
-    );
-
-    if (nextStepHeadingEl) {
-      nextStepHeadingEl.textContent = stepElement.dataset.nextStepHeading;
+    if (nextStepCharacterEl) {
+      nextStepCharacterEl.src = stepElement.dataset.stepCharacter;
+      nextStepCharacterEl.srcset = stepElement.dataset.stepCharacter;
     }
 
-    if (nextStepParagraphEl) {
-      nextStepParagraphEl.textContent = stepElement.dataset.nextStepParagraph;
-    }
-
-    if (nextStepImgEl) {
-      nextStepImgEl.src = stepElement.dataset.nextStepImg;
-      nextStepImgEl.srcset = stepElement.dataset.nextStepImg;
-    }
-
-    if (nextStepBtnTextEl) {
-      nextStepBtnTextEl.textContent = stepElement.dataset.nextStepBtnText;
-    }
-  }
-
-  function updateMobileIndicator(stepElement) {
-    if (isMobile()) {
-      const mobileIndicator = document.querySelector(
-        "[bundle-mobile-indicator]"
-      );
-      const iconImgEl = mobileIndicator.querySelector("[data-step-icon-img]");
-      const locationEl = mobileIndicator.querySelector("[data-step-location]");
-
-      if (iconImgEl) {
-        iconImgEl.src = stepElement.dataset.stepIconImg;
-        iconImgEl.srcset = stepElement.dataset.stepIconImg;
+    if (bannerElement) {
+      if (stepElement.dataset.stepBannerBgColour) {
+        bannerElement.style.setProperty(
+          "--banner-bg-color",
+          stepElement.dataset.stepBannerBgColour
+        );
       }
-
-      if (locationEl) {
-        locationEl.textContent = stepElement.dataset.stepLocation;
+      if (stepElement.dataset.stepBannerColour) {
+        bannerElement.style.setProperty(
+          "--banner-color",
+          stepElement.dataset.stepBannerColour
+        );
       }
     }
+
+    if (bannerElement) {
+      if (stepElement.dataset.stepBannerBtnIdleBgColour) {
+        bannerElement.style.setProperty(
+          "--banner-btn-idle-bg-color",
+          stepElement.dataset.stepBannerBtnIdleBgColour
+        );
+      }
+      if (stepElement.dataset.stepBannerBtnActiveBgColour) {
+        bannerElement.style.setProperty(
+          "--banner-btn-active-bg-color",
+          stepElement.dataset.stepBannerBtnActiveBgColour
+        );
+      }
+      if (stepElement.dataset.stepBannerBtnIdleTextColour) {
+        bannerElement.style.setProperty(
+          "--banner-btn-idle-text-color",
+          stepElement.dataset.stepBannerBtnIdleTextColour
+        );
+      }
+      if (stepElement.dataset.stepBannerBtnActiveTextColour) {
+        bannerElement.style.setProperty(
+          "--banner-btn-active-text-color",
+          stepElement.dataset.stepBannerBtnActiveTextColour
+        );
+      }
+    }
+
+    bundleGuide.style.setProperty(
+      "--banner-btn-active-text-color",
+      stepElement.dataset.stepBannerBtnActiveTextColour
+    );
+
+    bundleGuide.style.setProperty(
+      "--banner-btn-active-bg-color",
+      stepElement.dataset.stepBannerBtnActiveBgColour
+    );
+
+
+    // Background and text colors would be applied directly to the `products` element
+    const productBgColour = stepElement.dataset.stepBgColour;
+
+    if (productBgColour) {
+      products.style.backgroundColor = productBgColour;
+    }
+
+    // Update the properties of the target elements
+    if (productImgEl) {
+      productImgEl.src = stepElement.dataset.stepImg;
+      productImgEl.srcset = stepElement.dataset.stepImg;
+    }
+
+    if (productLocationEl) {
+      productLocationEl.textContent = stepElement.dataset.stepLocation;
+    }
+
+    if (productBgImgEl) {
+      productBgImgEl.src = stepElement.dataset.stepBgImg;
+      productBgImgEl.srcset = stepElement.dataset.stepBgImg;
+    }
+
+    if (productHeadingEl) {
+      productHeadingEl.textContent = stepElement.dataset.stepHeading;
+    }
+
+    if (productParagraphEl) {
+      productParagraphEl.textContent = stepElement.dataset.stepParagraph;
+    }
   }
+}
+
+function updatePopup(stepElement) {
+  const nextStepColour = document.querySelector("[next-step-popup]");
+  nextStepColour.style.setProperty(
+    "--popup-bg-color",
+    stepElement.dataset.nextStepBgColour
+  );
+  nextStepColour.style.setProperty(
+    "--popup-text-color",
+    stepElement.dataset.nextStepTextColour
+  );
+
+  const nextStepHeadingEl = nextStepEl.querySelector(
+    "[data-next-step-heading]"
+  );
+  const nextStepParagraphEl = nextStepEl.querySelector(
+    "[data-next-step-paragraph]"
+  );
+  const nextStepImgEl = nextStepEl.querySelector("[data-next-step-img]");
+  const nextStepBtnTextEl = nextStepEl.querySelector(
+    "[data-next-step-btn-text]"
+  );
+
+  if (nextStepHeadingEl) {
+    nextStepHeadingEl.textContent = stepElement.dataset.nextStepHeading;
+  }
+
+  if (nextStepParagraphEl) {
+    nextStepParagraphEl.textContent = stepElement.dataset.nextStepParagraph;
+  }
+
+  if (nextStepImgEl) {
+    nextStepImgEl.src = stepElement.dataset.nextStepImg;
+    nextStepImgEl.srcset = stepElement.dataset.nextStepImg;
+  }
+
+  if (nextStepBtnTextEl) {
+    nextStepBtnTextEl.textContent = stepElement.dataset.nextStepBtnText;
+  }
+}
+
+function updateMobileIndicator(stepElement) {
+  if (isMobile()) {
+    const mobileIndicator = document.querySelector(
+      "[bundle-mobile-indicator]"
+    );
+    const iconImgEl = mobileIndicator.querySelector("[data-step-icon-img]");
+    const locationEl = mobileIndicator.querySelector("[data-step-location]");
+
+    if (iconImgEl) {
+      iconImgEl.src = stepElement.dataset.stepIconImg;
+      iconImgEl.srcset = stepElement.dataset.stepIconImg;
+    }
+
+    if (locationEl) {
+      locationEl.textContent = stepElement.dataset.stepLocation;
+    }
+  }
+}
+
+function deactivatePrizeElements() {
+  const seaEl = document.querySelector("[sea-el]");
+  const skyEl = document.querySelector("[sky-el]");
+  const meadowEl = document.querySelector("[meadow-el]");
+
+  seaEl.classList.remove("is--active");
+  skyEl.classList.remove("is--active");
+  meadowEl.classList.remove("is--active");
+}
+
+function activatePrizes(step) {
+  const seaEl = document.querySelector("[sea-el]");
+  const skyEl = document.querySelector("[sky-el]");
+  const meadowEl = document.querySelector("[meadow-el]");
+
+  if (step === 2) {
+    products.classList.remove("is--active");
+    seaEl.classList.add("is--active");
+  } else if (step === 4) {
+    products.classList.remove("is--active");
+    skyEl.classList.add("is--active");
+  } else if (step === 6) {
+    products.classList.remove("is--active");
+    meadowEl.classList.add("is--active");
+  }
+}
+
+function afterTransitionUpdates(stepElement) {
+  updatePopup(stepElement);
+}
+
+// Main Functionality
+function handlePopupExit() {
+  nextStepEl.classList.remove("is--open");
+  if (isPrizeStep(currentStep - 1)) {
+    products.classList.add("is--active");
+    deactivatePrizeElements();
+  }
+  popupBg.classList.remove("is--open");
+  body.style.overflow = "auto";
 
   const stepElement = getCurrentStepData(currentStep);
   if (stepElement) {
     updateProductArea(stepElement);
-    updatePopup(stepElement);
     updateMobileIndicator(stepElement);
+    activatePrizes(currentStep);
+    nextStepEl.addEventListener("transitionend", function transitionEndHandler() {
+      afterTransitionUpdates(stepElement);
+      nextStepEl.removeEventListener("transitionend", transitionEndHandler);
+    });
   }
+}
 
-  updateProductArea(getCurrentStepData(0));
-  updateMobileIndicator(getCurrentStepData(0));
+
+document.querySelectorAll("[next-step-btn]").forEach((button) => {
+  button.addEventListener("click", function () {
+    currentStep++;
+    handlePopupExit();
+    bundleGuide.classList.remove("is--active");
+  });
+});
+
+document.querySelector("[popup-exit]").addEventListener("click", function () {
+  popupBg.classList.remove("is--open");
+  body.style.overflow = "auto";
+  nextStepEl.classList.remove("is--open");
+  bundleGuide.classList.add("is--active");
+});
+
+// Initialize the initial step
+const initialStepElement = getCurrentStepData(0);
+if (initialStepElement) {
+  updateProductArea(initialStepElement);
+  updateMobileIndicator(initialStepElement);
+}
+
 
   ///////////////////////////////// Functional Code For Menus ///////////////////////////////
 
