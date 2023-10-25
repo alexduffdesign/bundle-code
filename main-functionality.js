@@ -944,9 +944,9 @@ document.querySelectorAll("[next-step-btn]").forEach((button) => {
     currentStep++;
     handlePopupBtnClick();
     bundleGuide.classList.remove("is--active");
-    updatePopup(initialStepElement);  // Debug log
-    updateProductArea(initialStepElement);
-    updateMobileBundleStepInfo(initialStepElement);
+    updatePopup(currentStep);  // Debug log
+    updateProductArea(currentStep);
+    updateMobileBundleStepInfo(currentStep);
   });
 });
 
