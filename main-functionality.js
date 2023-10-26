@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let currentStep = 0;
   let bundle = [];
-  let lastUncompletedStep = 0;
+  let lastUncompletedStep = 1; 
 
   if (currentStep > lastUncompletedStep) {
     lastUncompletedStep = currentStep;
@@ -403,8 +403,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  // ADD TO BUNDLE BUTTON LISTENER
-  
+  // Event listener for the "Add to Bundle" click action
   document.addEventListener("click", function (e) {
     if (!e.target.matches("[add-to-bundle]")) return;
 
@@ -412,11 +411,6 @@ document.addEventListener("DOMContentLoaded", function () {
     animateAddedProductToCart(productBlocks);
 
     productBlocks.forEach((productBlock, index) => {
-
-      if (currentStep > lastUncompletedStep) {
-        lastUncompletedStep = currentStep;
-      }
-
       const currentBundleItem = bundleStepsItems[currentStep];
       if (!currentBundleItem) {
         console.error("Exceeded available bundle items.");
@@ -437,10 +431,11 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
 
-// CHANGE BUTTON LISTENER
+  // Change Btn
 
 const changeBundleProductBtn = document.querySelectorAll("[change-btn]");
 let editingStep = null; // Declare it at the beginning of your script
+
 
 changeBundleProductBtn.forEach((button) => {
   button.addEventListener('click', function() {
@@ -1008,21 +1003,10 @@ function handlePopupBtnClick() {
 }
 
 
-// POPUP NEXT STEP LISTENER
 document.querySelectorAll("[next-step-btn]").forEach((button) => {
   button.addEventListener("click", function () {
     console.log('Before incrementing, currentStep:', currentStep, 'editingStep:', editingStep);
-    if (editingStep !== null) {
-      // If editing, go back to the last incomplete step
-      currentStep = lastUncompletedStep;
-      editingStep = null; // Reset editingStep
-    } else {
-      // Otherwise, proceed to the next step
-      currentStep++;
-      if (currentStep > lastUncompletedStep) {
-        lastUncompletedStep = currentStep;
-      }
-    }
+    currentStep++;
     console.log('After incrementing, currentStep:', currentStep);
     handlePopupBtnClick();
     bundleGuide.classList.remove("is--active");
@@ -1032,7 +1016,7 @@ document.querySelectorAll("[next-step-btn]").forEach((button) => {
   });
 });
 
-// POPUP EXIT LISTENER
+
 document.querySelector("[popup-exit]").addEventListener("click", function () {
   popupBg.classList.remove("is--open");
   body.style.overflow = "auto";
