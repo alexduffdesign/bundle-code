@@ -173,6 +173,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let bundle = [];
   const changeBundleProductBtn = document.querySelectorAll("[change-btn]");
   let editingStep = null; // Declare it at the beginning of your script
+  let activeStep = null;
 
 
   function getClosestProductBlock(element) {
@@ -324,7 +325,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (idEl) {
         const id = idEl.getAttribute("data-id");
         const idNumber = parseInt(id, 10);
-        let step = editingStep !== null ? editingStep : (currentStep + 1);
+        let step = activeStep !== null ? activeStep : (currentStep + 1);
     
         // Find the index of the step in the bundle array
         const stepIndex = bundle.findIndex((item) => item.step === step);
@@ -341,7 +342,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 4. Remove the title cover
   function clearTitleOverlay(bundleStepsItems) {
-    const targetBundleItem = editingStep !== null ? bundleStepsItems[editingStep - 1] : bundleStepsItems[currentStep];
+    const targetBundleItem = activeStep !== null ? bundleStepsItems[activeStep - 1] : bundleStepsItems[currentStep];
     if (!targetBundleItem) return;
 
     const titleCoveredElements = targetBundleItem.querySelectorAll(
@@ -411,10 +412,15 @@ function getCurrentStepData(currentStep) {
   return document.querySelector(`.step[data-step-name="${adjustedStep}"]`);
 }
 
-
 function isProductAddedForStep(step) {
   return bundle.some(item => item.step === step);
 }
+
+function isPrizeStep(step) {
+  // Add your logic here to check if the step is a prize step.
+  return false; // default return value, update this.
+}
+
 
 // UI Update Functions
 // Update Product Area based on Step Data
@@ -631,7 +637,17 @@ function handlePopupBtnClick() {
   popupBg.classList.remove("is--open");
   body.style.overflow = "auto";
 
-  const stepElement = getCurrentStepData(currentStep);
+  const stepElement = getCurrentStepData(activeStep !== null ? activeStep : currentStep);
+
+  if (activeStep !== null) {
+    // set the currentStep to the activeStep and reset activeStep
+    currentStep = activeStep;
+    activeStep = null;
+  } else if (!isProductAddedForStep(currentStep + 1)) {
+    // if a product hasn't been added for the current step yet
+    activeStep = currentStep + 1;
+  }
+  
   if (stepElement) {
     console.log("handlePopupExit - stepElement found:", stepElement.dataset); // Debug
     updateProductArea(stepElement);
@@ -682,6 +698,7 @@ function handlePopupBtnClick() {
       prepareNextStepUI(mapStepsItems);
        // After all operations
       console.log(bundle);
+      console.log("currentStep After ")
     });
   });
 
@@ -717,8 +734,9 @@ function handlePopupBtnClick() {
     // Checking what step product they want to change
     const stepValue = button.getAttribute('step');
 
-    editingStep = parseInt(stepValue, 10); 
-    console.log("Editing Step Real Number:", editingStep);
+    activeStep = parseInt(stepValue, 10);
+
+    console.log("Editing Step Real Number:", activeStep);
 
 
     const stepNumber = parseInt(stepValue, 10) - 1;
