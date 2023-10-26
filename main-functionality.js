@@ -411,6 +411,11 @@ document.addEventListener("DOMContentLoaded", function () {
     animateAddedProductToCart(productBlocks);
 
     productBlocks.forEach((productBlock, index) => {
+
+      if (currentStep > lastUncompletedStep) {
+        lastUncompletedStep = currentStep;
+      }
+      
       const currentBundleItem = bundleStepsItems[currentStep];
       if (!currentBundleItem) {
         console.error("Exceeded available bundle items.");
@@ -1006,7 +1011,17 @@ function handlePopupBtnClick() {
 document.querySelectorAll("[next-step-btn]").forEach((button) => {
   button.addEventListener("click", function () {
     console.log('Before incrementing, currentStep:', currentStep, 'editingStep:', editingStep);
-    currentStep++;
+    if (editingStep !== null) {
+      // If editing, go back to the last incomplete step
+      currentStep = lastUncompletedStep;
+      editingStep = null; // Reset editingStep
+    } else {
+      // Otherwise, proceed to the next step
+      currentStep++;
+      if (currentStep > lastUncompletedStep) {
+        lastUncompletedStep = currentStep;
+      }
+    }
     console.log('After incrementing, currentStep:', currentStep);
     handlePopupBtnClick();
     bundleGuide.classList.remove("is--active");
@@ -1165,6 +1180,7 @@ if (initialStepElement) {
 
   popupBg.addEventListener("click", closeAllMenus);
   window.addEventListener("resize", applyStyles);
+  
 
   // -- End
 
