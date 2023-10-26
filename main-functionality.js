@@ -1026,22 +1026,15 @@ function handlePopupBtnClick() {
 // POPUP NEXT STEP LISTENER
 document.querySelectorAll("[next-step-btn]").forEach((button) => {
   button.addEventListener("click", function () {
-    console.log('Before incrementing, currentStep:', currentStep, 'editingStep:', editingStep);
-    if (editingStep !== null) {
-      // If editing, go back to the last incomplete step
-      currentStep = lastUncompletedStep;
-      editingStep = null; // Reset editingStep
-    } else {
-      // Otherwise, proceed to the next step
-      console.log('Before incrementing, currentStep:', currentStep);
-      currentStep++;
-      if (currentStep > lastUncompletedStep) {
-        lastUncompletedStep = currentStep;
-      }
-      console.log('After incrementing, currentStep:', currentStep);
+    console.log('Before incrementing, currentStep:', currentStep, 'lastUncompletedStep:', lastUncompletedStep, 'editingStep:', editingStep);
 
+    if (lastUncompletedStep > currentStep) {
+      currentStep = lastUncompletedStep;
+    } else {
+      currentStep++;
     }
-    console.log('After incrementing, currentStep:', currentStep);
+
+    console.log('After incrementing, currentStep:', currentStep, 'lastUncompletedStep:', lastUncompletedStep);
     handlePopupBtnClick();
     bundleGuide.classList.remove("is--active");
     updatePopup(currentStep);
