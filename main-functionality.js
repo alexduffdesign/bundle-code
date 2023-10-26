@@ -437,8 +437,11 @@ document.addEventListener("DOMContentLoaded", function () {
       prepareNextStepUI(bundleStepsItems);
       prepareNextStepUI(mapStepsItems);
        // After all operations
-  
+      
+       console.log('Setting editingStep to null. Before: ', editingStep);
       editingStep = null;
+      console.log('After: ', editingStep);
+
       console.log(bundle);
       console.log('After [add-to-bundle] operation, currentStep:', currentStep, 'lastUncompletedStep:', lastUncompletedStep, 'editingStep:', editingStep);
 
