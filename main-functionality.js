@@ -1008,17 +1008,17 @@ function handlePopupBtnClick() {
 
 document.querySelectorAll("[next-step-btn]").forEach((button) => {
   button.addEventListener("click", function () {
+    console.log('Before incrementing, currentStep:', currentStep, 'editingStep:', editingStep);
     currentStep++;
-    if (currentStep > lastUncompletedStep) {
-      lastUncompletedStep = currentStep;
-    }
+    console.log('After incrementing, currentStep:', currentStep);
     handlePopupBtnClick();
     bundleGuide.classList.remove("is--active");
-    updatePopup(currentStep);  // Debug log
+    updatePopup(currentStep);
     updateProductArea(currentStep);
     updateMobileBundleStepInfo(currentStep);
   });
 });
+
 
 document.querySelector("[popup-exit]").addEventListener("click", function () {
   popupBg.classList.remove("is--open");
