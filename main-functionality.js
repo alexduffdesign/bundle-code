@@ -338,9 +338,6 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
           bundle.push({ step, idNumber });
         }
-
-        console.log('Inside populateCartWithProduct, currentStep:', currentStep, 'lastUncompletedStep:', lastUncompletedStep, 'editingStep:', editingStep);
-
       }
     });
   }
@@ -356,8 +353,6 @@ document.addEventListener("DOMContentLoaded", function () {
     titleCoveredElements.forEach((element) => {
       element.classList.add("is--cleared");
     });
-    console.log('Inside populateCartWithProduct, currentStep:', currentStep, 'lastUncompletedStep:', lastUncompletedStep, 'editingStep:', editingStep);
-
   }
 
   // Update position of the indicator
@@ -409,7 +404,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
   // ADD TO BUNDLE BUTTON LISTENER
-
+  
   document.addEventListener("click", function (e) {
     if (!e.target.matches("[add-to-bundle]")) return;
 
@@ -428,8 +423,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      console.log('Before [add-to-bundle] operation, currentStep:', currentStep, 'lastUncompletedStep:', lastUncompletedStep, 'editingStep:', editingStep);
-
       const targetBundleItem = editingStep !== null ? bundleStepsItems[editingStep - 1] : bundleStepsItems[currentStep];
       populateCartWithProduct(targetBundleItem, productBlocks);
       clearTitleOverlay(bundleStepsItems);
@@ -437,14 +430,9 @@ document.addEventListener("DOMContentLoaded", function () {
       prepareNextStepUI(bundleStepsItems);
       prepareNextStepUI(mapStepsItems);
        // After all operations
-      updatePopup(lastUncompletedStep);
-      console.log('Setting editingStep to null. Before: ', editingStep);
+  
       editingStep = null;
-      console.log('After: ', editingStep);
-
       console.log(bundle);
-      console.log('After [add-to-bundle] operation, currentStep:', currentStep, 'lastUncompletedStep:', lastUncompletedStep, 'editingStep:', editingStep);
-
     });
   });
 
@@ -456,9 +444,8 @@ let editingStep = null; // Declare it at the beginning of your script
 
 changeBundleProductBtn.forEach((button) => {
   button.addEventListener('click', function() {
+    console.log("Change button clicked!");
     console.log("editing step", editingStep);
-    console.log('Before changing product, currentStep:', currentStep, 'lastUncompletedStep:', lastUncompletedStep, 'editingStep:', editingStep);
-
 
     // Checking what step product they want to change
     const stepValue = button.getAttribute('step');
@@ -474,8 +461,6 @@ changeBundleProductBtn.forEach((button) => {
     // Updating the product area with that steps data
     const stepData = getCurrentStepData(stepNumber);
     updateProductArea(stepData);
-    console.log('After changing product, currentStep:', currentStep, 'lastUncompletedStep:', lastUncompletedStep, 'editingStep:', editingStep);
-
   })
 });
 
@@ -1026,15 +1011,19 @@ function handlePopupBtnClick() {
 // POPUP NEXT STEP LISTENER
 document.querySelectorAll("[next-step-btn]").forEach((button) => {
   button.addEventListener("click", function () {
-    console.log('Before incrementing, currentStep:', currentStep, 'lastUncompletedStep:', lastUncompletedStep, 'editingStep:', editingStep);
-
-    if (lastUncompletedStep > currentStep) {
+    console.log('Before incrementing, currentStep:', currentStep, 'editingStep:', editingStep);
+    if (editingStep !== null) {
+      // If editing, go back to the last incomplete step
       currentStep = lastUncompletedStep;
+      editingStep = null; // Reset editingStep
     } else {
+      // Otherwise, proceed to the next step
       currentStep++;
+      if (currentStep > lastUncompletedStep) {
+        lastUncompletedStep = currentStep;
+      }
     }
-
-    console.log('After incrementing, currentStep:', currentStep, 'lastUncompletedStep:', lastUncompletedStep);
+    console.log('After incrementing, currentStep:', currentStep);
     handlePopupBtnClick();
     bundleGuide.classList.remove("is--active");
     updatePopup(currentStep);
