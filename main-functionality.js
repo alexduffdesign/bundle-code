@@ -888,14 +888,16 @@ function updatePopup(stepElement) {
   
   const nextStepColour = document.querySelector("[next-step-popup]");
 
-  nextStepColour?.style.setProperty(
+  if(nextStepColour) {
+  nextStepColour.style.setProperty(
     "--popup-bg-color",
     stepElement.dataset.nextStepBgColour
   );
-  nextStepColour?.style.setProperty(
+  nextStepColour.style.setProperty(
     "--popup-text-color",
     stepElement.dataset.nextStepTextColour
   );
+  }
 
   const nextStepHeadingEl = nextStepEl.querySelector(
     "[data-next-step-heading]"
