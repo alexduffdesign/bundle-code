@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let currentStep = 0;
   let bundle = [];
-  let lastUncompletedStep = 1; 
+  let lastUncompletedStep = 0;
 
   if (currentStep > lastUncompletedStep) {
     lastUncompletedStep = currentStep;
@@ -415,7 +415,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (currentStep > lastUncompletedStep) {
         lastUncompletedStep = currentStep;
       }
-      
+
       const currentBundleItem = bundleStepsItems[currentStep];
       if (!currentBundleItem) {
         console.error("Exceeded available bundle items.");
