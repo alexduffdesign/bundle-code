@@ -411,6 +411,11 @@ function getCurrentStepData(currentStep) {
   return document.querySelector(`.step[data-step-name="${adjustedStep}"]`);
 }
 
+
+function isProductAddedForStep(step) {
+  return bundle.some(item => item.step === step);
+}
+
 // UI Update Functions
 // Update Product Area based on Step Data
 function updateProductArea(stepElement) {
@@ -557,10 +562,8 @@ function updatePopup(stepElement) {
   }
 
   if (nextStepImgEl) {
-    console.log('Updating nextStepImgEl src to:', stepElement.dataset.nextStepImg);
     nextStepImgEl.src = stepElement.dataset.nextStepImg;
     nextStepImgEl.srcset = stepElement.dataset.nextStepImg;
-    console.log('Updated src attribute:', nextStepImgEl.src);
   }
 
   if (nextStepBtnTextEl) {
@@ -638,6 +641,7 @@ function handlePopupBtnClick() {
       afterTransitionUpdates(stepElement);
       nextStepEl.removeEventListener("transitionend", transitionEndHandler);
     });
+
     // Initial state
     const initialState = [
       [bundleComponent, { opacity: 1 }, { duration: 0.3 }],
@@ -677,7 +681,6 @@ function handlePopupBtnClick() {
       prepareNextStepUI(bundleStepsItems);
       prepareNextStepUI(mapStepsItems);
        // After all operations
-  
       console.log(bundle);
     });
   });
@@ -686,7 +689,9 @@ function handlePopupBtnClick() {
   document.querySelectorAll("[next-step-btn]").forEach((button) => {
   button.addEventListener("click", function () {
     console.log('Before incrementing, currentStep:', currentStep, 'editingStep:', editingStep);
-    currentStep++;
+    if (isProductAddedForStep(currentStep + 1)) {
+      currentStep++;
+    }
     console.log('After incrementing, currentStep:', currentStep);
     handlePopupBtnClick();
     bundleGuide.classList.remove("is--active");
@@ -708,19 +713,16 @@ function handlePopupBtnClick() {
   // CHANGE BTN
   changeBundleProductBtn.forEach((button) => {
   button.addEventListener('click', function() {
-    console.log("Change button clicked!");
-    console.log("editing step", editingStep);
 
     // Checking what step product they want to change
     const stepValue = button.getAttribute('step');
-    console.log("Step Value:", stepValue);
 
     editingStep = parseInt(stepValue, 10); 
-    console.log("Editing Step:", editingStep);
+    console.log("Editing Step Real Number:", editingStep);
 
 
     const stepNumber = parseInt(stepValue, 10) - 1;
-    console.log("step number", stepNumber);
+    console.log("Editing JS number", stepNumber);
 
     // Updating the product area with that steps data
     const stepData = getCurrentStepData(stepNumber);
