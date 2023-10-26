@@ -171,11 +171,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let currentStep = 0;
   let bundle = [];
-  let lastUncompletedStep = 1; 
-
-  if (currentStep > lastUncompletedStep) {
-    lastUncompletedStep = currentStep;
-  }
 
 
   function getClosestProductBlock(element) {
@@ -425,7 +420,6 @@ document.addEventListener("DOMContentLoaded", function () {
       prepareNextStepUI(mapStepsItems);
        // After all operations
   
-      editingStep = null;
       console.log(bundle);
     });
   });
@@ -460,7 +454,486 @@ changeBundleProductBtn.forEach((button) => {
 });
 
 
-  // ----- Next Step Click ------ 
+  // Utility Functions
+
+  function isPrizeStep(step) {
+  const prizeSteps = [2, 4, 6];
+  return prizeSteps.includes(step);
+}
+
+function getCurrentStepData(currentStep) {
+  const adjustedStep = currentStep + 1;
+  return document.querySelector(`.step[data-step-name="${adjustedStep}"]`);
+}
+
+// UI Update Functions
+// Update Product Area based on Step Data
+function updateProductArea(stepElement) {
+  if (stepElement.dataset.stepPrize !== "true") {
+    // Get the target elements inside the products area
+    const productImgEl = products.querySelector("[data-step-img]");
+    const productLocationEl = products.querySelector("[data-step-location]");
+    const productBgImgEl = products.querySelector("[data-step-bg-img]");
+    const productHeadingEl = products.querySelector("[data-step-heading]");
+    const productParagraphEl = products.querySelector(
+      "[data-step-paragraph]"
+    );
+    const bannerElement = products.querySelector("[banner]");
+    const nextStepCharacterEl = products.querySelector(
+      "[data-step-character]"
+    );
+    console.log(nextStepCharacterEl);
+
+    if (nextStepCharacterEl) {
+      nextStepCharacterEl.src = stepElement.dataset.stepCharacter;
+      nextStepCharacterEl.srcset = stepElement.dataset.stepCharacter;
+    }
+
+    if (bannerElement) {
+      if (stepElement.dataset.stepBannerBgColour) {
+        bannerElement.style.setProperty(
+          "--banner-bg-color",
+          stepElement.dataset.stepBannerBgColour
+        );
+      }
+      if (stepElement.dataset.stepBannerColour) {
+        bannerElement.style.setProperty(
+          "--banner-color",
+          stepElement.dataset.stepBannerColour
+        );
+      }
+    }
+
+    if (bannerElement) {
+      if (stepElement.dataset.stepBannerBtnIdleBgColour) {
+        bannerElement.style.setProperty(
+          "--banner-btn-idle-bg-color",
+          stepElement.dataset.stepBannerBtnIdleBgColour
+        );
+      }
+      if (stepElement.dataset.stepBannerBtnActiveBgColour) {
+        bannerElement.style.setProperty(
+          "--banner-btn-active-bg-color",
+          stepElement.dataset.stepBannerBtnActiveBgColour
+        );
+      }
+      if (stepElement.dataset.stepBannerBtnIdleTextColour) {
+        bannerElement.style.setProperty(
+          "--banner-btn-idle-text-color",
+          stepElement.dataset.stepBannerBtnIdleTextColour
+        );
+      }
+      if (stepElement.dataset.stepBannerBtnActiveTextColour) {
+        bannerElement.style.setProperty(
+          "--banner-btn-active-text-color",
+          stepElement.dataset.stepBannerBtnActiveTextColour
+        );
+      }
+    }
+
+    bundleGuide.style.setProperty(
+      "--banner-btn-active-text-color",
+      stepElement.dataset.stepBannerBtnActiveTextColour
+    );
+
+    bundleGuide.style.setProperty(
+      "--banner-btn-active-bg-color",
+      stepElement.dataset.stepBannerBtnActiveBgColour
+    );
+
+
+    // Background and text colors would be applied directly to the `products` element
+    const productBgColour = stepElement.dataset.stepBgColour;
+
+    if (productBgColour) {
+      products.style.backgroundColor = productBgColour;
+    }
+
+    // Update the properties of the target elements
+    if (productImgEl) {
+      productImgEl.src = stepElement.dataset.stepImg;
+      productImgEl.srcset = stepElement.dataset.stepImg;
+    }
+
+    if (productLocationEl) {
+      productLocationEl.textContent = stepElement.dataset.stepLocation;
+    }
+
+    if (productBgImgEl) {
+      productBgImgEl.src = stepElement.dataset.stepBgImg;
+      productBgImgEl.srcset = stepElement.dataset.stepBgImg;
+    }
+
+    if (productHeadingEl) {
+      productHeadingEl.textContent = stepElement.dataset.stepHeading;
+    }
+
+    if (productParagraphEl) {
+      productParagraphEl.textContent = stepElement.dataset.stepParagraph;
+    }
+  }
+}
+
+function updatePopup(stepElement) {
+  
+  const nextStepColour = document.querySelector("[next-step-popup]");
+
+  nextStepColour?.style.setProperty(
+    "--popup-bg-color",
+    stepElement.dataset.nextStepBgColour
+  );
+  nextStepColour?.style.setProperty(
+    "--popup-text-color",
+    stepElement.dataset.nextStepTextColour
+  );
+
+  const nextStepHeadingEl = nextStepEl.querySelector(
+    "[data-next-step-heading]"
+  );
+  const nextStepParagraphEl = nextStepEl.querySelector(
+    "[data-next-step-paragraph]"
+  );
+  const nextStepImgEl = nextStepEl.querySelector("[data-next-step-img]");
+  console.log('Element to update:', nextStepImgEl);  // Debug log here
+
+  const nextStepBtnTextEl = nextStepEl.querySelector(
+    "[data-next-step-btn-text]"
+  );
+
+  console.log("Updating button text to:", stepElement.dataset.nextStepBtnText);  // Debug
+
+
+  if (nextStepHeadingEl) {
+    nextStepHeadingEl.textContent = stepElement.dataset.nextStepHeading;
+  }
+
+  if (nextStepParagraphEl) {
+    nextStepParagraphEl.textContent = stepElement.dataset.nextStepParagraph;
+  }
+
+  if (nextStepImgEl) {
+    console.log('Updating nextStepImgEl src to:', stepElement.dataset.nextStepImg);
+    nextStepImgEl.src = stepElement.dataset.nextStepImg;
+    nextStepImgEl.srcset = stepElement.dataset.nextStepImg;
+    console.log('Updated src attribute:', nextStepImgEl.src);
+  }
+
+  if (nextStepBtnTextEl) {
+    nextStepBtnTextEl.textContent = stepElement.dataset.nextStepBtnText;
+  }
+}
+
+function updateMobileBundleStepInfo(stepElement) {
+  if (isMobile()) {
+    const mobileIndicator = document.querySelector(
+      "[bundle-mobile-indicator]"
+    );
+    const iconImgEl = mobileIndicator.querySelector("[data-step-icon-img]");
+    const locationEl = mobileIndicator.querySelector("[data-step-location]");
+
+    if (iconImgEl) {
+      iconImgEl.src = stepElement.dataset.stepIconImg;
+      iconImgEl.srcset = stepElement.dataset.stepIconImg;
+    }
+
+    if (locationEl) {
+      locationEl.textContent = stepElement.dataset.stepLocation;
+    }
+  }
+}
+
+function deactivatePrizeElements() {
+  const seaEl = document.querySelector("[sea-el]");
+  const skyEl = document.querySelector("[sky-el]");
+  const meadowEl = document.querySelector("[meadow-el]");
+
+  seaEl.classList.remove("is--active");
+  skyEl.classList.remove("is--active");
+  meadowEl.classList.remove("is--active");
+}
+
+function activatePrizes(step) {
+  const seaEl = document.querySelector("[sea-el]");
+  const skyEl = document.querySelector("[sky-el]");
+  const meadowEl = document.querySelector("[meadow-el]");
+
+  if (step === 2) {
+    products.classList.remove("is--active");
+    seaEl.classList.add("is--active");
+  } else if (step === 4) {
+    products.classList.remove("is--active");
+    skyEl.classList.add("is--active");
+  } else if (step === 6) {
+    products.classList.remove("is--active");
+    meadowEl.classList.add("is--active");
+  }
+}
+
+function afterTransitionUpdates(stepElement) {
+  updatePopup(stepElement);
+}
+
+// Main Functionality
+function handlePopupBtnClick() {
+  nextStepEl.classList.remove("is--open");
+  if (isPrizeStep(currentStep - 1)) {
+    products.classList.add("is--active");
+    deactivatePrizeElements();
+  }
+  popupBg.classList.remove("is--open");
+  body.style.overflow = "auto";
+
+  const stepElement = getCurrentStepData(currentStep);
+  if (stepElement) {
+    console.log("handlePopupExit - stepElement found:", stepElement.dataset); // Debug
+    updateProductArea(stepElement);
+    updateMobileBundleStepInfo(stepElement);
+    activatePrizes(currentStep);
+    nextStepEl.addEventListener("transitionend", function transitionEndHandler() {
+      afterTransitionUpdates(stepElement);
+      nextStepEl.removeEventListener("transitionend", transitionEndHandler);
+    });
+    // Initial state
+    const initialState = [
+      [bundleComponent, { opacity: 1 }, { duration: 0.3 }],
+      [".bundle_map-wrap", { opacity: 1 }, { duration: 0.3, at: "<" }]
+    ];
+    Motion.timeline(initialState);
+
+    // Scroll to the top
+    const topElement = document.getElementById("top");
+    if (topElement) {
+      topElement.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+}
+
+
+document.querySelectorAll("[next-step-btn]").forEach((button) => {
+  button.addEventListener("click", function () {
+    console.log('Before incrementing, currentStep:', currentStep, 'editingStep:', editingStep);
+    currentStep++;
+    console.log('After incrementing, currentStep:', currentStep);
+    handlePopupBtnClick();
+    bundleGuide.classList.remove("is--active");
+    updatePopup(currentStep);
+    updateProductArea(currentStep);
+    updateMobileBundleStepInfo(currentStep);
+    editingStep = null;
+  });
+});
+
+
+document.querySelector("[popup-exit]").addEventListener("click", function () {
+  popupBg.classList.remove("is--open");
+  body.style.overflow = "auto";
+  nextStepEl.classList.remove("is--open");
+  bundleGuide.classList.add("is--active");
+});
+
+// Initialize the initial step
+const initialStepElement = getCurrentStepData(0);
+if (initialStepElement) {
+  updatePopup(initialStepElement);  // Debug log
+  updateProductArea(initialStepElement);
+  updateMobileBundleStepInfo(initialStepElement);
+}
+
+
+  ///////////////////////////////// Functional Code For Menus ///////////////////////////////
+
+  // BUNDLE MAP STEPS ABSOLUTE
+  function applyStyles() {
+    // Handle styles for items inside .bundle_intro
+    const introCmsItems = document.querySelectorAll(
+      ".bundle_intro [data-left][data-bottom]"
+    );
+    introCmsItems.forEach((item) => {
+      item.style.position = "absolute";
+      item.style.left = item.getAttribute("data-left") + "%";
+      item.style.bottom = item.getAttribute("data-bottom") + "%";
+    });
+
+    // Handle styles for items inside [map]
+    const mapCmsItems = document.querySelectorAll(
+      "[map] [data-left][data-bottom]"
+    );
+    mapCmsItems.forEach((item) => {
+      if (isMobile()) {
+        if (map.classList.contains("is--open")) {
+          item.style.position = "absolute";
+          item.style.left = item.getAttribute("data-left") + "%";
+          item.style.bottom = item.getAttribute("data-bottom") + "%";
+        } else {
+          item.style.position = "relative";
+          item.style.left = "";
+          item.style.bottom = "";
+        }
+      } else {
+        // Desktop
+        item.style.position = "absolute";
+        item.style.left = item.getAttribute("data-left") + "%";
+        item.style.bottom = item.getAttribute("data-bottom") + "%";
+      }
+    });
+  }
+
+  applyStyles();
+
+  // CLOSING MENU --
+  function closeAllMenus() {
+    map.classList.remove("is--open");
+    mapImg.classList.remove("is--open");
+    bundleCart.classList.remove("is--open");
+    body.style.overflow = "";
+    popupBg.style.pointerEvents = "none";
+    popupBg.classList.remove("is--open");
+    if (isMobile) {
+      popupBg.style.zIndex = "3";
+    }
+    mapText.innerText = "View Map";
+    indicatorMap.style.display = ""; // Show the indicator when all menus are closed
+    bundleCartIndicator.innerText = "Open"; // Set the bundle cart indicator text
+    applyStyles();
+  }
+
+  function togglePopupBackground() {
+    const isOpen =
+      map.classList.contains("is--open") ||
+      bundleCart.classList.contains("is--open");
+
+    if (isOpen) {
+      popupBg.classList.add("is--open");
+      popupBg.style.pointerEvents = "auto";
+      body.style.overflow = "hidden";
+      if (bundleCart.classList.contains("is--open") && isMobile()) {
+        popupBg.style.zIndex = "3"; // Set z-index to a higher value
+      } else {
+        popupBg.style.zIndex = "2"; // Reset z-index to its original value
+      }
+    } else {
+      popupBg.classList.remove("is--open");
+      popupBg.style.pointerEvents = "none";
+      body.style.overflow = "";
+      if (isMobile()) {
+        popupBg.style.zIndex = "3"; // Reset z-index to its original value
+      }
+    }
+  }
+
+  function toggleElement(element, openClass, textElement, openText, closeText) {
+    element.classList.toggle(openClass);
+
+    if (textElement) {
+      textElement.innerText = element.classList.contains(openClass)
+        ? openText
+        : closeText;
+    }
+
+    if (element === bundleCart) {
+      // Specifically for the bundleCart
+      bundleCartIndicator.innerText = element.classList.contains(openClass)
+        ? "Close"
+        : "Open";
+    }
+
+    togglePopupBackground();
+    applyStyles();
+  }
+
+  document.querySelectorAll("[view-map-btn]").forEach((button) => {
+    button.addEventListener("click", function () {
+      toggleElement(map, "is--open", mapText, "Close Map", "View Map");
+      mapImg.classList.toggle("is--open");
+      if (isMobile()) {
+        indicatorMap.style.display = map.classList.contains("is--open")
+          ? "none"
+          : "";
+      }
+    });
+  });
+
+  if (isMobile()) {
+    document
+      .querySelector("[bundle-cart-btn]")
+      .addEventListener("click", function () {
+        // If map is open, close it when bundle cart is toggled
+        if (map.classList.contains("is--open")) {
+          map.classList.remove("is--open");
+          mapImg.classList.remove("is--open");
+          mapText.innerText = "View Map";
+          indicatorMap.style.display = ""; // Show the indicator when map is closed
+        }
+
+        toggleElement(bundleCart, "is--open");
+        bundleCartIndicator.classList.toggle("is--open");
+      });
+  }
+
+  popupBg.addEventListener("click", closeAllMenus);
+  window.addEventListener("resize", applyStyles);
+  
+
+  // -- End
+
+  // SCROLLING UP OR DOWN
+  let lastScrollPosition = 0,
+    requestPending = false;
+
+  const viewMapButtons = document.querySelectorAll("[view-map-btn]");
+  const bundleComponent = document.querySelector(".bundle_component");
+
+  function handleScrollDirection(scrollDirection) {
+    if (scrollDirection === "down") {
+      // Hide the view-map-btn when scrolling down
+      viewMapButtons.forEach((button) => {
+        button.style.opacity = "0";
+        button.style.pointerEvents = "none";
+      });
+      bundleComponent.style.transform = "translateY(150%)";
+    } else {
+      // Show the view-map-btn when scrolling up
+      viewMapButtons.forEach((button) => {
+        button.style.opacity = "1";
+        button.style.pointerEvents = "auto";
+      });
+      bundleComponent.style.transform = "translateY(0%)";
+    }
+  }
+
+  window.addEventListener(
+    "scroll",
+    function () {
+      if (isMobile()) {
+        const currentScrollPosition =
+          window.pageYOffset || document.documentElement.scrollTop;
+
+        if (!requestPending) {
+          window.requestAnimationFrame(function () {
+            if (Math.abs(currentScrollPosition - lastScrollPosition) >= 20) {
+              if (currentScrollPosition > lastScrollPosition) {
+                handleScrollDirection("down");
+              } else {
+                handleScrollDirection("up");
+              }
+              lastScrollPosition =
+                currentScrollPosition <= 0 ? 0 : currentScrollPosition;
+            }
+            requestPending = false;
+          });
+          requestPending = true;
+        }
+      }
+    },
+    {
+      passive: true
+    }
+  );
+});
+
+
+
+ // ----- Next Step Click ------ 
 
   // // User Clicks the Next Step Button
   // document.querySelectorAll("[next-step-btn]").forEach((button) => {
@@ -746,480 +1219,3 @@ changeBundleProductBtn.forEach((button) => {
 
   // updateProductArea(getCurrentStepData(0));
   // updateMobileIndicator(getCurrentStepData(0));
-
-
-  // Utility Functions
-
-  function isPrizeStep(step) {
-  const prizeSteps = [2, 4, 6];
-  return prizeSteps.includes(step);
-}
-
-function getCurrentStepData(currentStep) {
-  const adjustedStep = currentStep + 1;
-  return document.querySelector(`.step[data-step-name="${adjustedStep}"]`);
-}
-
-// UI Update Functions
-// Update Product Area based on Step Data
-function updateProductArea(stepElement) {
-  if (stepElement.dataset.stepPrize !== "true") {
-    // Get the target elements inside the products area
-    const productImgEl = products.querySelector("[data-step-img]");
-    const productLocationEl = products.querySelector("[data-step-location]");
-    const productBgImgEl = products.querySelector("[data-step-bg-img]");
-    const productHeadingEl = products.querySelector("[data-step-heading]");
-    const productParagraphEl = products.querySelector(
-      "[data-step-paragraph]"
-    );
-    const bannerElement = products.querySelector("[banner]");
-    const nextStepCharacterEl = products.querySelector(
-      "[data-step-character]"
-    );
-    console.log(nextStepCharacterEl);
-
-    if (nextStepCharacterEl) {
-      nextStepCharacterEl.src = stepElement.dataset.stepCharacter;
-      nextStepCharacterEl.srcset = stepElement.dataset.stepCharacter;
-    }
-
-    if (bannerElement) {
-      if (stepElement.dataset.stepBannerBgColour) {
-        bannerElement.style.setProperty(
-          "--banner-bg-color",
-          stepElement.dataset.stepBannerBgColour
-        );
-      }
-      if (stepElement.dataset.stepBannerColour) {
-        bannerElement.style.setProperty(
-          "--banner-color",
-          stepElement.dataset.stepBannerColour
-        );
-      }
-    }
-
-    if (bannerElement) {
-      if (stepElement.dataset.stepBannerBtnIdleBgColour) {
-        bannerElement.style.setProperty(
-          "--banner-btn-idle-bg-color",
-          stepElement.dataset.stepBannerBtnIdleBgColour
-        );
-      }
-      if (stepElement.dataset.stepBannerBtnActiveBgColour) {
-        bannerElement.style.setProperty(
-          "--banner-btn-active-bg-color",
-          stepElement.dataset.stepBannerBtnActiveBgColour
-        );
-      }
-      if (stepElement.dataset.stepBannerBtnIdleTextColour) {
-        bannerElement.style.setProperty(
-          "--banner-btn-idle-text-color",
-          stepElement.dataset.stepBannerBtnIdleTextColour
-        );
-      }
-      if (stepElement.dataset.stepBannerBtnActiveTextColour) {
-        bannerElement.style.setProperty(
-          "--banner-btn-active-text-color",
-          stepElement.dataset.stepBannerBtnActiveTextColour
-        );
-      }
-    }
-
-    bundleGuide.style.setProperty(
-      "--banner-btn-active-text-color",
-      stepElement.dataset.stepBannerBtnActiveTextColour
-    );
-
-    bundleGuide.style.setProperty(
-      "--banner-btn-active-bg-color",
-      stepElement.dataset.stepBannerBtnActiveBgColour
-    );
-
-
-    // Background and text colors would be applied directly to the `products` element
-    const productBgColour = stepElement.dataset.stepBgColour;
-
-    if (productBgColour) {
-      products.style.backgroundColor = productBgColour;
-    }
-
-    // Update the properties of the target elements
-    if (productImgEl) {
-      productImgEl.src = stepElement.dataset.stepImg;
-      productImgEl.srcset = stepElement.dataset.stepImg;
-    }
-
-    if (productLocationEl) {
-      productLocationEl.textContent = stepElement.dataset.stepLocation;
-    }
-
-    if (productBgImgEl) {
-      productBgImgEl.src = stepElement.dataset.stepBgImg;
-      productBgImgEl.srcset = stepElement.dataset.stepBgImg;
-    }
-
-    if (productHeadingEl) {
-      productHeadingEl.textContent = stepElement.dataset.stepHeading;
-    }
-
-    if (productParagraphEl) {
-      productParagraphEl.textContent = stepElement.dataset.stepParagraph;
-    }
-  }
-}
-
-function updatePopup(stepElement) {
-  
-  const nextStepColour = document.querySelector("[next-step-popup]");
-
-  nextStepColour?.style.setProperty(
-    "--popup-bg-color",
-    stepElement.dataset.nextStepBgColour
-  );
-  nextStepColour?.style.setProperty(
-    "--popup-text-color",
-    stepElement.dataset.nextStepTextColour
-  );
-
-  const nextStepHeadingEl = nextStepEl.querySelector(
-    "[data-next-step-heading]"
-  );
-  const nextStepParagraphEl = nextStepEl.querySelector(
-    "[data-next-step-paragraph]"
-  );
-  const nextStepImgEl = nextStepEl.querySelector("[data-next-step-img]");
-  console.log('Element to update:', nextStepImgEl);  // Debug log here
-
-  const nextStepBtnTextEl = nextStepEl.querySelector(
-    "[data-next-step-btn-text]"
-  );
-
-  console.log("Updating button text to:", stepElement.dataset.nextStepBtnText);  // Debug
-
-
-  if (nextStepHeadingEl) {
-    nextStepHeadingEl.textContent = stepElement.dataset.nextStepHeading;
-  }
-
-  if (nextStepParagraphEl) {
-    nextStepParagraphEl.textContent = stepElement.dataset.nextStepParagraph;
-  }
-
-  if (nextStepImgEl) {
-    console.log('Updating nextStepImgEl src to:', stepElement.dataset.nextStepImg);
-    nextStepImgEl.src = stepElement.dataset.nextStepImg;
-    nextStepImgEl.srcset = stepElement.dataset.nextStepImg;
-    console.log('Updated src attribute:', nextStepImgEl.src);
-  }
-
-  if (nextStepBtnTextEl) {
-    nextStepBtnTextEl.textContent = stepElement.dataset.nextStepBtnText;
-  }
-}
-
-function updateMobileBundleStepInfo(stepElement) {
-  if (isMobile()) {
-    const mobileIndicator = document.querySelector(
-      "[bundle-mobile-indicator]"
-    );
-    const iconImgEl = mobileIndicator.querySelector("[data-step-icon-img]");
-    const locationEl = mobileIndicator.querySelector("[data-step-location]");
-
-    if (iconImgEl) {
-      iconImgEl.src = stepElement.dataset.stepIconImg;
-      iconImgEl.srcset = stepElement.dataset.stepIconImg;
-    }
-
-    if (locationEl) {
-      locationEl.textContent = stepElement.dataset.stepLocation;
-    }
-  }
-}
-
-function deactivatePrizeElements() {
-  const seaEl = document.querySelector("[sea-el]");
-  const skyEl = document.querySelector("[sky-el]");
-  const meadowEl = document.querySelector("[meadow-el]");
-
-  seaEl.classList.remove("is--active");
-  skyEl.classList.remove("is--active");
-  meadowEl.classList.remove("is--active");
-}
-
-function activatePrizes(step) {
-  const seaEl = document.querySelector("[sea-el]");
-  const skyEl = document.querySelector("[sky-el]");
-  const meadowEl = document.querySelector("[meadow-el]");
-
-  if (step === 2) {
-    products.classList.remove("is--active");
-    seaEl.classList.add("is--active");
-  } else if (step === 4) {
-    products.classList.remove("is--active");
-    skyEl.classList.add("is--active");
-  } else if (step === 6) {
-    products.classList.remove("is--active");
-    meadowEl.classList.add("is--active");
-  }
-}
-
-function afterTransitionUpdates(stepElement) {
-  updatePopup(stepElement);
-}
-
-// Main Functionality
-function handlePopupBtnClick() {
-  nextStepEl.classList.remove("is--open");
-  if (isPrizeStep(currentStep - 1)) {
-    products.classList.add("is--active");
-    deactivatePrizeElements();
-  }
-  popupBg.classList.remove("is--open");
-  body.style.overflow = "auto";
-
-  const stepElement = getCurrentStepData(currentStep);
-  if (stepElement) {
-    console.log("handlePopupExit - stepElement found:", stepElement.dataset); // Debug
-    updateProductArea(stepElement);
-    updateMobileBundleStepInfo(stepElement);
-    activatePrizes(currentStep);
-    nextStepEl.addEventListener("transitionend", function transitionEndHandler() {
-      afterTransitionUpdates(stepElement);
-      nextStepEl.removeEventListener("transitionend", transitionEndHandler);
-    });
-    // Initial state
-    const initialState = [
-      [bundleComponent, { opacity: 1 }, { duration: 0.3 }],
-      [".bundle_map-wrap", { opacity: 1 }, { duration: 0.3, at: "<" }]
-    ];
-    Motion.timeline(initialState);
-
-    // Scroll to the top
-    const topElement = document.getElementById("top");
-    if (topElement) {
-      topElement.scrollIntoView({ behavior: "smooth" });
-    }
-  }
-}
-
-
-document.querySelectorAll("[next-step-btn]").forEach((button) => {
-  button.addEventListener("click", function () {
-    console.log('Before incrementing, currentStep:', currentStep, 'editingStep:', editingStep);
-    currentStep++;
-    console.log('After incrementing, currentStep:', currentStep);
-    handlePopupBtnClick();
-    bundleGuide.classList.remove("is--active");
-    updatePopup(currentStep);
-    updateProductArea(currentStep);
-    updateMobileBundleStepInfo(currentStep);
-  });
-});
-
-
-document.querySelector("[popup-exit]").addEventListener("click", function () {
-  popupBg.classList.remove("is--open");
-  body.style.overflow = "auto";
-  nextStepEl.classList.remove("is--open");
-  bundleGuide.classList.add("is--active");
-});
-
-// Initialize the initial step
-const initialStepElement = getCurrentStepData(0);
-if (initialStepElement) {
-  updatePopup(initialStepElement);  // Debug log
-  updateProductArea(initialStepElement);
-  updateMobileBundleStepInfo(initialStepElement);
-}
-
-
-  ///////////////////////////////// Functional Code For Menus ///////////////////////////////
-
-  // BUNDLE MAP STEPS ABSOLUTE
-  function applyStyles() {
-    // Handle styles for items inside .bundle_intro
-    const introCmsItems = document.querySelectorAll(
-      ".bundle_intro [data-left][data-bottom]"
-    );
-    introCmsItems.forEach((item) => {
-      item.style.position = "absolute";
-      item.style.left = item.getAttribute("data-left") + "%";
-      item.style.bottom = item.getAttribute("data-bottom") + "%";
-    });
-
-    // Handle styles for items inside [map]
-    const mapCmsItems = document.querySelectorAll(
-      "[map] [data-left][data-bottom]"
-    );
-    mapCmsItems.forEach((item) => {
-      if (isMobile()) {
-        if (map.classList.contains("is--open")) {
-          item.style.position = "absolute";
-          item.style.left = item.getAttribute("data-left") + "%";
-          item.style.bottom = item.getAttribute("data-bottom") + "%";
-        } else {
-          item.style.position = "relative";
-          item.style.left = "";
-          item.style.bottom = "";
-        }
-      } else {
-        // Desktop
-        item.style.position = "absolute";
-        item.style.left = item.getAttribute("data-left") + "%";
-        item.style.bottom = item.getAttribute("data-bottom") + "%";
-      }
-    });
-  }
-
-  applyStyles();
-
-  // CLOSING MENU --
-  function closeAllMenus() {
-    map.classList.remove("is--open");
-    mapImg.classList.remove("is--open");
-    bundleCart.classList.remove("is--open");
-    body.style.overflow = "";
-    popupBg.style.pointerEvents = "none";
-    popupBg.classList.remove("is--open");
-    if (isMobile) {
-      popupBg.style.zIndex = "3";
-    }
-    mapText.innerText = "View Map";
-    indicatorMap.style.display = ""; // Show the indicator when all menus are closed
-    bundleCartIndicator.innerText = "Open"; // Set the bundle cart indicator text
-    applyStyles();
-  }
-
-  function togglePopupBackground() {
-    const isOpen =
-      map.classList.contains("is--open") ||
-      bundleCart.classList.contains("is--open");
-
-    if (isOpen) {
-      popupBg.classList.add("is--open");
-      popupBg.style.pointerEvents = "auto";
-      body.style.overflow = "hidden";
-      if (bundleCart.classList.contains("is--open") && isMobile()) {
-        popupBg.style.zIndex = "3"; // Set z-index to a higher value
-      } else {
-        popupBg.style.zIndex = "2"; // Reset z-index to its original value
-      }
-    } else {
-      popupBg.classList.remove("is--open");
-      popupBg.style.pointerEvents = "none";
-      body.style.overflow = "";
-      if (isMobile()) {
-        popupBg.style.zIndex = "3"; // Reset z-index to its original value
-      }
-    }
-  }
-
-  function toggleElement(element, openClass, textElement, openText, closeText) {
-    element.classList.toggle(openClass);
-
-    if (textElement) {
-      textElement.innerText = element.classList.contains(openClass)
-        ? openText
-        : closeText;
-    }
-
-    if (element === bundleCart) {
-      // Specifically for the bundleCart
-      bundleCartIndicator.innerText = element.classList.contains(openClass)
-        ? "Close"
-        : "Open";
-    }
-
-    togglePopupBackground();
-    applyStyles();
-  }
-
-  document.querySelectorAll("[view-map-btn]").forEach((button) => {
-    button.addEventListener("click", function () {
-      toggleElement(map, "is--open", mapText, "Close Map", "View Map");
-      mapImg.classList.toggle("is--open");
-      if (isMobile()) {
-        indicatorMap.style.display = map.classList.contains("is--open")
-          ? "none"
-          : "";
-      }
-    });
-  });
-
-  if (isMobile()) {
-    document
-      .querySelector("[bundle-cart-btn]")
-      .addEventListener("click", function () {
-        // If map is open, close it when bundle cart is toggled
-        if (map.classList.contains("is--open")) {
-          map.classList.remove("is--open");
-          mapImg.classList.remove("is--open");
-          mapText.innerText = "View Map";
-          indicatorMap.style.display = ""; // Show the indicator when map is closed
-        }
-
-        toggleElement(bundleCart, "is--open");
-        bundleCartIndicator.classList.toggle("is--open");
-      });
-  }
-
-  popupBg.addEventListener("click", closeAllMenus);
-  window.addEventListener("resize", applyStyles);
-  
-
-  // -- End
-
-  // SCROLLING UP OR DOWN
-  let lastScrollPosition = 0,
-    requestPending = false;
-
-  const viewMapButtons = document.querySelectorAll("[view-map-btn]");
-  const bundleComponent = document.querySelector(".bundle_component");
-
-  function handleScrollDirection(scrollDirection) {
-    if (scrollDirection === "down") {
-      // Hide the view-map-btn when scrolling down
-      viewMapButtons.forEach((button) => {
-        button.style.opacity = "0";
-        button.style.pointerEvents = "none";
-      });
-      bundleComponent.style.transform = "translateY(150%)";
-    } else {
-      // Show the view-map-btn when scrolling up
-      viewMapButtons.forEach((button) => {
-        button.style.opacity = "1";
-        button.style.pointerEvents = "auto";
-      });
-      bundleComponent.style.transform = "translateY(0%)";
-    }
-  }
-
-  window.addEventListener(
-    "scroll",
-    function () {
-      if (isMobile()) {
-        const currentScrollPosition =
-          window.pageYOffset || document.documentElement.scrollTop;
-
-        if (!requestPending) {
-          window.requestAnimationFrame(function () {
-            if (Math.abs(currentScrollPosition - lastScrollPosition) >= 20) {
-              if (currentScrollPosition > lastScrollPosition) {
-                handleScrollDirection("down");
-              } else {
-                handleScrollDirection("up");
-              }
-              lastScrollPosition =
-                currentScrollPosition <= 0 ? 0 : currentScrollPosition;
-            }
-            requestPending = false;
-          });
-          requestPending = true;
-        }
-      }
-    },
-    {
-      passive: true
-    }
-  );
-});
