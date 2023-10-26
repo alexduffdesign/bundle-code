@@ -418,6 +418,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     productBlocks.forEach((productBlock, index) => {
 
+      if (currentStep > lastUncompletedStep) {
+        lastUncompletedStep = currentStep;
+      }
+
       const currentBundleItem = bundleStepsItems[currentStep];
       if (!currentBundleItem) {
         console.error("Exceeded available bundle items.");
@@ -888,16 +892,14 @@ function updatePopup(stepElement) {
   
   const nextStepColour = document.querySelector("[next-step-popup]");
 
-  if(nextStepColour) {
-  nextStepColour.style.setProperty(
+  nextStepColour?.style.setProperty(
     "--popup-bg-color",
     stepElement.dataset.nextStepBgColour
   );
-  nextStepColour.style.setProperty(
+  nextStepColour?.style.setProperty(
     "--popup-text-color",
     stepElement.dataset.nextStepTextColour
   );
-  }
 
   const nextStepHeadingEl = nextStepEl.querySelector(
     "[data-next-step-heading]"
@@ -1026,15 +1028,10 @@ document.querySelectorAll("[next-step-btn]").forEach((button) => {
   button.addEventListener("click", function () {
     console.log('Before incrementing, currentStep:', currentStep, 'lastUncompletedStep:', lastUncompletedStep, 'editingStep:', editingStep);
 
-    if (currentStep >= lastUncompletedStep) {
-      lastUncompletedStep = currentStep + 1;  // User will complete this step by clicking Next
-    }
-
-    // Redirect to the lastUncompletedStep if it's greater than the currentStep
     if (lastUncompletedStep > currentStep) {
       currentStep = lastUncompletedStep;
     } else {
-      currentStep++;  // Otherwise, just move to the next step
+      currentStep++;
     }
 
     console.log('After incrementing, currentStep:', currentStep, 'lastUncompletedStep:', lastUncompletedStep);
