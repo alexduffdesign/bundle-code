@@ -424,28 +424,44 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 5c. Next step activated UI, bundle and map
   // -- (makes the image have a circle and adds the selected to the last steps image)
-  function nextStepActivatedUi(stepItems) {
+  // function nextStepActivatedUi(stepItems) {
 
-    const currentStepImage = stepItems[currentStep].querySelector(
-      "[step-image]"
-    );
+  //   const currentStepImage = stepItems[currentStep].querySelector(
+  //     "[step-image]"
+  //   );
 
-    // currentStepImage?.classList.remove("is--active");
-    currentStepImage?.classList.add("is--selected");
+  //   // currentStepImage?.classList.remove("is--active");
+  //   currentStepImage?.classList.add("is--selected");
 
-    // Next Step Bundle item gets and is--active
-    const nextBundleItem = stepItems[currentStep + 1].querySelector(
-      "[bundle-item]"
-    );
+  //   // Next Step Bundle item gets and is--active
+  //   const nextBundleItem = stepItems[currentStep + 1].querySelector(
+  //     "[bundle-item]"
+  //   );
 
-    nextBundleItem?.classList.add("is--active");
+  //   nextBundleItem?.classList.add("is--active");
 
-    // Next Step Bundle Image gets an is--active
-    const nextStepImage = stepItems[currentStep + 1].querySelector(
-      "[step-image]"
-    );
-    nextStepImage?.classList.add("is--selected");
+  //   // Next Step Bundle Image gets an is--active
+  //   const nextStepImage = stepItems[currentStep + 1].querySelector(
+  //     "[step-image]"
+  //   );
+  //   nextStepImage?.classList.add("is--selected");
+  // }
+
+  function updateActiveStepUi(stepItems, isEditing=false, editStep=null) {
+    if (isEditing && editStep !== null) {
+      // Handle UI updates when in edit mode
+      const editStepImage = stepItems[editStep - 1].querySelector("[step-image]");
+      editStepImage?.classList.add("is--active");
+    } else {
+      // Handle UI updates when advancing to the next step
+      const currentStepImage = stepItems[currentStep].querySelector("[step-image]");
+      currentStepImage?.classList.add("is--selected");
+  
+      const nextStepImage = stepItems[currentStep + 1]?.querySelector("[step-image]");
+      nextStepImage?.classList.add("is--active");
+    }
   }
+  
 
     // ADD TO BUNDLE
     document.addEventListener("click", function (e) {
@@ -471,13 +487,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
       }
 
+      if (editingStep === null && isProductAddedForStep(currentStep)) {
+        updateActiveStepUi(bundleStepsItems);
+        updateActiveStepUi(mapStepsItems);
+      } else if (editingStep !== null) {
+        updateActiveStepUi(bundleStepsItems, true, editingStep);
+        updateActiveStepUi(mapStepsItems, true, editingStep);
+      }
+
      const popupDataCurrent = getCurrentStepData(currentStep);
      const popupDataPast = getCurrentStepData(currentStep - 1);
 
       // If we're not in edit mode & the currentSteps product is added then we update the next step UI for bundle and map areas. 
       if (editingStep === null && isProductAddedForStep(currentStep)) {
-        nextStepActivatedUi(bundleStepsItems);
-        nextStepActivatedUi(mapStepsItems);
         updateIndicatorPosition(currentStep, bundleStepsItems.length);
         updatePopup(popupDataCurrent);
       } else if (!isProductAddedForStep(currentStep)) {
@@ -531,22 +553,22 @@ function getCurrentStepData(currentStep) {
   return document.querySelector(`.step[data-step-name="${adjustedStep}"]`);
 }
 
-// Action Functions
-function updateStepImage(stepItems) {
+// // Action Functions
+// function updateStepImage(stepItems) {
 
-  const currentStepImage = stepItems[currentStep].querySelector(
-    "[step-image]"
-  );
+//   const currentStepImage = stepItems[currentStep].querySelector(
+//     "[step-image]"
+//   );
 
-  // currentStepImage?.classList.remove("is--active");
-  currentStepImage?.classList.add("is--active");
+//   // currentStepImage?.classList.remove("is--active");
+//   currentStepImage?.classList.add("is--active");
 
-  // Previous Bundle Image Gets is--active - Removed
-  const previousStepImage = stepItems[currentStep - 1].querySelector(
-    "[step-image]"
-  );
-  previousStepImage?.classList.remove("is--active");
-}
+//   // Previous Bundle Image Gets is--active - Removed
+//   const previousStepImage = stepItems[currentStep - 1].querySelector(
+//     "[step-image]"
+//   );
+//   previousStepImage?.classList.remove("is--active");
+// }
 
 function updateMobileBundleStepInfo(stepElement) {
   if (isMobile()) {
@@ -754,9 +776,13 @@ function backToNoPopup() {
     
     if (editingStep === null && isProductAddedForStep(currentStep)) {
     currentStep++;
-    updateStepImage(bundleStepsItems);
-    updateStepImage(mapStepsItems);
     console.log("Next Step Button Clicked: After Increment currentStep =", currentStep);
+    }
+
+    if (editingStep === null && isProductAddedForStep(currentStep)) {
+      currentStep++;
+      updateActiveStepUi(bundleStepsItems);
+      updateActiveStepUi(mapStepsItems);
     }
 
     handlePopupBtnClick();
@@ -791,13 +817,13 @@ document.querySelector("[popup-exit]").addEventListener("click", function () {
     editingStep = parseInt(stepValue, 10); 
     console.log("Editing Step Real Number:", editingStep);
 
-
     const stepNumber = parseInt(stepValue, 10) - 1;
     console.log("Editing JS number", stepNumber);
 
     // Updating the product area with that steps data
     const stepData = getCurrentStepData(stepNumber);
     updateProductArea(stepData);
+
   })
   });
 
