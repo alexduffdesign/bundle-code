@@ -453,7 +453,10 @@ function markCurrentStepAsSelected(stepItems) {
   
       // If in edit mode 
       const targetBundleItem = editingStep !== null ? bundleStepsItems[editingStep - 1] : bundleStepsItems[currentStep];
+      console.log("Before populateBundleProduct: editingStep =", editingStep, "currentStep =", currentStep);
       populateBundleProduct(targetBundleItem, productBlocks);
+      console.log("After populateBundleProduct: editingStep =", editingStep, "currentStep =", currentStep);
+
       clearTitleOverlay(bundleStepsItems);
 
       if (editingStep === null) {
@@ -475,10 +478,6 @@ function markCurrentStepAsSelected(stepItems) {
       } else {
         updatePopup(currentStep - 1);
       }
-
-      console.log("currentStep when adding product", currentStep);
-      console.log("editingStep when adding product", editingStep);
-
     
     });
 
@@ -758,9 +757,14 @@ function handlePopupBtnClick() {
   // NEXT STEP BTN
   document.querySelectorAll("[next-step-btn]").forEach((button) => {
   button.addEventListener("click", function () {
+
+    console.log("Next Step Button Clicked: Initial editingStep =", editingStep, "currentStep =", currentStep);
+
     
     if (editingStep === null && isProductAddedForStep(currentStep)) {
     currentStep++;
+    console.log("Next Step Button Clicked: After Increment currentStep =", currentStep);
+
     }
 
     handlePopupBtnClick();
@@ -769,8 +773,7 @@ function handlePopupBtnClick() {
     updateMobileBundleStepInfo(currentStep);
     
     editingStep = null;
-    console.log("currentStep after next step btn click", currentStep);
-
+    console.log("Next Step Button Clicked: After Reset editingStep =", editingStep);
   });
 });
 
