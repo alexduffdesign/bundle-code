@@ -194,6 +194,13 @@ document.addEventListener("DOMContentLoaded", function () {
       : [];
   }
 
+  function getBundleProductsInsideBundleItem() {
+    return bundleStepsItems[editingStep !== null ? (editingStep - 1) : currentStep].querySelectorAll("[bundle-product]");
+  }
+
+  getBundleProductsInsideBundleItem();
+  console.log("it works", getBundleProductsInsideBundleItem);
+
   // 2. Animate the product into the cart
   function animateAddedProductToCart(productBlocks) {
     const animations = [];
@@ -212,12 +219,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Retrieve all [bundle-product] inside the current [bundle-item]
       // If the editingStep is set (in edit mode), then we use that steps bundle-product as a target
-      const getBundleProductsInsideBundleItem = bundleStepsItems[editingStep !== null ? (editingStep - 1) : currentStep].querySelectorAll("[bundle-product]");
+      const bundleProductsInsideBundleItem = bundleStepsItems[editingStep !== null ? (editingStep - 1) : currentStep].querySelectorAll("[bundle-product]");
 
-      console.log(getBundleProductsInsideBundleItem);
+      console.log(bundleProductsInsideBundleItem);
 
       // Use the index to get the specific [bundle-product] for animation
-      const targetElement = getBundleProductsInsideBundleItem[index];
+      const targetElement = bundleProductsInsideBundleItem[index];
       const targetRect = targetElement.getBoundingClientRect();
 
       console.log("Index:", index, "Target element:", targetElement);
@@ -307,7 +314,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // 3. Add the product data to the bundle
-  function populateCartWithProduct(bundleItem, productBlocks) {
+  function populateBundleProduct(bundleItem, productBlocks) {
+
     // Retrieve all [bundle-product] containers inside the current [bundle-item]
     const productContainers = bundleItem.querySelectorAll("[bundle-product]");
 
@@ -692,9 +700,11 @@ function handlePopupBtnClick() {
   document.addEventListener("click", function (e) {
     if (!e.target.matches("[add-to-bundle]")) return;
 
-    // Animate the product blocks
+    // 1. Animate the product blocks
     const productBlocks = getClosestProductBlock(e.target);
     animateAddedProductToCart(productBlocks);
+
+    // 2. Open next step popup
     openNextStepPopup();
 
     productBlocks.forEach((productBlock, index) => {
@@ -704,12 +714,13 @@ function handlePopupBtnClick() {
         return;
       }
 
-      const targetBundleItem = editingStep !== null ? bundleStepsItems[editingStep - 1] : bundleStepsItems[currentStep];
-      populateCartWithProduct(targetBundleItem, productBlocks);
-      clearTitleOverlay(bundleStepsItems);
+    // If in edit mode 
+    const targetBundleItem = editingStep !== null ? bundleStepsItems[editingStep - 1] : bundleStepsItems[currentStep];
+    populateBundleProduct(targetBundleItem, productBlocks);
+    clearTitleOverlay(bundleStepsItems);
 
-      prepareNextStepUI(bundleStepsItems);
-      prepareNextStepUI(mapStepsItems);
+    prepareNextStepUI(bundleStepsItems);
+    prepareNextStepUI(mapStepsItems);
 
 
     if (isProductAddedForStep(currentStep)) {
