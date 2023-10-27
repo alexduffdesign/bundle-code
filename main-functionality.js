@@ -171,8 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let currentStep = 0;
   let bundle = [];
-  const changeBundleProductBtn = document.querySelectorAll("[change-btn]");
-  let editingStep = null; // Declare it at the beginning of your script
+  
 
 
   function getClosestProductBlock(element) {
