@@ -751,7 +751,10 @@ function backToNoPopup() {
 
     handlePopupBtnClick();
     bundleGuide.classList.remove("is--active");
-    updateProductArea(currentStep);
+
+    const productAreaData = getCurrentStepData(currentStep);
+    updateProductArea(productAreaData);
+    
     updateMobileBundleStepInfo(currentStep);
     activatePrizes(currentStep);
     backToNoPopup();
