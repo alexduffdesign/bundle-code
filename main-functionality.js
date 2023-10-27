@@ -484,7 +484,6 @@ function markCurrentStepAsSelected(stepItems) {
 
 
 
-
  ///////////////////////////////////// Bundle Functionality (Next step click) ///////////////////////////////////////
 
 // Utility Functions
@@ -713,10 +712,6 @@ function updatePopup(stepElement) {
   }
 }
 
-function afterTransitionUpdates(stepElement) {
-  updatePopup(stepElement);
-}
-
 // Main Functionality
 function handlePopupBtnClick() {
   nextStepEl.classList.remove("is--open");
@@ -726,30 +721,21 @@ function handlePopupBtnClick() {
   }
   popupBg.classList.remove("is--open");
   body.style.overflow = "auto";
+}
 
-  const stepElement = getCurrentStepData(currentStep);
-  if (stepElement) {
-    updateProductArea(stepElement);
-    updateMobileBundleStepInfo(stepElement);
-    activatePrizes(currentStep);
-    nextStepEl.addEventListener("transitionend", function transitionEndHandler() {
-      afterTransitionUpdates(stepElement);
-      nextStepEl.removeEventListener("transitionend", transitionEndHandler);
-    });
+function backToNoPopup() {
+  const initialState = [
+    [bundleComponent, { opacity: 1 }, { duration: 0.3 }],
+    [".bundle_map-wrap", { opacity: 1 }, { duration: 0.3, at: "<" }]
+  ];
+  Motion.timeline(initialState);
 
-    // Initial state
-    const initialState = [
-      [bundleComponent, { opacity: 1 }, { duration: 0.3 }],
-      [".bundle_map-wrap", { opacity: 1 }, { duration: 0.3, at: "<" }]
-    ];
-    Motion.timeline(initialState);
+   // Scroll to the top
+   const topElement = document.getElementById("top");
+   if (topElement) {
+     topElement.scrollIntoView({ behavior: "smooth" });
+   }
 
-    // Scroll to the top
-    const topElement = document.getElementById("top");
-    if (topElement) {
-      topElement.scrollIntoView({ behavior: "smooth" });
-    }
-  }
 }
 
 //// EVENT LISTENERSS ///////
@@ -765,14 +751,16 @@ function handlePopupBtnClick() {
     if (editingStep === null && isProductAddedForStep(currentStep)) {
     currentStep++;
     console.log("Next Step Button Clicked: After Increment currentStep =", currentStep);
-
     }
 
     handlePopupBtnClick();
     bundleGuide.classList.remove("is--active");
     updateProductArea(currentStep);
     updateMobileBundleStepInfo(currentStep);
-    
+    activatePrizes(currentStep);
+
+    backToNoPopup();
+
   
     console.log("Next Step Button Clicked: After Reset editingStep =", editingStep);
   });
