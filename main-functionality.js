@@ -179,12 +179,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
  // Utility for opening the next step popup
- function openNextStepPopup() {
+  function openNextStepPopup() {
   // Next step popup comes in
   nextStepEl.classList.add("is--open");
   popupBg.classList.add("is--open");
   body.style.overflow = "hidden";
-}
+  }
 
 
   function getClosestProductBlock(element) {
@@ -204,6 +204,11 @@ document.addEventListener("DOMContentLoaded", function () {
   
   // get all the [bundle-product] inside that bundle item 
   return bundleItem.querySelectorAll("[bundle-product]");
+  }
+
+  function getCurrentOrEditingBundleItem() {
+  const targetStep = editingStep !== null ? (editingStep - 1) : currentStep;
+  return bundleStepsItems[targetStep];
   }
 
   // 2. Animate the product into the cart
@@ -428,6 +433,36 @@ document.addEventListener("DOMContentLoaded", function () {
     );
     nextStepImage?.classList.add("is--active");
   }
+
+    // ADD TO BUNDLE
+    document.addEventListener("click", function (e) {
+      if (!e.target.matches("[add-to-bundle]")) return;
+  
+      // 1. Animate the product blocks - uses the add-to-bundle button that was cliked inside the funciton paramaters
+      const productBlocks = getClosestProductBlock(e.target);
+      animateAddedProductToCart(productBlocks);
+  
+      // 2. Open next step popup
+      openNextStepPopup();
+  
+      // If in edit mode 
+      const targetBundleItem = getCurrentOrEditingBundleItem();
+      populateBundleProduct(targetBundleItem, productBlocks);
+      clearTitleOverlay(bundleStepsItems);
+
+      if (editingStep === null) {
+        nextStepActivatedUi(bundleStepsItems);
+        nextStepActivatedUi(mapStepsItems);
+      }
+  
+      if (isProductAddedForStep(currentStep)) {
+        updateIndicatorPosition(currentStep, bundleStepsItems.length);
+        updatePopup(currentStep);
+      } else {
+        updatePopup(currentStep - 1);
+      }
+    
+    });
 
 
 
@@ -705,34 +740,7 @@ function handlePopupBtnClick() {
 
 //// EVENT LISTENERSS ///////
 
-  // ADD TO BUNDLE
-  document.addEventListener("click", function (e) {
-    if (!e.target.matches("[add-to-bundle]")) return;
 
-    // 1. Animate the product blocks
-    const productBlocks = getClosestProductBlock(e.target);
-    animateAddedProductToCart(productBlocks);
-
-    // 2. Open next step popup
-    openNextStepPopup();
-
-    // If in edit mode 
-    const targetBundleItem = editingStep !== null ? bundleStepsItems[editingStep - 1] : bundleStepsItems[currentStep];
-    populateBundleProduct(targetBundleItem, productBlocks);
-    clearTitleOverlay(bundleStepsItems);
-
-    nextStepActivatedUi(bundleStepsItems);
-    nextStepActivatedUi(mapStepsItems);
-
-
-    if (isProductAddedForStep(currentStep)) {
-      updateIndicatorPosition(currentStep, bundleStepsItems.length);
-      updatePopup(currentStep);
-    } else {
-      updatePopup(currentStep - 1);
-    }
-  
-  });
 
   // NEXT STEP BTN
   document.querySelectorAll("[next-step-btn]").forEach((button) => {
