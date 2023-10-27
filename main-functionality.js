@@ -384,7 +384,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  // 5a - Update position of the indicator
+  // 5a. Update position of the indicator
   function updateIndicatorPosition(currentStep, totalSteps) {
     const indicatorThumbs = document.querySelectorAll(
       ".bundle_indicator-thumb"
@@ -402,16 +402,19 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // 5b. Next step activated UI, bundle and map
+
+  // 5b. Sets the is--selected class to the current step.
+
+function markCurrentStepAsSelected(stepItems) {
+  const currentBundleProductAdded = stepItems[currentStep].querySelector(
+    "[bundle-product-added]"
+  );
+  currentBundleProductAdded?.classList.add("is--selected");
+}
+
+  // 5c. Next step activated UI, bundle and map
   // -- (makes the image have a circle and adds the selected to the last steps image)
   function nextStepActivatedUi(stepItems) {
-
-
-    const CurrentBundleProductAdded = stepItems[currentStep].querySelector(
-      "[bundle-product-added]"
-    );
-
-    CurrentBundleProductAdded?.classList.add("is--selected");
 
     const currentStepImage = stepItems[currentStep].querySelector(
       "[step-image]"
@@ -450,6 +453,10 @@ document.addEventListener("DOMContentLoaded", function () {
       populateBundleProduct(targetBundleItem, productBlocks);
       clearTitleOverlay(bundleStepsItems);
 
+      // 3. Mark bundleItems as selected for current step
+      markCurrentStepAsSelected(bundleStepsItems);
+      markCurrentStepAsSelected(mapStepsItems);
+      
       // If we're not in edit mode & the currentSteps product is added then we update the next step UI for bundle and map areas. 
       if (editingStep === null && isProductAddedForStep(currentStep)) {
         nextStepActivatedUi(bundleStepsItems);
