@@ -695,12 +695,12 @@ function handlePopupBtnClick() {
       populateCartWithProduct(targetBundleItem, productBlocks);
       clearTitleOverlay(bundleStepsItems);
 
-      handlePopupBtnClick();
+      prepareNextStepUI(bundleStepsItems);
+      prepareNextStepUI(mapStepsItems);
+
 
     if (isProductAddedForStep(currentStep)) {
       updateIndicatorPosition(currentStep, bundleStepsItems.length);
-      prepareNextStepUI(bundleStepsItems);
-      prepareNextStepUI(mapStepsItems);
       updatePopup(currentStep);
     } else {
       updatePopup(currentStep - 1);
