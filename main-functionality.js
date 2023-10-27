@@ -420,6 +420,7 @@ function getCurrentStepData(currentStep) {
 function isProductAddedForStep(currentStep) {
   // Assuming step is the index or identifier for the bundle step
   const stepElement = document.querySelector(`[data-step="${currentStep}"]`);
+  console.log("Step Found", stepElement);
   
   if (stepElement) {
     const bundleStepsProductElement = stepElement.querySelector('.bundle_steps_product');
@@ -713,11 +714,11 @@ function handlePopupBtnClick() {
   // NEXT STEP BTN
   document.querySelectorAll("[next-step-btn]").forEach((button) => {
   button.addEventListener("click", function () {
-    console.log('Before incrementing, currentStep:', currentStep, 'editingStep:', editingStep);
+    
     if (isProductAddedForStep(currentStep)) {
       currentStep++;
     } 
-    console.log('After incrementing, currentStep:', currentStep);
+
     handlePopupBtnClick();
     bundleGuide.classList.remove("is--active");
     updateProductArea(currentStep);
