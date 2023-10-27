@@ -173,9 +173,18 @@ document.addEventListener("DOMContentLoaded", function () {
   let bundle = [];
       // Change Btn
 
-const changeBundleProductBtn = document.querySelectorAll("[change-btn]");
-let editingStep = null; // Declare it at the beginning of your script
+  const changeBundleProductBtn = document.querySelectorAll("[change-btn]");
+  let editingStep = null; // Declare it at the beginning of your script
   
+
+
+ // Utility for opening the next step popup
+ function openNextStepPopup() {
+  // Next step popup comes in
+  nextStepEl.classList.add("is--open");
+  popupBg.classList.add("is--open");
+  body.style.overflow = "hidden";
+}
 
 
   function getClosestProductBlock(element) {
@@ -201,14 +210,14 @@ let editingStep = null; // Declare it at the beginning of your script
       // Add the cloned product card to the body
       body.appendChild(clonedProductBlock);
 
-      // Retrieve all [bundle-product] containers inside the current [bundle-item]
-      const productContainers = bundleStepsItems[editingStep !== null ? (editingStep - 1) : currentStep].querySelectorAll("[bundle-product]");
+      // Retrieve all [bundle-product] inside the current [bundle-item]
+      // If the editingStep is set (in edit mode), then we use that steps bundle-product as a target
+      const getBundleProductsInsideBundleItem = bundleStepsItems[editingStep !== null ? (editingStep - 1) : currentStep].querySelectorAll("[bundle-product]");
 
-
-      console.log(productContainers);
+      console.log(getBundleProductsInsideBundleItem);
 
       // Use the index to get the specific [bundle-product] for animation
-      const targetElement = productContainers[index];
+      const targetElement = getBundleProductsInsideBundleItem[index];
       const targetRect = targetElement.getBoundingClientRect();
 
       console.log("Index:", index, "Target element:", targetElement);
@@ -217,6 +226,7 @@ let editingStep = null; // Declare it at the beginning of your script
       const translateYValue = targetRect.top - rect.top;
       const translateXValue = targetRect.left - rect.left;
 
+      // Animate them to the bundle
       const animationForThisProduct = [
         [
           clonedProductBlock,
@@ -232,10 +242,11 @@ let editingStep = null; // Declare it at the beginning of your script
         ]
       ];
 
+      // Add this animation to the array
       animations.push(...animationForThisProduct);
     });
 
-    // Add mobile-specific animations if on mobile
+    // If we're on mobile this will be the animation
     if (isMobile()) {
       const mobileAnimations = [
         [
@@ -260,12 +271,16 @@ let editingStep = null; // Declare it at the beginning of your script
         [".bundle_map-wrap", { opacity: 0 }, { duration: 0.3, at: "<" }]
       ];
 
+      // Add animation to aray
       animations.push(...mobileAnimations);
     }
 
     const addToBundleAnim = Motion.timeline(animations, {
       defaultEasing: "ease-in-out"
     });
+
+    // After the animation is finished then scroll bundle to the next step 
+    // - Delete cloned blocks
 
     addToBundleAnim.finished.then(() => {
       // Scrolling the bundle down when a product is added
@@ -280,11 +295,6 @@ let editingStep = null; // Declare it at the beginning of your script
         top: finalScrollPosition,
         behavior: "smooth"
       });
-
-      // Next step popup comes in
-      nextStepEl.classList.add("is--open");
-      popupBg.classList.add("is--open");
-      body.style.overflow = "hidden";
 
       // Remove clones
       productBlocks.forEach((_, index) => {
@@ -412,10 +422,10 @@ let editingStep = null; // Declare it at the beginning of your script
 }
 
 function getCurrentStepData(currentStep) {
+  // Finds the current steps data from the .step attributes
   const adjustedStep = currentStep + 1;
   return document.querySelector(`.step[data-step-name="${adjustedStep}"]`);
 }
-
 
 function isProductAddedForStep(currentStep) {
   // Assuming step is the index or identifier for the bundle step
@@ -682,8 +692,10 @@ function handlePopupBtnClick() {
   document.addEventListener("click", function (e) {
     if (!e.target.matches("[add-to-bundle]")) return;
 
+    // Animate the product blocks
     const productBlocks = getClosestProductBlock(e.target);
     animateAddedProductToCart(productBlocks);
+    openNextStepPopup();
 
     productBlocks.forEach((productBlock, index) => {
       const currentBundleItem = bundleStepsItems[currentStep];
