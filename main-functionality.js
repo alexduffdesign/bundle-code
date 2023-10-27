@@ -694,9 +694,17 @@ function handlePopupBtnClick() {
       const targetBundleItem = editingStep !== null ? bundleStepsItems[editingStep - 1] : bundleStepsItems[currentStep];
       populateCartWithProduct(targetBundleItem, productBlocks);
       clearTitleOverlay(bundleStepsItems);
+
+      handlePopupBtnClick();
+
+    if (isProductAddedForStep(currentStep)) {
       updateIndicatorPosition(currentStep, bundleStepsItems.length);
       prepareNextStepUI(bundleStepsItems);
       prepareNextStepUI(mapStepsItems);
+      updatePopup(currentStep);
+    } else {
+      updatePopup(currentStep - 1);
+    }
        // After all operations
       console.log(bundle);
     });
@@ -710,7 +718,6 @@ function handlePopupBtnClick() {
     console.log('After incrementing, currentStep:', currentStep);
     handlePopupBtnClick();
     bundleGuide.classList.remove("is--active");
-    updatePopup(currentStep);
     updateProductArea(currentStep);
     updateMobileBundleStepInfo(currentStep);
     editingStep = null;
