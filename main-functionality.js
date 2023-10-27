@@ -417,9 +417,9 @@ function getCurrentStepData(currentStep) {
 }
 
 
-function isProductAddedForStep(cuttentStep) {
+function isProductAddedForStep(currentStep) {
   // Assuming step is the index or identifier for the bundle step
-  const stepElement = document.querySelector(`[data-step="${step}"]`);
+  const stepElement = document.querySelector(`[data-step="${currentStep}"]`);
   
   if (stepElement) {
     const bundleStepsProductElement = stepElement.querySelector('.bundle_steps_product');
