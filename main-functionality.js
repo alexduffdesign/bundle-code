@@ -734,40 +734,7 @@ function handlePopupBtnClick() {
 }
 
 
-<<<<<<< HEAD
-//// EVENT LISTENERSS ///////
-
-  // ADD TO BUNDLE
-  document.addEventListener("click", function (e) {
-    if (!e.target.matches("[add-to-bundle]")) return;
-
-    const productBlocks = getClosestProductBlock(e.target);
-    animateAddedProductToCart(productBlocks);
-
-    productBlocks.forEach((productBlock, index) => {
-      const currentBundleItem = bundleStepsItems[currentStep];
-      if (!currentBundleItem) {
-        console.error("Exceeded available bundle items.");
-        return;
-      }
-
-      const targetBundleItem = editingStep !== null ? bundleStepsItems[editingStep - 1] : bundleStepsItems[currentStep];
-      populateCartWithProduct(targetBundleItem, productBlocks);
-      clearTitleOverlay(bundleStepsItems);
-      updateIndicatorPosition(currentStep, bundleStepsItems.length);
-      prepareNextStepUI(bundleStepsItems);
-      prepareNextStepUI(mapStepsItems);
-       // After all operations
-      console.log(bundle);
-      console.log("currentStep After ")
-    });
-  });
-
-  // NEXT STEP BTN
-  document.querySelectorAll("[next-step-btn]").forEach((button) => {
-=======
 document.querySelectorAll("[next-step-btn]").forEach((button) => {
->>>>>>> parent of d3953ac (Reordering)
   button.addEventListener("click", function () {
     console.log('Before incrementing, currentStep:', currentStep, 'editingStep:', editingStep);
     if (isProductAddedForStep(currentStep + 1)) {
@@ -789,33 +756,7 @@ document.querySelector("[popup-exit]").addEventListener("click", function () {
   body.style.overflow = "auto";
   nextStepEl.classList.remove("is--open");
   bundleGuide.classList.add("is--active");
-<<<<<<< HEAD
-  });
-
-  // CHANGE BTN
-  changeBundleProductBtn.forEach((button) => {
-  button.addEventListener('click', function() {
-
-    // Checking what step product they want to change
-    const stepValue = button.getAttribute('step');
-
-    activeStep = parseInt(stepValue, 10);
-
-    console.log("Editing Step Real Number:", activeStep);
-
-
-    const stepNumber = parseInt(stepValue, 10) - 1;
-    console.log("Editing JS number", stepNumber);
-
-    // Updating the product area with that steps data
-    const stepData = getCurrentStepData(stepNumber);
-    updateProductArea(stepData);
-  })
-  });
-
-=======
 });
->>>>>>> parent of d3953ac (Reordering)
 
 // Initialize the initial step
 const initialStepElement = getCurrentStepData(0);
