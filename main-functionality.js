@@ -444,16 +444,14 @@ function markCurrentStepAsSelected(stepItems) {
     document.addEventListener("click", function (e) {
       if (!e.target.matches("[add-to-bundle]")) return;
   
-      // 1. Animate the product blocks - uses the add-to-bundle button that was cliked inside the funciton paramaters
+      // Animate the product blocks - uses the add-to-bundle button that was cliked inside the funciton paramaters
       const productBlocks = getClosestProductBlock(e.target);
       animateAddedProductToCart(productBlocks);
-  
-      // 2. Open next step popup
-      openNextStepPopup();
   
       // If in edit mode 
       const targetBundleItem = editingStep !== null ? bundleStepsItems[editingStep - 1] : bundleStepsItems[currentStep];
       console.log("Before populateBundleProduct: editingStep =", editingStep, "currentStep =", currentStep);
+      // populate the bundle product
       populateBundleProduct(targetBundleItem, productBlocks);
       console.log("After populateBundleProduct: editingStep =", editingStep, "currentStep =", currentStep);
 
@@ -472,9 +470,12 @@ function markCurrentStepAsSelected(stepItems) {
         nextStepActivatedUi(mapStepsItems);
         updateIndicatorPosition(currentStep, bundleStepsItems.length);
         updatePopup(currentStep);
-      } else {
+      } else if (!isProductAddedForStep(currentStep)) {
         updatePopup(currentStep - 1);
       }
+
+      // 4. Open next step popup
+      openNextStepPopup();
     
     });
 
@@ -755,10 +756,8 @@ function backToNoPopup() {
     updateProductArea(currentStep);
     updateMobileBundleStepInfo(currentStep);
     activatePrizes(currentStep);
-
     backToNoPopup();
 
-  
     console.log("Next Step Button Clicked: After Reset editingStep =", editingStep);
   });
 });
