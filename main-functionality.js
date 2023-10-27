@@ -341,12 +341,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
       // Add the product id to the bundle array 
-
       const idEl = productBlock.querySelector("[data-id]");
 
       if (idEl) {
+        // Get the id from the attribute
         const id = idEl.getAttribute("data-id");
+        // Turn it into a number
         const idNumber = parseInt(id, 10);
+        // Find what step this ID belongs to 
         let step = editingStep !== null ? editingStep : (currentStep + 1);
     
         // Find the index of the step in the bundle array
@@ -376,7 +378,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Update position of the indicator
+
+  // 5a - Update position of the indicator
   function updateIndicatorPosition(currentStep, totalSteps) {
     const indicatorThumbs = document.querySelectorAll(
       ".bundle_indicator-thumb"
@@ -394,8 +397,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // 5. Prepare the UI for the next step
-  function prepareNextStepUI(stepItems) {
+  // 5b. Next step activated UI, bundle and map
+  // -- (makes the image have a circle and adds the selected to the last steps image)
+  function nextStepActivatedUi(stepItems) {
+
+
     const CurrentBundleProductAdded = stepItems[currentStep].querySelector(
       "[bundle-product-added]"
     );
@@ -710,20 +716,13 @@ function handlePopupBtnClick() {
     // 2. Open next step popup
     openNextStepPopup();
 
-    productBlocks.forEach((productBlock, index) => {
-      const currentBundleItem = bundleStepsItems[currentStep];
-      if (!currentBundleItem) {
-        console.error("Exceeded available bundle items.");
-        return;
-      }
-
     // If in edit mode 
     const targetBundleItem = editingStep !== null ? bundleStepsItems[editingStep - 1] : bundleStepsItems[currentStep];
     populateBundleProduct(targetBundleItem, productBlocks);
     clearTitleOverlay(bundleStepsItems);
 
-    prepareNextStepUI(bundleStepsItems);
-    prepareNextStepUI(mapStepsItems);
+    nextStepActivatedUi(bundleStepsItems);
+    nextStepActivatedUi(mapStepsItems);
 
 
     if (isProductAddedForStep(currentStep)) {
@@ -732,9 +731,7 @@ function handlePopupBtnClick() {
     } else {
       updatePopup(currentStep - 1);
     }
-       // After all operations
-      console.log(bundle);
-    });
+  
   });
 
   // NEXT STEP BTN
