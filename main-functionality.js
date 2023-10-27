@@ -489,9 +489,6 @@ document.addEventListener("DOMContentLoaded", function () {
     
     });
 
-
-
-
  ///////////////////////////////////// Bundle Functionality (Next step click) ///////////////////////////////////////
 
 // Utility Functions
@@ -535,6 +532,21 @@ function getCurrentStepData(currentStep) {
 }
 
 // Action Functions
+function updateStepImage(stepItems) {
+
+  const currentStepImage = stepItems[currentStep].querySelector(
+    "[step-image]"
+  );
+
+  // currentStepImage?.classList.remove("is--active");
+  currentStepImage?.classList.add("is--active");
+
+  // Previous Bundle Image Gets is--active - Removed
+  const previousStepImage = stepItems[currentStep - 1].querySelector(
+    "[step-image]"
+  );
+  previousStepImage?.classList.remove("is--active");
+}
 
 function updateMobileBundleStepInfo(stepElement) {
   if (isMobile()) {
@@ -739,6 +751,9 @@ function backToNoPopup() {
     console.log("Next Step Button Clicked: Initial editingStep =", editingStep, "currentStep =", currentStep);
 
     editingStep = null;
+
+    updateStepImage(bundleStepsItems);
+    updateStepImage(mapStepsItems);
     
     if (editingStep === null && isProductAddedForStep(currentStep)) {
     currentStep++;
