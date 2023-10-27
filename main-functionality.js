@@ -424,14 +424,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 5c. Next step activated UI, bundle and map
   // -- (makes the image have a circle and adds the selected to the last steps image)
-  function nextStepActivatedUi(stepItems) {
-
-    const currentStepImage = stepItems[currentStep].querySelector(
-      "[step-image]"
-    );
-
-    // currentStepImage?.classList.remove("is--active");
-    currentStepImage?.classList.add("is--selected");
+  function nextBundleItemActivated(stepItems) {
 
     // Next Step Bundle item gets and is--active
     const nextBundleItem = stepItems[currentStep + 1].querySelector(
@@ -440,12 +433,37 @@ document.addEventListener("DOMContentLoaded", function () {
 
     nextBundleItem?.classList.add("is--active");
 
-    // Next Step Bundle Image gets an is--active
-    const nextStepImage = stepItems[currentStep + 1].querySelector(
-      "[step-image]"
-    );
-    nextStepImage?.classList.add("is--selected");
+     // const currentStepImage = stepItems[currentStep].querySelector(
+    //   "[step-image]"
+    // );
+
+    // // currentStepImage?.classList.remove("is--active");
+    // currentStepImage?.classList.add("is--selected");
+
+
+    // // Next Step Bundle Image gets an is--selected
+    // const nextStepImage = stepItems[currentStep + 1].querySelector(
+    //   "[step-image]"
+    // );
+    // nextStepImage?.classList.add("is--selected");
   }
+
+
+  function updateActiveStepUi(stepItems, isEditing=false, editStep=null) {
+    if (isEditing && editStep !== null) {
+      // Handle UI updates when in edit mode
+      const editStepImage = stepItems[editStep - 1].querySelector("[step-image]");
+      editStepImage?.classList.add("is--active");
+    } else {
+      // Handle UI updates when advancing to the next step
+      const currentStepImage = stepItems[currentStep].querySelector("[step-image]");
+      currentStepImage?.classList.add("is--selected");
+  
+      const nextStepImage = stepItems[currentStep + 1]?.querySelector("[step-image]");
+      nextStepImage?.classList.add("is--active");
+    }
+  }
+  
 
     // ADD TO BUNDLE
     document.addEventListener("click", function (e) {
@@ -464,6 +482,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
       clearTitleOverlay(bundleStepsItems);
 
+      if (editingStep === null && isProductAddedForStep(currentStep)) {
+        updateActiveStepUi(bundleStepsItems);
+        updateActiveStepUi(mapStepsItems);
+      } else if (editingStep !== null) {
+        updateActiveStepUi(bundleStepsItems, true, editingStep);
+        updateActiveStepUi(mapStepsItems, true, editingStep);
+      }
+
       if (editingStep === null) {
       // 3. Mark bundleItems as selected for current step
       markCurrentStepAsSelected(bundleStepsItems);
@@ -476,8 +502,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // If we're not in edit mode & the currentSteps product is added then we update the next step UI for bundle and map areas. 
       if (editingStep === null && isProductAddedForStep(currentStep)) {
-        nextStepActivatedUi(bundleStepsItems);
-        nextStepActivatedUi(mapStepsItems);
+        nextBundleItemActivated(bundleStepsItems);
+        nextBundleItemActivated(mapStepsItems);
         updateIndicatorPosition(currentStep, bundleStepsItems.length);
         updatePopup(popupDataCurrent);
       } else if (!isProductAddedForStep(currentStep)) {
@@ -754,10 +780,15 @@ function backToNoPopup() {
     
     if (editingStep === null && isProductAddedForStep(currentStep)) {
     currentStep++;
-    updateStepImage(bundleStepsItems);
-    updateStepImage(mapStepsItems);
+    // updateStepImage(bundleStepsItems);
+    // updateStepImage(mapStepsItems);
+
+    updateActiveStepUi(bundleStepsItems);
+      updateActiveStepUi(mapStepsItems);
     console.log("Next Step Button Clicked: After Increment currentStep =", currentStep);
     }
+
+
 
     handlePopupBtnClick();
     bundleGuide.classList.remove("is--active");
