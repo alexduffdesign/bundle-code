@@ -453,9 +453,11 @@ function markCurrentStepAsSelected(stepItems) {
       populateBundleProduct(targetBundleItem, productBlocks);
       clearTitleOverlay(bundleStepsItems);
 
+      if (editingStep === !null) {
       // 3. Mark bundleItems as selected for current step
       markCurrentStepAsSelected(bundleStepsItems);
       markCurrentStepAsSelected(mapStepsItems);
+      }
       
       // If we're not in edit mode & the currentSteps product is added then we update the next step UI for bundle and map areas. 
       if (editingStep === null && isProductAddedForStep(currentStep)) {
