@@ -484,6 +484,9 @@ document.addEventListener("DOMContentLoaded", function () {
         updatePopup(popupDataPast);
       }
 
+      // Change Btn Gets is active for the index that was added
+      changeBundleProductBtn[currentStep].classList.add("is--active");
+      
       // 4. Open next step popup
       openNextStepPopup();
     
