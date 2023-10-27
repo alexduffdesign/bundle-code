@@ -751,12 +751,11 @@ function backToNoPopup() {
     console.log("Next Step Button Clicked: Initial editingStep =", editingStep, "currentStep =", currentStep);
 
     editingStep = null;
-
-    updateStepImage(bundleStepsItems);
-    updateStepImage(mapStepsItems);
     
     if (editingStep === null && isProductAddedForStep(currentStep)) {
     currentStep++;
+    updateStepImage(bundleStepsItems);
+    updateStepImage(mapStepsItems);
     console.log("Next Step Button Clicked: After Increment currentStep =", currentStep);
     }
 
