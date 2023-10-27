@@ -417,9 +417,10 @@ function getCurrentStepData(currentStep) {
 }
 
 
-function isProductAddedForStep(cuttentStep) {
+function isProductAddedForStep(currentStep) {
   // Assuming step is the index or identifier for the bundle step
   const stepElement = document.querySelector(`[data-step="${step}"]`);
+  console.log(stepElement);
   
   if (stepElement) {
     const bundleStepsProductElement = stepElement.querySelector('.bundle_steps_product');
@@ -695,6 +696,7 @@ function handlePopupBtnClick() {
       populateCartWithProduct(targetBundleItem, productBlocks);
       clearTitleOverlay(bundleStepsItems);
       updateIndicatorPosition(currentStep, bundleStepsItems.length);
+      updatePopup(currentStep);
       prepareNextStepUI(bundleStepsItems);
       prepareNextStepUI(mapStepsItems);
        // After all operations
@@ -710,7 +712,6 @@ function handlePopupBtnClick() {
     console.log('After incrementing, currentStep:', currentStep);
     handlePopupBtnClick();
     bundleGuide.classList.remove("is--active");
-    updatePopup(currentStep);
     updateProductArea(currentStep);
     updateMobileBundleStepInfo(currentStep);
     editingStep = null;
