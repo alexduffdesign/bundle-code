@@ -391,7 +391,7 @@ document.addEventListener("DOMContentLoaded", function () {
     );
     titleCoveredElements.forEach((element) => {
       element.classList.add("is--cleared");
-      element.querySelector(".bundle-product-text").style.opacity = 1;
+      // element.querySelector(".bundle-product-text").style.opacity = 1;
     });
   }
 
