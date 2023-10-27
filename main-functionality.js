@@ -765,7 +765,9 @@ function backToNoPopup() {
     const productAreaData = getCurrentStepData(currentStep);
     updateProductArea(productAreaData);
 
-    updateMobileBundleStepInfo(currentStep);
+
+    const dataForCurrentStep = getCurrentStepData(currentStep);
+    updateMobileBundleStepInfo(dataForCurrentStep);
     activatePrizes(currentStep);
     backToNoPopup();
 
