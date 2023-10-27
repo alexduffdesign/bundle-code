@@ -358,6 +358,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
           bundle.push({ step, idNumber });
         }
+        console.log(bundle);
       }
     });
   }
