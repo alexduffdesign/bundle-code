@@ -450,7 +450,8 @@ document.addEventListener("DOMContentLoaded", function () {
       populateBundleProduct(targetBundleItem, productBlocks);
       clearTitleOverlay(bundleStepsItems);
 
-      if (editingStep === null) {
+      // If we're not in edit mode & the currentSteps product is added then we update the next step UI for bundle and map areas. 
+      if (editingStep === null && isProductAddedForStep(currentStep)) {
         nextStepActivatedUi(bundleStepsItems);
         nextStepActivatedUi(mapStepsItems);
       }
