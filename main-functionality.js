@@ -760,6 +760,7 @@ function handlePopupBtnClick() {
 
     console.log("Next Step Button Clicked: Initial editingStep =", editingStep, "currentStep =", currentStep);
 
+    editingStep = null;
     
     if (editingStep === null && isProductAddedForStep(currentStep)) {
     currentStep++;
@@ -772,7 +773,7 @@ function handlePopupBtnClick() {
     updateProductArea(currentStep);
     updateMobileBundleStepInfo(currentStep);
     
-    editingStep = null;
+  
     console.log("Next Step Button Clicked: After Reset editingStep =", editingStep);
   });
 });
