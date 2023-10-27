@@ -747,9 +747,7 @@ function handlePopupBtnClick() {
   document.querySelectorAll("[next-step-btn]").forEach((button) => {
   button.addEventListener("click", function () {
     
-    if (isProductAddedForStep(currentStep)) {
-      currentStep++;
-    } 
+    currentStep++;
 
     handlePopupBtnClick();
     bundleGuide.classList.remove("is--active");
