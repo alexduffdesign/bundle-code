@@ -169,6 +169,11 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
+
+
+
+  ///////////////////////////////////// Bundle Functionality (add to bundle) ///////////////////////////////////////
+
   let currentStep = 0;
   let bundle = [];
       // Change Btn
@@ -234,8 +239,6 @@ document.addEventListener("DOMContentLoaded", function () {
       // Use the index to get the specific [bundle-product] for animation
       const targetElement = bundleProducts[index];
       const targetRect = targetElement.getBoundingClientRect();
-
-      console.log("Index:", index, "Target element:", targetElement);
 
       // Calculate the translation values
       const translateYValue = targetRect.top - rect.top;
@@ -472,16 +475,51 @@ function markCurrentStepAsSelected(stepItems) {
       } else {
         updatePopup(currentStep - 1);
       }
+
+      console.log("currentStep when adding product", currentStep);
+      console.log("editingStep when adding product", editingStep);
+
     
     });
 
 
 
-  // Utility Functions
 
-  function isPrizeStep(step) {
+
+ ///////////////////////////////////// Bundle Functionality (Next step click) ///////////////////////////////////////
+
+// Utility Functions
+
+function isPrizeStep(step) {
   const prizeSteps = [2, 4, 6];
   return prizeSteps.includes(step);
+}
+
+function deactivatePrizeElements() {
+  const seaEl = document.querySelector("[sea-el]");
+  const skyEl = document.querySelector("[sky-el]");
+  const meadowEl = document.querySelector("[meadow-el]");
+
+  seaEl.classList.remove("is--active");
+  skyEl.classList.remove("is--active");
+  meadowEl.classList.remove("is--active");
+}
+
+function activatePrizes(step) {
+  const seaEl = document.querySelector("[sea-el]");
+  const skyEl = document.querySelector("[sky-el]");
+  const meadowEl = document.querySelector("[meadow-el]");
+
+  if (step === 2) {
+    products.classList.remove("is--active");
+    seaEl.classList.add("is--active");
+  } else if (step === 4) {
+    products.classList.remove("is--active");
+    skyEl.classList.add("is--active");
+  } else if (step === 6) {
+    products.classList.remove("is--active");
+    meadowEl.classList.add("is--active");
+  }
 }
 
 function getCurrentStepData(currentStep) {
@@ -506,9 +544,27 @@ function isProductAddedForStep(currentStep) {
   return false; // Return false if the step element or .bundle_steps_product element doesn't exist
 }
 
+// Action Functions
 
-// UI Update Functions
-// Update Product Area based on Step Data
+function updateMobileBundleStepInfo(stepElement) {
+  if (isMobile()) {
+    const mobileIndicator = document.querySelector(
+      "[bundle-mobile-indicator]"
+    );
+    const iconImgEl = mobileIndicator.querySelector("[data-step-icon-img]");
+    const locationEl = mobileIndicator.querySelector("[data-step-location]");
+
+    if (iconImgEl) {
+      iconImgEl.src = stepElement.dataset.stepIconImg;
+      iconImgEl.srcset = stepElement.dataset.stepIconImg;
+    }
+
+    if (locationEl) {
+      locationEl.textContent = stepElement.dataset.stepLocation;
+    }
+  }
+}
+
 function updateProductArea(stepElement) {
   if (stepElement.dataset.stepPrize !== "true") {
     // Get the target elements inside the products area
@@ -635,14 +691,10 @@ function updatePopup(stepElement) {
     "[data-next-step-paragraph]"
   );
   const nextStepImgEl = nextStepEl.querySelector("[data-next-step-img]");
-  console.log('Element to update:', nextStepImgEl);  // Debug log here
 
   const nextStepBtnTextEl = nextStepEl.querySelector(
     "[data-next-step-btn-text]"
   );
-
-  console.log("Updating button text to:", stepElement.dataset.nextStepBtnText);  // Debug
-
 
   if (nextStepHeadingEl) {
     nextStepHeadingEl.textContent = stepElement.dataset.nextStepHeading;
@@ -662,52 +714,6 @@ function updatePopup(stepElement) {
   }
 }
 
-function updateMobileBundleStepInfo(stepElement) {
-  if (isMobile()) {
-    const mobileIndicator = document.querySelector(
-      "[bundle-mobile-indicator]"
-    );
-    const iconImgEl = mobileIndicator.querySelector("[data-step-icon-img]");
-    const locationEl = mobileIndicator.querySelector("[data-step-location]");
-
-    if (iconImgEl) {
-      iconImgEl.src = stepElement.dataset.stepIconImg;
-      iconImgEl.srcset = stepElement.dataset.stepIconImg;
-    }
-
-    if (locationEl) {
-      locationEl.textContent = stepElement.dataset.stepLocation;
-    }
-  }
-}
-
-function deactivatePrizeElements() {
-  const seaEl = document.querySelector("[sea-el]");
-  const skyEl = document.querySelector("[sky-el]");
-  const meadowEl = document.querySelector("[meadow-el]");
-
-  seaEl.classList.remove("is--active");
-  skyEl.classList.remove("is--active");
-  meadowEl.classList.remove("is--active");
-}
-
-function activatePrizes(step) {
-  const seaEl = document.querySelector("[sea-el]");
-  const skyEl = document.querySelector("[sky-el]");
-  const meadowEl = document.querySelector("[meadow-el]");
-
-  if (step === 2) {
-    products.classList.remove("is--active");
-    seaEl.classList.add("is--active");
-  } else if (step === 4) {
-    products.classList.remove("is--active");
-    skyEl.classList.add("is--active");
-  } else if (step === 6) {
-    products.classList.remove("is--active");
-    meadowEl.classList.add("is--active");
-  }
-}
-
 function afterTransitionUpdates(stepElement) {
   updatePopup(stepElement);
 }
@@ -724,7 +730,6 @@ function handlePopupBtnClick() {
 
   const stepElement = getCurrentStepData(currentStep);
   if (stepElement) {
-    console.log("handlePopupExit - stepElement found:", stepElement.dataset); // Debug
     updateProductArea(stepElement);
     updateMobileBundleStepInfo(stepElement);
     activatePrizes(currentStep);
@@ -748,10 +753,7 @@ function handlePopupBtnClick() {
   }
 }
 
-
 //// EVENT LISTENERSS ///////
-
-
 
   // NEXT STEP BTN
   document.querySelectorAll("[next-step-btn]").forEach((button) => {
@@ -765,7 +767,10 @@ function handlePopupBtnClick() {
     bundleGuide.classList.remove("is--active");
     updateProductArea(currentStep);
     updateMobileBundleStepInfo(currentStep);
+    
     editingStep = null;
+    console.log("currentStep after next step btn click", currentStep);
+
   });
 });
 
