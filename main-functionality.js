@@ -171,12 +171,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let currentStep = 0;
   let bundle = [];
-<<<<<<< HEAD
-  const changeBundleProductBtn = document.querySelectorAll("[change-btn]");
-  let editingStep = null; // Declare it at the beginning of your script
-  let activeStep = null;
-=======
->>>>>>> parent of d3953ac (Reordering)
 
 
   function getClosestProductBlock(element) {
