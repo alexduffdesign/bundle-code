@@ -170,8 +170,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
-
   ///////////////////////////////////// Bundle Functionality (add to bundle) ///////////////////////////////////////
 
   let currentStep = 0;
@@ -393,6 +391,7 @@ document.addEventListener("DOMContentLoaded", function () {
     );
     titleCoveredElements.forEach((element) => {
       element.classList.add("is--cleared");
+      element.querySelector(".bundle-product-text").style.opacity = 1;
     });
   }
 
@@ -486,7 +485,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Change Btn Gets is active for the index that was added
       changeBundleProductBtn[currentStep].classList.add("is--active");
-      
+
       // 4. Open next step popup
       openNextStepPopup();
     
