@@ -396,7 +396,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-
   // 5a. Update position of the indicator
   function updateIndicatorPosition(currentStep, totalSteps) {
     const indicatorThumbs = document.querySelectorAll(
@@ -415,15 +414,13 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-
   // 5b. Sets the is--selected class to the current step.
-
-function markCurrentStepAsSelected(stepItems) {
+  function markCurrentStepAsSelected(stepItems) {
   const currentBundleProductAdded = stepItems[currentStep].querySelector(
     "[bundle-product-added]"
   );
   currentBundleProductAdded?.classList.add("is--selected");
-}
+  }
 
   // 5c. Next step activated UI, bundle and map
   // -- (makes the image have a circle and adds the selected to the last steps image)
@@ -433,7 +430,7 @@ function markCurrentStepAsSelected(stepItems) {
       "[step-image]"
     );
 
-    currentStepImage?.classList.remove("is--active");
+    // currentStepImage?.classList.remove("is--active");
     currentStepImage?.classList.add("is--selected");
 
     // Next Step Bundle item gets and is--active
@@ -447,7 +444,7 @@ function markCurrentStepAsSelected(stepItems) {
     const nextStepImage = stepItems[currentStep + 1].querySelector(
       "[step-image]"
     );
-    nextStepImage?.classList.add("is--active");
+    nextStepImage?.classList.add("is--selected");
   }
 
     // ADD TO BUNDLE
@@ -536,7 +533,6 @@ function getCurrentStepData(currentStep) {
   const adjustedStep = currentStep + 1;
   return document.querySelector(`.step[data-step-name="${adjustedStep}"]`);
 }
-
 
 // Action Functions
 
@@ -754,7 +750,7 @@ function backToNoPopup() {
 
     const productAreaData = getCurrentStepData(currentStep);
     updateProductArea(productAreaData);
-    
+
     updateMobileBundleStepInfo(currentStep);
     activatePrizes(currentStep);
     backToNoPopup();
