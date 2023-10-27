@@ -171,6 +171,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let currentStep = 0;
   let bundle = [];
+      // Change Btn
+
+const changeBundleProductBtn = document.querySelectorAll("[change-btn]");
+let editingStep = null; // Declare it at the beginning of your script
   
 
 
@@ -399,61 +403,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
 
-  // Event listener for the "Add to Bundle" click action
-  document.addEventListener("click", function (e) {
-    if (!e.target.matches("[add-to-bundle]")) return;
-
-    const productBlocks = getClosestProductBlock(e.target);
-    animateAddedProductToCart(productBlocks);
-
-    productBlocks.forEach((productBlock, index) => {
-      const currentBundleItem = bundleStepsItems[currentStep];
-      if (!currentBundleItem) {
-        console.error("Exceeded available bundle items.");
-        return;
-      }
-
-      const targetBundleItem = editingStep !== null ? bundleStepsItems[editingStep - 1] : bundleStepsItems[currentStep];
-      populateCartWithProduct(targetBundleItem, productBlocks);
-      clearTitleOverlay(bundleStepsItems);
-      updateIndicatorPosition(currentStep, bundleStepsItems.length);
-      prepareNextStepUI(bundleStepsItems);
-      prepareNextStepUI(mapStepsItems);
-       // After all operations
-  
-      console.log(bundle);
-    });
-  });
-
-
-  // Change Btn
-
-const changeBundleProductBtn = document.querySelectorAll("[change-btn]");
-let editingStep = null; // Declare it at the beginning of your script
-
-
-changeBundleProductBtn.forEach((button) => {
-  button.addEventListener('click', function() {
-    console.log("Change button clicked!");
-    console.log("editing step", editingStep);
-
-    // Checking what step product they want to change
-    const stepValue = button.getAttribute('step');
-    console.log("Step Value:", stepValue);
-
-    editingStep = parseInt(stepValue, 10); 
-    console.log("Editing Step:", editingStep);
-
-
-    const stepNumber = parseInt(stepValue, 10) - 1;
-    console.log("step number", stepNumber);
-
-    // Updating the product area with that steps data
-    const stepData = getCurrentStepData(stepNumber);
-    updateProductArea(stepData);
-  })
-});
-
 
   // Utility Functions
 
@@ -468,9 +417,21 @@ function getCurrentStepData(currentStep) {
 }
 
 
-function isProductAddedForStep(step) {
-  return bundle.some(item => item.step === step);
+function isProductAddedForStep(cuttentStep) {
+  // Assuming step is the index or identifier for the bundle step
+  const stepElement = document.querySelector(`[data-step="${step}"]`);
+  
+  if (stepElement) {
+    const bundleStepsProductElement = stepElement.querySelector('.bundle_steps_product');
+    
+    if (bundleStepsProductElement) {
+      return bundleStepsProductElement.classList.contains('is--selected');
+    }
+  }
+
+  return false; // Return false if the step element or .bundle_steps_product element doesn't exist
 }
+
 
 // UI Update Functions
 // Update Product Area based on Step Data
@@ -756,7 +717,7 @@ function handlePopupBtnClick() {
   });
 });
 
-
+// Exit Pop Up
 document.querySelector("[popup-exit]").addEventListener("click", function () {
   popupBg.classList.remove("is--open");
   body.style.overflow = "auto";
