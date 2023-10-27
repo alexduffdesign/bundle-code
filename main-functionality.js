@@ -419,7 +419,7 @@ function getCurrentStepData(currentStep) {
 
 function isProductAddedForStep(currentStep) {
   // Assuming step is the index or identifier for the bundle step
-  const stepElement = document.querySelector(`[data-step="${currentStep}"]`);
+  const stepElement = document.querySelector(`[bundle-step="${currentStep}"]`);
   console.log("Step Found", stepElement);
   
   if (stepElement) {
