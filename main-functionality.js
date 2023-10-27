@@ -171,6 +171,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let currentStep = 0;
   let bundle = [];
+  const changeBundleProductBtn = document.querySelectorAll("[change-btn]");
+  let editingStep = null; // Declare it at the beginning of your script
 
 
   function getClosestProductBlock(element) {
@@ -322,7 +324,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (idEl) {
         const id = idEl.getAttribute("data-id");
         const idNumber = parseInt(id, 10);
-        let step = activeStep !== null ? activeStep : (currentStep + 1);
+        let step = editingStep !== null ? editingStep : (currentStep + 1);
     
         // Find the index of the step in the bundle array
         const stepIndex = bundle.findIndex((item) => item.step === step);
@@ -339,7 +341,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // 4. Remove the title cover
   function clearTitleOverlay(bundleStepsItems) {
-    const targetBundleItem = activeStep !== null ? bundleStepsItems[activeStep - 1] : bundleStepsItems[currentStep];
+    const targetBundleItem = editingStep !== null ? bundleStepsItems[editingStep - 1] : bundleStepsItems[currentStep];
     if (!targetBundleItem) return;
 
     const titleCoveredElements = targetBundleItem.querySelectorAll(
@@ -466,15 +468,10 @@ function getCurrentStepData(currentStep) {
   return document.querySelector(`.step[data-step-name="${adjustedStep}"]`);
 }
 
+
 function isProductAddedForStep(step) {
   return bundle.some(item => item.step === step);
 }
-
-function isPrizeStep(step) {
-  // Add your logic here to check if the step is a prize step.
-  return false; // default return value, update this.
-}
-
 
 // UI Update Functions
 // Update Product Area based on Step Data
@@ -691,17 +688,7 @@ function handlePopupBtnClick() {
   popupBg.classList.remove("is--open");
   body.style.overflow = "auto";
 
-  const stepElement = getCurrentStepData(activeStep !== null ? activeStep : currentStep);
-
-  if (activeStep !== null) {
-    // set the currentStep to the activeStep and reset activeStep
-    currentStep = activeStep;
-    activeStep = null;
-  } else if (!isProductAddedForStep(currentStep + 1)) {
-    // if a product hasn't been added for the current step yet
-    activeStep = currentStep + 1;
-  }
-  
+  const stepElement = getCurrentStepData(currentStep);
   if (stepElement) {
     console.log("handlePopupExit - stepElement found:", stepElement.dataset); // Debug
     updateProductArea(stepElement);
@@ -728,7 +715,35 @@ function handlePopupBtnClick() {
 }
 
 
-document.querySelectorAll("[next-step-btn]").forEach((button) => {
+//// EVENT LISTENERSS ///////
+
+  // ADD TO BUNDLE
+  document.addEventListener("click", function (e) {
+    if (!e.target.matches("[add-to-bundle]")) return;
+
+    const productBlocks = getClosestProductBlock(e.target);
+    animateAddedProductToCart(productBlocks);
+
+    productBlocks.forEach((productBlock, index) => {
+      const currentBundleItem = bundleStepsItems[currentStep];
+      if (!currentBundleItem) {
+        console.error("Exceeded available bundle items.");
+        return;
+      }
+
+      const targetBundleItem = editingStep !== null ? bundleStepsItems[editingStep - 1] : bundleStepsItems[currentStep];
+      populateCartWithProduct(targetBundleItem, productBlocks);
+      clearTitleOverlay(bundleStepsItems);
+      updateIndicatorPosition(currentStep, bundleStepsItems.length);
+      prepareNextStepUI(bundleStepsItems);
+      prepareNextStepUI(mapStepsItems);
+       // After all operations
+      console.log(bundle);
+    });
+  });
+
+  // NEXT STEP BTN
+  document.querySelectorAll("[next-step-btn]").forEach((button) => {
   button.addEventListener("click", function () {
     console.log('Before incrementing, currentStep:', currentStep, 'editingStep:', editingStep);
     if (isProductAddedForStep(currentStep + 1)) {
@@ -750,7 +765,28 @@ document.querySelector("[popup-exit]").addEventListener("click", function () {
   body.style.overflow = "auto";
   nextStepEl.classList.remove("is--open");
   bundleGuide.classList.add("is--active");
-});
+  });
+
+  // CHANGE BTN
+  changeBundleProductBtn.forEach((button) => {
+  button.addEventListener('click', function() {
+
+    // Checking what step product they want to change
+    const stepValue = button.getAttribute('step');
+
+    editingStep = parseInt(stepValue, 10); 
+    console.log("Editing Step Real Number:", editingStep);
+
+
+    const stepNumber = parseInt(stepValue, 10) - 1;
+    console.log("Editing JS number", stepNumber);
+
+    // Updating the product area with that steps data
+    const stepData = getCurrentStepData(stepNumber);
+    updateProductArea(stepData);
+  })
+  });
+
 
 // Initialize the initial step
 const initialStepElement = getCurrentStepData(0);
