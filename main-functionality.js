@@ -321,8 +321,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // 3. Add the product data to the bundle
   function populateBundleProduct(bundleItem, productBlocks) {
 
-    // Retrieve all [bundle-product] containers inside the current [bundle-item]
-    const productContainers = bundleItem.querySelectorAll("[bundle-product]");
+    const productContainers = getBundleProducts();
 
     // Convert productBlocks to array (in case it's a NodeList) for using forEach
     Array.from(productBlocks).forEach((productBlock, index) => {
