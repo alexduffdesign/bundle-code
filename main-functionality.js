@@ -226,8 +226,6 @@ document.addEventListener("DOMContentLoaded", function () {
       // If the editingStep is set (in edit mode), then we use that steps bundle-product as a target
       const bundleProducts = getBundleProductsInsideBundleItem();
 
-      console.log(bundleProductsInsideBundleItem);
-
       // Use the index to get the specific [bundle-product] for animation
       const targetElement = bundleProducts[index];
       const targetRect = targetElement.getBoundingClientRect();
@@ -321,7 +319,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // 3. Add the product data to the bundle
   function populateBundleProduct(bundleItem, productBlocks) {
 
-    const productContainers = getBundleProducts();
+    const productContainers = getBundleProductsInsideBundleItem();
 
     // Convert productBlocks to array (in case it's a NodeList) for using forEach
     Array.from(productBlocks).forEach((productBlock, index) => {
