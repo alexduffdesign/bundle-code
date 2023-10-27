@@ -446,7 +446,7 @@ document.addEventListener("DOMContentLoaded", function () {
       openNextStepPopup();
   
       // If in edit mode 
-      const targetBundleItem = getCurrentOrEditingBundleItem();
+      const targetBundleItem = editingStep !== null ? bundleStepsItems[editingStep - 1] : bundleStepsItems[currentStep];
       populateBundleProduct(targetBundleItem, productBlocks);
       clearTitleOverlay(bundleStepsItems);
 
@@ -454,6 +454,7 @@ document.addEventListener("DOMContentLoaded", function () {
         nextStepActivatedUi(bundleStepsItems);
         nextStepActivatedUi(mapStepsItems);
       }
+  
   
       if (isProductAddedForStep(currentStep)) {
         updateIndicatorPosition(currentStep, bundleStepsItems.length);
