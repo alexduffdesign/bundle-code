@@ -191,7 +191,6 @@ document.addEventListener("DOMContentLoaded", function () {
   body.style.overflow = "hidden";
   }
 
-
   function getClosestProductBlock(element) {
     const commonAncestor = element.closest("[find-product-block]");
     return commonAncestor
@@ -211,9 +210,20 @@ document.addEventListener("DOMContentLoaded", function () {
   return bundleItem.querySelectorAll("[bundle-product]");
   }
 
-  function getCurrentOrEditingBundleItem() {
-  const targetStep = editingStep !== null ? (editingStep - 1) : currentStep;
-  return bundleStepsItems[targetStep];
+  function isProductAddedForStep(currentStep) {
+    // Assuming step is the index or identifier for the bundle step
+    const stepElement = document.querySelector(`[bundle-step="${currentStep + 1}"]`);
+    console.log("Step Found", stepElement);
+    
+    if (stepElement) {
+      const bundleStepsProductElement = stepElement.querySelector('.bundle_steps_product');
+      
+      if (bundleStepsProductElement) {
+        return bundleStepsProductElement.classList.contains('is--selected');
+      }
+    }
+  
+    return false; // Return false if the step element or .bundle_steps_product element doesn't exist
   }
 
   // 2. Animate the product into the cart
@@ -464,14 +474,16 @@ function markCurrentStepAsSelected(stepItems) {
 
       }
 
+     const popupData = getCurrentStepData(currentStep);
+
       // If we're not in edit mode & the currentSteps product is added then we update the next step UI for bundle and map areas. 
       if (editingStep === null && isProductAddedForStep(currentStep)) {
         nextStepActivatedUi(bundleStepsItems);
         nextStepActivatedUi(mapStepsItems);
         updateIndicatorPosition(currentStep, bundleStepsItems.length);
-        updatePopup(currentStep);
+        updatePopup(popupData);
       } else if (!isProductAddedForStep(currentStep)) {
-        updatePopup(currentStep - 1);
+        updatePopup(popupData - 1);
       }
 
       // 4. Open next step popup
@@ -524,21 +536,6 @@ function getCurrentStepData(currentStep) {
   return document.querySelector(`.step[data-step-name="${adjustedStep}"]`);
 }
 
-function isProductAddedForStep(currentStep) {
-  // Assuming step is the index or identifier for the bundle step
-  const stepElement = document.querySelector(`[bundle-step="${currentStep + 1}"]`);
-  console.log("Step Found", stepElement);
-  
-  if (stepElement) {
-    const bundleStepsProductElement = stepElement.querySelector('.bundle_steps_product');
-    
-    if (bundleStepsProductElement) {
-      return bundleStepsProductElement.classList.contains('is--selected');
-    }
-  }
-
-  return false; // Return false if the step element or .bundle_steps_product element doesn't exist
-}
 
 // Action Functions
 
