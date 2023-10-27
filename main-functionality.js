@@ -195,11 +195,16 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function getBundleProductsInsideBundleItem() {
-    return bundleStepsItems[editingStep !== null ? (editingStep - 1) : currentStep].querySelectorAll("[bundle-product]");
-  }
 
-  getBundleProductsInsideBundleItem();
-  console.log("it works", getBundleProductsInsideBundleItem);
+  // depending on if we are in edit mode or not, get the step number 
+  const targetStep = editingStep !== null ? (editingStep - 1) : currentStep;
+
+  // get the index and find that bundle item of that index
+  const bundleItem = bundleStepsItems[targetStep];
+  
+  // get all the [bundle-product] inside that bundle item 
+  return bundleItem.querySelectorAll("[bundle-product]");
+  }
 
   // 2. Animate the product into the cart
   function animateAddedProductToCart(productBlocks) {
@@ -219,12 +224,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Retrieve all [bundle-product] inside the current [bundle-item]
       // If the editingStep is set (in edit mode), then we use that steps bundle-product as a target
-      const bundleProductsInsideBundleItem = bundleStepsItems[editingStep !== null ? (editingStep - 1) : currentStep].querySelectorAll("[bundle-product]");
+      const bundleProducts = getBundleProductsInsideBundleItem();
 
       console.log(bundleProductsInsideBundleItem);
 
       // Use the index to get the specific [bundle-product] for animation
-      const targetElement = bundleProductsInsideBundleItem[index];
+      const targetElement = bundleProducts[index];
       const targetRect = targetElement.getBoundingClientRect();
 
       console.log("Index:", index, "Target element:", targetElement);
