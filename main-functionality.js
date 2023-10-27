@@ -474,16 +474,17 @@ function markCurrentStepAsSelected(stepItems) {
 
       }
 
-     const popupData = getCurrentStepData(currentStep);
+     const popupDataCurrent = getCurrentStepData(currentStep);
+     const popupDataPast = getCurrentStepData(currentStep - 1);
 
       // If we're not in edit mode & the currentSteps product is added then we update the next step UI for bundle and map areas. 
       if (editingStep === null && isProductAddedForStep(currentStep)) {
         nextStepActivatedUi(bundleStepsItems);
         nextStepActivatedUi(mapStepsItems);
         updateIndicatorPosition(currentStep, bundleStepsItems.length);
-        updatePopup(popupData);
+        updatePopup(popupDataCurrent);
       } else if (!isProductAddedForStep(currentStep)) {
-        updatePopup(popupData - 1);
+        updatePopup(popupDataPast);
       }
 
       // 4. Open next step popup
