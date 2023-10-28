@@ -490,7 +490,8 @@ document.addEventListener("DOMContentLoaded", function () {
       changeBundleProductBtn[currentStep].classList.add("is--active");
 
       // 4. Open next step popup
-      openNextStepPopup();
+      
+      setTimeout(() => openNextStepPopup(), 640);
     
     });
 
