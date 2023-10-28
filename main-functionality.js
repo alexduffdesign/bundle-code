@@ -720,6 +720,12 @@ function updatePopup(stepElement) {
   if (nextStepBtnTextEl) {
     nextStepBtnTextEl.textContent = stepElement.dataset.nextStepBtnText;
   }
+
+  const productBgImgEl = products.querySelector("[data-step-bg-img]");
+
+  if (productBgImgEl) {
+    nextStepEl.style.backgroundImage = productBgImgEl;
+  }
 }
 
 // Main Functionality
