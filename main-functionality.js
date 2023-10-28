@@ -681,13 +681,13 @@ function updateProductArea(stepElement) {
 
 function updatePopup(stepElement) {
   
-  const nextStepColour = document.querySelector("[next-step-popup]");
+  const nextStepPopup = document.querySelector("[next-step-popup]");
 
-  nextStepColour?.style.setProperty(
+  nextStepPopup?.style.setProperty(
     "--popup-bg-color",
     stepElement.dataset.nextStepBgColour
   );
-  nextStepColour?.style.setProperty(
+  nextStepPopup?.style.setProperty(
     "--popup-text-color",
     stepElement.dataset.nextStepTextColour
   );
@@ -724,7 +724,7 @@ function updatePopup(stepElement) {
   const productBgImgEl = products.querySelector("[data-step-bg-img]");
 
   if (productBgImgEl) {
-    nextStepEl.style.backgroundImage = productBgImgEl;
+    nextStepPopup.style.backgroundImage = productBgImgEl;
   }
 }
 
