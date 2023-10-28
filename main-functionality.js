@@ -724,7 +724,8 @@ function updatePopup(stepElement) {
   const productBgImgEl = products.querySelector("[data-step-bg-img]");
 
   if (productBgImgEl) {
-    nextStepPopup.style.backgroundImage = productBgImgEl;
+    const bgImgUrl = productBgImgEl.getAttribute("data-step-bg-img");
+    nextStepPopup.style.backgroundImage = `url(${bgImgUrl})`;
   }
 }
 
