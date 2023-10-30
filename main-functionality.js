@@ -491,7 +491,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // 4. Open next step popup
       
-      setTimeout(() => openNextStepPopup(), 820);
+      setTimeout(() => openNextStepPopup(), 720);
     
     });
 
