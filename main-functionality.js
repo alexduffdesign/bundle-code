@@ -722,7 +722,7 @@ function updatePopup(stepElement) {
   }
 
   const nextStepElement = getCurrentStepData(currentStep + 1);
-  const nextStepBgImageEl = querySelector('[data-next-step-bg-img]');
+  const nextStepBgImageEl = document.querySelector('[data-next-step-bg-img]');
   
   if (nextStepBgImageEl) {
   nextStepBgImageEl.src = nextStepElement.dataset.stepBgImg;
