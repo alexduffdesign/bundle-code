@@ -721,10 +721,13 @@ function updatePopup(stepElement) {
     nextStepBtnTextEl.textContent = stepElement.dataset.nextStepBtnText;
   }
 
-  const productBgImgEl = products.querySelector("[data-step-bg-img]");
+  const nextStepElement = getCurrentStepData(currentStep + 1);
 
-  if (productBgImgEl) {
-    nextStepPopup.style.backgroundImage = `url(${stepElement.dataset.stepBgImg})`;
+  if (nextStepElement) {
+    const nextStepImage = nextStepElement.dataset.stepBgImg;
+    if (nextStepImage) {
+      nextStepPopup.style.backgroundImage = `url(${nextStepImage})`;
+    }
   }
 }
 
