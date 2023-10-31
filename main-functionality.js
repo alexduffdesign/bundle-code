@@ -722,13 +722,11 @@ function updatePopup(stepElement) {
   }
 
   const productBgImgEl = products.querySelector("[data-step-bg-img]");
-  console.log(productBgImgEl);
 
   if (productBgImgEl) {
     const bgImgUrl = productBgImgEl.getAttribute("data-step-bg-img");
-    console.log('productBgImgEl: ', productBgImgEl);
+    console.log("background image url", bgImgUrl);
     nextStepPopup.style.backgroundImage = `url(${bgImgUrl})`;
-    console.log('nextStepPopup: ', nextStepPopup);
   }
 }
 
