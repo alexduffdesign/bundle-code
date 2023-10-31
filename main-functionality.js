@@ -722,12 +722,11 @@ function updatePopup(stepElement) {
   }
 
   const nextStepElement = getCurrentStepData(currentStep + 1);
-
-  if (nextStepElement) {
-    const nextStepImage = nextStepElement.dataset.stepBgImg;
-    if (nextStepImage) {
-      nextStepPopup.style.backgroundImage = `url(${nextStepImage})`;
-    }
+  const nextStepBgImageEl = querySelector('[data-next-step-bg-img]');
+  
+  if (nextStepBgImageEl) {
+  nextStepBgImageEl.src = nextStepElement.dataset.stepBgImg;
+  nextStepBgImageEl.srcset = nextStepElement.dataset.stepBgImg;
   }
 }
 
