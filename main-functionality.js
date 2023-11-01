@@ -722,16 +722,9 @@ function updatePopup(stepElement) {
   }
 
   const nextStepElement = getCurrentStepData(currentStep + 1);
-  console.log("Next Step Element:", nextStepElement);
   
-  const nextStepBgImageEl = document.querySelector('[data-next-step-bg-img]');
-  console.log("Next Step Background Image Element:", nextStepBgImageEl);
-  
-  if (nextStepBgImageEl && nextStepElement) {
-    console.log("Next Step Background Image URL:", nextStepElement.dataset.stepBgImg);
-    nextStepBgImageEl.style.backgroundImage = `url(${nextStepElement.dataset.stepBgImg})`;
-  } else {
-    console.log("Either nextStepBgImageEl or nextStepElement is not available.");
+  if (nextStepPopup) {
+  nextStepPopup.style.backgroundImage = `url(${nextStepElement.dataset.stepBgImg})`;
   }
 }
 
