@@ -729,29 +729,23 @@ function updatePopup(stepElement) {
 
   let stepData;
 
-// Determine which stepData to use
-if (editingStep !== null && !isProductAddedForStep(currentStep)) {
-  // If in edit mode and no product is added for the current step, use the current step
-  stepData = getCurrentStepData(currentStep);
-} else if (isProductAddedForStep(currentStep)) {
-  // If a product is added for the current step, use the next step
-  stepData = getCurrentStepData(currentStep + 1);
-} else {
-  // Otherwise, use the next step
-  stepData = getCurrentStepData(currentStep + 1);
-}
+  // Determine which stepData to use
+  if (editingStep !== null && !isProductAddedForStep(currentStep)) {
+    // If in edit mode and no product is added for the current step, use the current step
+    stepData = getCurrentStepData(currentStep);
+  } else if (isProductAddedForStep(currentStep)) {
+    // If a product is added for the current step, use the next step
+    stepData = getCurrentStepData(currentStep + 1);
+  } else {
+    // Otherwise, use the next step
+    stepData = getCurrentStepData(currentStep + 1);
+  }
 
 // Update the popup background
 if (nextStepPopup && stepData) {
   nextStepPopup.style.background = `linear-gradient(to bottom, var(--popup-bg-color) 45%, transparent), url(${stepData.dataset.stepBgImg}) 50% / cover no-repeat`;
 }
 
-
-  // const nextStepElement = getCurrentStepData(currentStep + 1);
-  
-  // if (nextStepPopup) {
-  //   nextStepPopup.style.background = `linear-gradient(to bottom, var(--popup-bg-color) 45%, transparent), url(${nextStepElement.dataset.stepBgImg}) 50% / cover no-repeat`;
-  // }
 }
 
 // Main Functionality
