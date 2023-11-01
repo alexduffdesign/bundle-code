@@ -741,10 +741,10 @@ function updatePopup(stepElement) {
     stepData = getCurrentStepData(currentStep + 1);
   }
 
-// Update the popup background
-if (nextStepPopup && stepData) {
-  nextStepPopup.style.background = `linear-gradient(to bottom, var(--popup-bg-color) 45%, transparent), url(${stepData.dataset.stepBgImg}) 50% / cover no-repeat`;
-}
+  // Update the popup background
+  if (nextStepPopup && stepData) {
+    nextStepPopup.style.background = `linear-gradient(to bottom, var(--popup-bg-color) 45%, transparent), url(${stepData.dataset.stepBgImg}) 50% / cover no-repeat`;
+  }
 
 }
 
