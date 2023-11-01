@@ -189,6 +189,12 @@ document.addEventListener("DOMContentLoaded", function () {
   body.style.overflow = "hidden";
   }
 
+  function closeNextStepPopup() {
+  popupBg.classList.remove("is--open");
+  body.style.overflow = "auto";
+  nextStepEl.classList.remove("is--open");
+  }
+
   function getClosestProductBlock(element) {
     const commonAncestor = element.closest("[find-product-block]");
     return commonAncestor
@@ -789,15 +795,16 @@ function backToNoPopup() {
 
 // Exit Pop Up
 document.querySelector("[popup-exit]").addEventListener("click", function () {
-  popupBg.classList.remove("is--open");
-  body.style.overflow = "auto";
-  nextStepEl.classList.remove("is--open");
+  closeNextStepPopup();
   bundleGuide.classList.add("is--active");
   });
 
   // CHANGE BTN
   changeBundleProductBtn.forEach((button) => {
   button.addEventListener('click', function() {
+
+    // Close popup if it's open 
+    closeNextStepPopup();
 
     // Checking what step product they want to change
     const stepValue = button.getAttribute('step');
@@ -808,6 +815,12 @@ document.querySelector("[popup-exit]").addEventListener("click", function () {
 
     const stepNumber = parseInt(stepValue, 10) - 1;
     console.log("Editing JS number", stepNumber);
+
+    // Deactivate any active prize elements and show the products
+    if (isPrizeStep(currentStep)) {
+      deactivatePrizeElements();
+      products.classList.add("is--active");
+    }
 
     // Updating the product area with that steps data
     const stepData = getCurrentStepData(stepNumber);
