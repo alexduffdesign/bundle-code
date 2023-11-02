@@ -267,14 +267,27 @@ document.addEventListener("DOMContentLoaded", function () {
       updateUIForEditMode(stepIndex);
     }
 
-    function removeProduct() { 
+    function removeProduct(stepToRemove) { 
+      // Logic to identify the step and remove the product from the array
+      state.bundle = state.bundle.filter(product => product.step < stepToRemove);
+  
+      // Set the current step to the one that had the product removed
+      state.currentStep = stepToRemove;
+
+      // Hide the popup if it's visible
+      closeNextStepPopup();
+
+      const stepItems = getStepItems(state.currentStep); // This is a placeholder function
+      const stepElement = getStepElement(state.currentStep); // This is a placeholder function
+
+     updateUIforRemoveProduct(state.currentStep, stepItems, stepElement);
+
     }
   
 
 
     //// Update UI based on actions functions
 
-    // Calls all the UI update functions after a product is added
     function updateUIAfterProductAdded(productBlocks) {
       
       animateAddedProductToCart(productBlocks);
@@ -292,7 +305,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (state.editingStep === null && isProductAddedForStep(state.currentStep)) {
         nextStepActivatedUi(bundleStepsItems);
         nextStepActivatedUi(mapStepsItems);
-        updateIndicatorPosition(state.currentStep, bundleStepsItems.length);
+        updateIndicatorPosition(state.currentStep + 1, bundleStepsItems.length);
         updatePopup(popupDataCurrent);
       } else if (!isProductAddedForStep(state.currentStep)) {
         updatePopup(popupDataPast);
@@ -304,7 +317,7 @@ document.addEventListener("DOMContentLoaded", function () {
       setTimeout(() => openNextStepPopup(), 720);
     }
 
-    // Calls all the updates
+
     function updateUIAfterMoveToNextStep() {
       // Update the step images for bundle and map areas
       updateStepImage(bundleStepsItems);
@@ -325,7 +338,7 @@ document.addEventListener("DOMContentLoaded", function () {
       backToNoPopup();
     }
 
-    // Updates UI for edit mode
+
     function updateUIForEditMode(stepIndex) {
       // Deactivate any active prize elements and show the products if necessary
       if (isPrizeStep(state.currentStep)) {
@@ -341,10 +354,40 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+    function updateUIforRemoveProduct(currentStep, stepItems, stepElement) {
+      
+      // Update the indicator position
+      updateIndicatorPosition(currentStep - 1, totalSteps);
+    
+      // Update the step image for the bundle and map
+      updateStepImage(stepItems);
+    
+      // Update the mobile bundle step information
+      updateMobileBundleStepInfo(stepElement);
+    
+      // Update the product area to reflect the current step
+      updateProductArea(stepElement);
+    
+      // Update the popup data for the current step
+      updatePopup(stepElement);
+
+
+      // ❌ Not created yet // 
+      // Remove the is--selected class from the step and any steps completed after it
+      deselectCompletedSteps(currentStep);
+    
+      // Remove the is--active class from any bundle-item completed after the current step
+      deactivateSubsequentBundleItems(currentStep);
+    
+      // Reset the product data of the deleted product and any added after it (excluding discount prize)
+      resetProductData(currentStep);
+    }
+
+
     //// Event listeners
 
     // [add-to-bundle] button
-    document.addEventListener("click", function (e) {
+      document.addEventListener("click", function (e) {
       if (!e.target.matches("[add-to-bundle]")) return;
       const productBlocks = getClosestProductBlock(e.target);
       addProductToBundle(productBlocks);
@@ -367,6 +410,14 @@ document.addEventListener("DOMContentLoaded", function () {
       document.querySelector("[popup-exit]").addEventListener("click", function () {
         closeNextStepPopup();
         dontMoveToNextStep();
+      });
+
+      // [remove-product] button
+      removeBundleProductBtn.forEach((button) => {
+        button.addEventListener('click', function(event) {
+          const stepToRemove = parseInt(event.target.dataset.step, 10);
+          removeProduct(stepToRemove);
+        })
       });
 
 
@@ -596,7 +647,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const indicatorThumbs = document.querySelectorAll(
         ".bundle_indicator-thumb"
       );
-      const stepPercentage = ((state.currentStep + 1) / totalSteps) * 100 + 10;
+      const stepPercentage = ((currentStep) / totalSteps) * 100 + 10;
   
       indicatorThumbs.forEach((indicatorThumb) => {
         if (indicatorThumb.classList.contains("is--map")) {
