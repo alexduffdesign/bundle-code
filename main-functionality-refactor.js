@@ -257,7 +257,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
       // Calculate the zero-based index for JS array access
       const stepIndex = state.editingStep - 1;
-      console.log("Editing JS number", stepIndex);
+      console.log("Step Index", stepIndex);
 
       // Update the UI to reflect the editing mode state
       updateUIForEditMode(stepIndex);
@@ -360,6 +360,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Update the product area with data from the step being edited
       const stepData = getCurrentStepData(stepIndex);
       console.log(stepData);
+
       updateProductArea(stepData);
     }
 
