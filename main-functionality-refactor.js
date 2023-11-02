@@ -270,7 +270,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function removeProduct(stepToRemove) { 
       // Logic to identify the step and remove the product from the array
       state.bundle = state.bundle.filter(product => product.step < stepToRemove);
-  
+      console.log("Checking Bundle To See If ID removed", state.bundle);
       // Set the current step to the one that had the product removed
       state.currentStep = stepToRemove;
 
@@ -361,7 +361,7 @@ document.addEventListener("DOMContentLoaded", function () {
         products.classList.add("is--active");
       }
 
-      // Update the indicator position
+      // Update the indicator position ✅
       updateIndicatorPosition(currentStep - 1, bundleStepsItems.length);
     
       // 🕵️‍♀️ Investigate this a bit more
@@ -376,10 +376,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
       updateMobileBundleStepInfo(dataForCurrentStep);
     
-      // Update the product area to reflect the current step
+      // Update the product area to reflect the current step ✅
       updateProductArea(dataForCurrentStep);
     
-      // Update the popup data for the current step
+      // Update the popup data for the current step 
       updatePopup(dataForCurrentStep);
 
 
