@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const bundleOverflow = document.querySelector(".bundle_overflow");
     const bundleGuide = document.querySelector("[bundle-guide]");
     const changeBundleProductBtn = document.querySelectorAll("[change-btn]");
-    const removeBundleProductBtn = documeent.querySelectorAll("[remove-product]");
+    const removeBundleProductBtn = document.querySelectorAll("[remove-product]");
 
   
   
