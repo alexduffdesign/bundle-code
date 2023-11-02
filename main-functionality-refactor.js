@@ -175,7 +175,21 @@ document.addEventListener("DOMContentLoaded", function () {
     ///////////////////////////////////// Bundle Functionality (add to bundle) ///////////////////////////////////////
   
 
-    // State Machine
+    //// Inicail States
+
+    function initialSetup() {
+      const initialStepElement = getCurrentStepData(0);
+      if (initialStepElement) {
+        updatePopup(initialStepElement);  // Debug log
+        updateProductArea(initialStepElement);
+        updateMobileBundleStepInfo(initialStepElement);
+      }
+    }
+
+    initialSetup();
+
+
+    //// State Machine
 
     const state = {
       currentStep: 0,
@@ -188,7 +202,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
 
-    // Actions
+    //// Actions
 
     function addProductToBundle(productBlocks) {
      
@@ -253,7 +267,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    // Event listeners
+    //// Event listeners
 
     // [add-to-bundle] button
     document.addEventListener("click", function (e) {
@@ -279,12 +293,81 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector("[popup-exit]").addEventListener("click", function () {
       closeNextStepPopup();
       dontMoveToNextStep();
-      });
+    });
   
 
 
+    //// UI update functions   
 
-   // Utility for opening the next step popup
+    // Calls all the UI update functions after a product is added
+    function updateUIAfterProductAdded(productBlocks) {
+      
+      animateAddedProductToCart(productBlocks);
+      populateBundleProduct(productBlocks); 
+      clearTitleOverlay(bundleStepsItems);
+    
+      if (state.editingStep === null) {
+        markCurrentStepAsSelected(bundleStepsItems);
+        markCurrentStepAsSelected(mapStepsItems);
+      }
+    
+      const popupDataCurrent = getCurrentStepData(state.currentStep);
+      const popupDataPast = getCurrentStepData(state.currentStep - 1);
+    
+      if (state.editingStep === null && isProductAddedForStep(state.currentStep)) {
+        nextStepActivatedUi(bundleStepsItems);
+        nextStepActivatedUi(mapStepsItems);
+        updateIndicatorPosition(state.currentStep, bundleStepsItems.length);
+        updatePopup(popupDataCurrent);
+      } else if (!isProductAddedForStep(state.currentStep)) {
+        updatePopup(popupDataPast);
+      }
+    
+      changeBundleProductBtn[state.currentStep].classList.add("is--active");
+
+      setTimeout(() => openNextStepPopup(), 720);
+    }
+
+    // Calls all the updates
+    function updateUIAfterMoveToNextStep() {
+      // Update the step images for bundle and map areas
+      updateStepImage(bundleStepsItems);
+      updateStepImage(mapStepsItems);
+    
+      // Update mobile bundle step info
+      const dataForCurrentStep = getCurrentStepData(state.currentStep);
+      updateMobileBundleStepInfo(dataForCurrentStep);
+    
+      // Update the product area 
+      const productAreaData = getCurrentStepData(state.currentStep);
+      updateProductArea(productAreaData);
+    
+      // Remove active state from the bundle guide
+      bundleGuide.classList.remove("is--active");
+    
+      // Reset UI to no-popup state
+      backToNoPopup();
+    }
+
+    // Updates UI for edit mode
+    function updateUIForEditMode(stepIndex) {
+      // Deactivate any active prize elements and show the products if necessary
+      if (isPrizeStep(state.currentStep)) {
+        deactivatePrizeElements();
+        products.classList.add("is--active");
+      }
+    
+      // Update the product area with data from the step being edited
+      const stepData = getCurrentStepData(stepIndex);
+      updateProductArea(stepData);
+    }
+
+
+
+    //////////// FUNCTIONS ////////////////
+
+
+    // Utility for opening the next step popup
     function openNextStepPopup() {
     // Next step popup comes in
     nextStepEl.classList.add("is--open");
@@ -334,7 +417,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   
     
-    // logic //
+    // logic function
     function addProductID(productBlock, index, step) {
       const idEl = productBlock.querySelector("[data-id]");
       if (idEl) {
@@ -617,366 +700,218 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-    /// Calls all the UI update functions after a product is added
-    function updateUIAfterProductAdded(productBlocks) {
-      
-      animateAddedProductToCart(productBlocks);
-      populateBundleProduct(productBlocks); 
-      clearTitleOverlay(bundleStepsItems);
+///////////////////////////////////// Bundle Functionality (Next step click) ///////////////////////////////////////
+  
+
+    // Utility Functions (mainly used for next step click)
     
-      if (state.editingStep === null) {
-        markCurrentStepAsSelected(bundleStepsItems);
-        markCurrentStepAsSelected(mapStepsItems);
+    function isPrizeStep(step) {
+      const prizeSteps = [2, 4, 6];
+      return prizeSteps.includes(step);
+    }
+    
+    function deactivatePrizeElements() {
+      const seaEl = document.querySelector("[sea-el]");
+      const skyEl = document.querySelector("[sky-el]");
+      const meadowEl = document.querySelector("[meadow-el]");
+    
+      seaEl.classList.remove("is--active");
+      skyEl.classList.remove("is--active");
+      meadowEl.classList.remove("is--active");
+    }
+    
+    function activatePrizes(step) {
+      const seaEl = document.querySelector("[sea-el]");
+      const skyEl = document.querySelector("[sky-el]");
+      const meadowEl = document.querySelector("[meadow-el]");
+    
+      if (step === 2) {
+        products.classList.remove("is--active");
+        seaEl.classList.add("is--active");
+      } else if (step === 4) {
+        products.classList.remove("is--active");
+        skyEl.classList.add("is--active");
+      } else if (step === 6) {
+        products.classList.remove("is--active");
+        meadowEl.classList.add("is--active");
+      }
+    }
+    
+    function getCurrentStepData(currentStep) {
+      // Finds the current steps data from the .step attributes
+      const adjustedStep = state.currentStep + 1;
+      return document.querySelector(`.step[data-step-name="${adjustedStep}"]`);
+    }
+
+    
+    // UI Functions (mainly for next step click)
+
+    function updateStepImage(stepItems) {
+    
+      const currentStepImage = stepItems[state.currentStep].querySelector(
+        "[step-image]"
+      );
+    
+      // currentStepImage?.classList.remove("is--active");
+      currentStepImage?.classList.add("is--active");
+    
+      // Previous Bundle Image Gets is--active - Removed
+      const previousStepImage = stepItems[state.currentStep - 1].querySelector(
+        "[step-image]"
+      );
+      previousStepImage?.classList.remove("is--active");
+    }
+    
+    function updateMobileBundleStepInfo(stepElement) {
+      if (isMobile()) {
+        const mobileIndicator = document.querySelector(
+          "[bundle-mobile-indicator]"
+        );
+        const iconImgEl = mobileIndicator.querySelector("[data-step-icon-img]");
+        const locationEl = mobileIndicator.querySelector("[data-step-location]");
+    
+        if (iconImgEl) {
+          iconImgEl.src = stepElement.dataset.stepIconImg;
+          iconImgEl.srcset = stepElement.dataset.stepIconImg;
+        }
+    
+        if (locationEl) {
+          locationEl.textContent = stepElement.dataset.stepLocation;
+        }
+      }
+    }
+    
+    function updateProductArea(stepElement) {
+      if (stepElement.dataset.stepPrize !== "true") {
+        // Get the target elements inside the products area
+        const productImgEl = products.querySelector("[data-step-img]");
+        const productLocationEl = products.querySelector("[data-step-location]");
+        const productBgImgEl = products.querySelector("[data-step-bg-img]");
+        const productHeadingEl = products.querySelector("[data-step-heading]");
+        const productParagraphEl = products.querySelector(
+          "[data-step-paragraph]"
+        );
+        const bannerElement = products.querySelector("[banner]");
+        const nextStepCharacterEl = products.querySelector(
+          "[data-step-character]"
+        );
+        console.log(nextStepCharacterEl);
+    
+        if (nextStepCharacterEl) {
+          nextStepCharacterEl.src = stepElement.dataset.stepCharacter;
+          nextStepCharacterEl.srcset = stepElement.dataset.stepCharacter;
+        }
+    
+        if (bannerElement) {
+          if (stepElement.dataset.stepBannerBgColour) {
+            bannerElement.style.setProperty(
+              "--banner-bg-color",
+              stepElement.dataset.stepBannerBgColour
+            );
+          }
+          if (stepElement.dataset.stepBannerColour) {
+            bannerElement.style.setProperty(
+              "--banner-color",
+              stepElement.dataset.stepBannerColour
+            );
+          }
+        }
+    
+        if (bannerElement) {
+          if (stepElement.dataset.stepBannerBtnIdleBgColour) {
+            bannerElement.style.setProperty(
+              "--banner-btn-idle-bg-color",
+              stepElement.dataset.stepBannerBtnIdleBgColour
+            );
+          }
+          if (stepElement.dataset.stepBannerBtnActiveBgColour) {
+            bannerElement.style.setProperty(
+              "--banner-btn-active-bg-color",
+              stepElement.dataset.stepBannerBtnActiveBgColour
+            );
+          }
+          if (stepElement.dataset.stepBannerBtnIdleTextColour) {
+            bannerElement.style.setProperty(
+              "--banner-btn-idle-text-color",
+              stepElement.dataset.stepBannerBtnIdleTextColour
+            );
+          }
+          if (stepElement.dataset.stepBannerBtnActiveTextColour) {
+            bannerElement.style.setProperty(
+              "--banner-btn-active-text-color",
+              stepElement.dataset.stepBannerBtnActiveTextColour
+            );
+          }
+        }
+    
+        bundleGuide.style.setProperty(
+          "--banner-btn-active-text-color",
+          stepElement.dataset.stepBannerBtnActiveTextColour
+        );
+    
+        bundleGuide.style.setProperty(
+          "--banner-btn-active-bg-color",
+          stepElement.dataset.stepBannerBtnActiveBgColour
+        );
+    
+    
+        // Background and text colors would be applied directly to the `products` element
+        const productBgColour = stepElement.dataset.stepBgColour;
+    
+        if (productBgColour) {
+          products.style.backgroundColor = productBgColour;
+        }
+    
+        // Update the properties of the target elements
+        if (productImgEl) {
+          productImgEl.src = stepElement.dataset.stepImg;
+          productImgEl.srcset = stepElement.dataset.stepImg;
+        }
+    
+        if (productLocationEl) {
+          productLocationEl.textContent = stepElement.dataset.stepLocation;
+        }
+    
+        if (productBgImgEl) {
+          productBgImgEl.src = stepElement.dataset.stepBgImg;
+          productBgImgEl.srcset = stepElement.dataset.stepBgImg;
+        }
+    
+        if (productHeadingEl) {
+          productHeadingEl.textContent = stepElement.dataset.stepHeading;
+        }
+    
+        if (productParagraphEl) {
+          productParagraphEl.textContent = stepElement.dataset.stepParagraph;
+        }
+      }
+    }
+
+    // Main logic
+    function handlePopupBtnClick() {
+      nextStepEl.classList.remove("is--open");
+      if (isPrizeStep(state.currentStep - 1)) {
+        products.classList.add("is--active");
+        deactivatePrizeElements();
+      }
+      popupBg.classList.remove("is--open");
+      body.style.overflow = "auto";
+    }
+    
+    function backToNoPopup() {
+      const initialState = [
+        [bundleComponent, { opacity: 1 }, { duration: 0.3 }],
+        [".bundle_map-wrap", { opacity: 1 }, { duration: 0.3, at: "<" }]
+      ];
+      Motion.timeline(initialState);
+    
+      // Scroll to the top
+      const topElement = document.getElementById("top");
+      if (topElement) {
+        topElement.scrollIntoView({ behavior: "smooth" });
       }
     
-      const popupDataCurrent = getCurrentStepData(state.currentStep);
-      const popupDataPast = getCurrentStepData(state.currentStep - 1);
-    
-      if (state.editingStep === null && isProductAddedForStep(state.currentStep)) {
-        nextStepActivatedUi(bundleStepsItems);
-        nextStepActivatedUi(mapStepsItems);
-        updateIndicatorPosition(state.currentStep, bundleStepsItems.length);
-        updatePopup(popupDataCurrent);
-      } else if (!isProductAddedForStep(state.currentStep)) {
-        updatePopup(popupDataPast);
-      }
-    
-      changeBundleProductBtn[state.currentStep].classList.add("is--active");
-
-      setTimeout(() => openNextStepPopup(), 720);
     }
-  
-
-
-  
-   ///////////////////////////////////// Bundle Functionality (Next step click) ///////////////////////////////////////
-  
-
-  // Utility Functions
-  
-  function isPrizeStep(step) {
-    const prizeSteps = [2, 4, 6];
-    return prizeSteps.includes(step);
-  }
-  
-  function deactivatePrizeElements() {
-    const seaEl = document.querySelector("[sea-el]");
-    const skyEl = document.querySelector("[sky-el]");
-    const meadowEl = document.querySelector("[meadow-el]");
-  
-    seaEl.classList.remove("is--active");
-    skyEl.classList.remove("is--active");
-    meadowEl.classList.remove("is--active");
-  }
-  
-  function activatePrizes(step) {
-    const seaEl = document.querySelector("[sea-el]");
-    const skyEl = document.querySelector("[sky-el]");
-    const meadowEl = document.querySelector("[meadow-el]");
-  
-    if (step === 2) {
-      products.classList.remove("is--active");
-      seaEl.classList.add("is--active");
-    } else if (step === 4) {
-      products.classList.remove("is--active");
-      skyEl.classList.add("is--active");
-    } else if (step === 6) {
-      products.classList.remove("is--active");
-      meadowEl.classList.add("is--active");
-    }
-  }
-  
-  function getCurrentStepData(currentStep) {
-    // Finds the current steps data from the .step attributes
-    const adjustedStep = state.currentStep + 1;
-    return document.querySelector(`.step[data-step-name="${adjustedStep}"]`);
-  }
-
-  
-  // UI Functions (mainly for next step click)
-
-  function updateStepImage(stepItems) {
-  
-    const currentStepImage = stepItems[state.currentStep].querySelector(
-      "[step-image]"
-    );
-  
-    // currentStepImage?.classList.remove("is--active");
-    currentStepImage?.classList.add("is--active");
-  
-    // Previous Bundle Image Gets is--active - Removed
-    const previousStepImage = stepItems[state.currentStep - 1].querySelector(
-      "[step-image]"
-    );
-    previousStepImage?.classList.remove("is--active");
-  }
-  
-  function updateMobileBundleStepInfo(stepElement) {
-    if (isMobile()) {
-      const mobileIndicator = document.querySelector(
-        "[bundle-mobile-indicator]"
-      );
-      const iconImgEl = mobileIndicator.querySelector("[data-step-icon-img]");
-      const locationEl = mobileIndicator.querySelector("[data-step-location]");
-  
-      if (iconImgEl) {
-        iconImgEl.src = stepElement.dataset.stepIconImg;
-        iconImgEl.srcset = stepElement.dataset.stepIconImg;
-      }
-  
-      if (locationEl) {
-        locationEl.textContent = stepElement.dataset.stepLocation;
-      }
-    }
-  }
-  
-  function updateProductArea(stepElement) {
-    if (stepElement.dataset.stepPrize !== "true") {
-      // Get the target elements inside the products area
-      const productImgEl = products.querySelector("[data-step-img]");
-      const productLocationEl = products.querySelector("[data-step-location]");
-      const productBgImgEl = products.querySelector("[data-step-bg-img]");
-      const productHeadingEl = products.querySelector("[data-step-heading]");
-      const productParagraphEl = products.querySelector(
-        "[data-step-paragraph]"
-      );
-      const bannerElement = products.querySelector("[banner]");
-      const nextStepCharacterEl = products.querySelector(
-        "[data-step-character]"
-      );
-      console.log(nextStepCharacterEl);
-  
-      if (nextStepCharacterEl) {
-        nextStepCharacterEl.src = stepElement.dataset.stepCharacter;
-        nextStepCharacterEl.srcset = stepElement.dataset.stepCharacter;
-      }
-  
-      if (bannerElement) {
-        if (stepElement.dataset.stepBannerBgColour) {
-          bannerElement.style.setProperty(
-            "--banner-bg-color",
-            stepElement.dataset.stepBannerBgColour
-          );
-        }
-        if (stepElement.dataset.stepBannerColour) {
-          bannerElement.style.setProperty(
-            "--banner-color",
-            stepElement.dataset.stepBannerColour
-          );
-        }
-      }
-  
-      if (bannerElement) {
-        if (stepElement.dataset.stepBannerBtnIdleBgColour) {
-          bannerElement.style.setProperty(
-            "--banner-btn-idle-bg-color",
-            stepElement.dataset.stepBannerBtnIdleBgColour
-          );
-        }
-        if (stepElement.dataset.stepBannerBtnActiveBgColour) {
-          bannerElement.style.setProperty(
-            "--banner-btn-active-bg-color",
-            stepElement.dataset.stepBannerBtnActiveBgColour
-          );
-        }
-        if (stepElement.dataset.stepBannerBtnIdleTextColour) {
-          bannerElement.style.setProperty(
-            "--banner-btn-idle-text-color",
-            stepElement.dataset.stepBannerBtnIdleTextColour
-          );
-        }
-        if (stepElement.dataset.stepBannerBtnActiveTextColour) {
-          bannerElement.style.setProperty(
-            "--banner-btn-active-text-color",
-            stepElement.dataset.stepBannerBtnActiveTextColour
-          );
-        }
-      }
-  
-      bundleGuide.style.setProperty(
-        "--banner-btn-active-text-color",
-        stepElement.dataset.stepBannerBtnActiveTextColour
-      );
-  
-      bundleGuide.style.setProperty(
-        "--banner-btn-active-bg-color",
-        stepElement.dataset.stepBannerBtnActiveBgColour
-      );
-  
-  
-      // Background and text colors would be applied directly to the `products` element
-      const productBgColour = stepElement.dataset.stepBgColour;
-  
-      if (productBgColour) {
-        products.style.backgroundColor = productBgColour;
-      }
-  
-      // Update the properties of the target elements
-      if (productImgEl) {
-        productImgEl.src = stepElement.dataset.stepImg;
-        productImgEl.srcset = stepElement.dataset.stepImg;
-      }
-  
-      if (productLocationEl) {
-        productLocationEl.textContent = stepElement.dataset.stepLocation;
-      }
-  
-      if (productBgImgEl) {
-        productBgImgEl.src = stepElement.dataset.stepBgImg;
-        productBgImgEl.srcset = stepElement.dataset.stepBgImg;
-      }
-  
-      if (productHeadingEl) {
-        productHeadingEl.textContent = stepElement.dataset.stepHeading;
-      }
-  
-      if (productParagraphEl) {
-        productParagraphEl.textContent = stepElement.dataset.stepParagraph;
-      }
-    }
-  }
-  
-  // Main Functionality
-  function handlePopupBtnClick() {
-    nextStepEl.classList.remove("is--open");
-    if (isPrizeStep(state.currentStep - 1)) {
-      products.classList.add("is--active");
-      deactivatePrizeElements();
-    }
-    popupBg.classList.remove("is--open");
-    body.style.overflow = "auto";
-  }
-  
-  function backToNoPopup() {
-    const initialState = [
-      [bundleComponent, { opacity: 1 }, { duration: 0.3 }],
-      [".bundle_map-wrap", { opacity: 1 }, { duration: 0.3, at: "<" }]
-    ];
-    Motion.timeline(initialState);
-  
-     // Scroll to the top
-     const topElement = document.getElementById("top");
-     if (topElement) {
-       topElement.scrollIntoView({ behavior: "smooth" });
-     }
-  
-  }
-
-
-  // Calls all the updates
-  function updateUIAfterMoveToNextStep() {
-    // Update the step images for bundle and map areas
-    updateStepImage(bundleStepsItems);
-    updateStepImage(mapStepsItems);
-  
-    // Update mobile bundle step info
-    const dataForCurrentStep = getCurrentStepData(state.currentStep);
-    updateMobileBundleStepInfo(dataForCurrentStep);
-  
-    // Update the product area 
-    const productAreaData = getCurrentStepData(state.currentStep);
-    updateProductArea(productAreaData);
-  
-    // Remove active state from the bundle guide
-    bundleGuide.classList.remove("is--active");
-  
-    // Reset UI to no-popup state
-    backToNoPopup();
-  }
-  
-
-  // Initialize the initial step
-  const initialStepElement = getCurrentStepData(0);
-  if (initialStepElement) {
-    updatePopup(initialStepElement);  // Debug log
-    updateProductArea(initialStepElement);
-    updateMobileBundleStepInfo(initialStepElement);
-  }
-
-// Updates UI for edit mode
-
-  function updateUIForEditMode(stepIndex) {
-    // Deactivate any active prize elements and show the products if necessary
-    if (isPrizeStep(state.currentStep)) {
-      deactivatePrizeElements();
-      products.classList.add("is--active");
-    }
-  
-    // Update the product area with data from the step being edited
-    const stepData = getCurrentStepData(stepIndex);
-    updateProductArea(stepData);
-  }
-
-
-
-  //// EVENT LISTENERSS ///////
-  
-  //   // NEXT STEP BTN
-  //   document.querySelectorAll("[next-step-btn]").forEach((button) => {
-  //   button.addEventListener("click", function () {
-  
-  //     console.log("Next Step Button Clicked: Initial editingStep =", state.editingStep, "currentStep =", state.currentStep);
-  
-  //     state.editingStep(null);
-      
-  //     if (state.editingStep === null && isProductAddedForStep(state.currentStep)) {
-  //     setCurrentStep(state.currentStep + 1);
-  //     updateStepImage(bundleStepsItems);
-  //     updateStepImage(mapStepsItems);
-  //     console.log("Next Step Button Clicked: After Increment currentStep =", state.currentStep);
-  //     }
-  
-  //     handlePopupBtnClick();
-  //     bundleGuide.classList.remove("is--active");
-  
-  //     const productAreaData = getCurrentStepData(state.currentStep);
-  //     updateProductArea(productAreaData);
-  
-  
-  //     const dataForCurrentStep = getCurrentStepData(state.currentStep);
-  //     updateMobileBundleStepInfo(dataForCurrentStep);
-  //     activatePrizes(state.currentStep);
-  //     backToNoPopup();
-  
-  //     console.log("Next Step Button Clicked: After Reset editingStep =", state.editingStep);
-  //   });
-  // });
-  
-  // // Exit Pop Up
-  // document.querySelector("[popup-exit]").addEventListener("click", function () {
-  //   closeNextStepPopup();
-  //   bundleGuide.classList.add("is--active");
-  //   });
-  
-  //   // CHANGE BTN
-  //   changeBundleProductBtn.forEach((button) => {
-  //   button.addEventListener('click', function() {
-  
-  //     // Close popup if it's open 
-  //     closeNextStepPopup();
-  
-  //     // Checking what step product they want to change
-  //     const stepValue = button.getAttribute('step');
-  
-  //     state.editingStep = parseInt(stepValue, 10); 
-  //     console.log("Editing Step Real Number:", state.editingStep);
-  
-  
-  //     const stepNumber = parseInt(stepValue, 10) - 1;
-  //     console.log("Editing JS number", stepNumber);
-  
-  //     // Deactivate any active prize elements and show the products
-  //     if (isPrizeStep(state.currentStep)) {
-  //       deactivatePrizeElements();
-  //       products.classList.add("is--active");
-  //     }
-  
-  //     // Updating the product area with that steps data
-  //     const stepData = getCurrentStepData(stepNumber);
-  //     updateProductArea(stepData);
-  //   })
-  //   });
-  
 
   
 });  
