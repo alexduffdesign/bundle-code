@@ -211,6 +211,8 @@ document.addEventListener("DOMContentLoaded", function () {
         let step = state.editingStep !== null ? state.editingStep : (state.currentStep + 1);
         addProductID(productBlock, index, step);
       });
+
+      console.log("product Id's", state.bundle);
     
       // Call the function to handle all UI updates
       updateUIAfterProductAdded(productBlocks);
