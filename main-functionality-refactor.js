@@ -224,7 +224,7 @@ document.addEventListener("DOMContentLoaded", function () {
       
       // Only move to the next step if the current step's product has been added
       if (isProductAddedForStep(state.currentStep)) {
-        setCurrentStep(state.currentStep + 1);
+        state.currentStep++;
         console.log("Next Step Button Clicked: After Increment currentStep =", state.currentStep);
       }
     
