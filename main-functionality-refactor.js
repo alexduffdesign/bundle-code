@@ -359,17 +359,20 @@ document.addEventListener("DOMContentLoaded", function () {
       // Update the indicator position
       updateIndicatorPosition(currentStep - 1, totalSteps);
     
+      // 🕵️‍♀️ Investigate this a bit more
       // Update the step image for the bundle and map
-      updateStepImage(stepItems);
+      // updateStepImage(bundleStepsItems);
+      // updateStepImage(mapStepsItems);
     
       // Update the mobile bundle step information
-      updateMobileBundleStepInfo(stepElement);
+      const dataForCurrentStep = getCurrentStepData(state.currentStep)
+      updateMobileBundleStepInfo(dataForCurrentStep);
     
       // Update the product area to reflect the current step
-      updateProductArea(stepElement);
+      updateProductArea(dataForCurrentStep);
     
       // Update the popup data for the current step
-      updatePopup(stepElement);
+      updatePopup(dataForCurrentStep);
 
 
       // ❌ Not created yet // 
