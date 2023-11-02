@@ -175,6 +175,19 @@ document.addEventListener("DOMContentLoaded", function () {
     ///////////////////////////////////// Bundle Functionality (add to bundle) ///////////////////////////////////////
   
 
+    //// State Machine
+
+    const state = {
+      currentStep: 0,
+      editingStep: null,
+      bundle: [],
+      undoStack: [],
+      lockedSteps: [1, 2, 3],
+      dailyDiscount: null,
+      // add more state variables as needed
+    };
+
+
     //// Inicail States
 
     function initialSetup() {
@@ -187,19 +200,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     initialSetup();
-
-
-    //// State Machine
-
-    const state = {
-      currentStep: 0,
-      editingStep: null,
-      bundle: [],
-      undoStack: [],
-      lockedSteps: [1, 2, 3],
-      dailyDiscount: null,
-      // add more state variables as needed
-    };
 
 
     //// Actions
