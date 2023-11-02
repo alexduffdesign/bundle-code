@@ -274,6 +274,8 @@ document.addEventListener("DOMContentLoaded", function () {
       // Set the current step to the one that had the product removed
       state.currentStep = stepToRemove;
 
+      console.log(state.currentStep);
+
       // Hide the popup if it's visible
       closeNextStepPopup();
 
@@ -369,6 +371,9 @@ document.addEventListener("DOMContentLoaded", function () {
     
       // Update the mobile bundle step information
       const dataForCurrentStep = getCurrentStepData(currentStep);
+      console.log(dataForCurrentStep);
+      console.log(currentStep);
+
       updateMobileBundleStepInfo(dataForCurrentStep);
     
       // Update the product area to reflect the current step
