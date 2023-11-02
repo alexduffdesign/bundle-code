@@ -224,7 +224,7 @@ document.addEventListener("DOMContentLoaded", function () {
       
       // Only move to the next step if the current step's product has been added
       if (isProductAddedForStep(state.currentStep)) {
-        state.currentStep + 1;
+        setCurrentStep(state.currentStep + 1);
         console.log("Next Step Button Clicked: After Increment currentStep =", state.currentStep);
       }
     
@@ -418,7 +418,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   
     
-    // logic function
+    // Logic function
 
     function addProductID(productBlock, index, step) {
       const idEl = productBlock.querySelector("[data-id]");
