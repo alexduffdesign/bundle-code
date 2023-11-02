@@ -413,6 +413,7 @@ document.addEventListener("DOMContentLoaded", function () {
       changeBundleProductBtn.forEach((button) => {
         button.addEventListener('click', function(event) {
           const stepValue = parseInt(event.target.dataset.step, 10);
+          console.log("stepValue of Change", stepValue);
           editMode(stepValue);
         })
       });
