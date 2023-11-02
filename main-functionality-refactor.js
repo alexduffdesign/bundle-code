@@ -427,7 +427,13 @@ document.addEventListener("DOMContentLoaded", function () {
       removeBundleProductBtn.forEach((button) => {
         button.addEventListener('click', function(event) {
           const stepToRemove = parseInt(event.target.dataset.step, 10);
-          removeProduct(stepToRemove);
+          console.log('Step to remove:', stepToRemove);
+      
+          if (!isNaN(stepToRemove)) {
+            removeProduct(stepToRemove);
+          } else {
+            console.error('Invalid step number:', event.target.dataset.step);
+          }
         })
       });
 
