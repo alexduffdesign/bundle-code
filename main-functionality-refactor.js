@@ -277,10 +277,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Hide the popup if it's visible
       closeNextStepPopup();
 
-      const stepItems = getStepItems(state.currentStep); // This is a placeholder function
-      const stepElement = getStepElement(state.currentStep); // This is a placeholder function
-
-     updateUIforRemoveProduct(state.currentStep, stepItems, stepElement);
+     updateUIforRemoveProduct(state.currentStep);
 
     }
   
@@ -354,7 +351,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    function updateUIforRemoveProduct(currentStep, stepItems, stepElement) {
+    function updateUIforRemoveProduct(currentStep) {
       
       // Update the indicator position
       updateIndicatorPosition(currentStep - 1, totalSteps);
