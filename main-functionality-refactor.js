@@ -359,7 +359,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
       // Update the product area with data from the step being edited
       const stepData = getCurrentStepData(stepIndex);
-      console.log(stepData);
+      console.log("this is the step data", stepData);
 
       updateProductArea(stepData);
     }
@@ -741,12 +741,11 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
     
-    function getCurrentStepData(currentStep) {
-      // Finds the current steps data from the .step attributes
-      const adjustedStep = state.currentStep + 1;
+    function getCurrentStepData(stepIndex) {
+      // Finds the step data based on the stepIndex provided
+      const adjustedStep = stepIndex + 1; // Since your data-step-name starts from 1 instead of 0
       return document.querySelector(`.step[data-step-name="${adjustedStep}"]`);
     }
-
     
     // UI Functions (mainly for next step click)
 
