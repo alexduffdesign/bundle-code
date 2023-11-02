@@ -256,7 +256,7 @@ document.addEventListener("DOMContentLoaded", function () {
       closeNextStepPopup();
     
       // Set editingStep to the chosen step
-      state.editingStep = parseInt(stepValue, 10);
+      state.editingStep = stepValue;
       console.log("Editing Step Real Number:", state.editingStep);
     
       // Calculate the zero-based index for JS array access
@@ -411,8 +411,8 @@ document.addEventListener("DOMContentLoaded", function () {
   
       // [change] buttons  
       changeBundleProductBtn.forEach((button) => {
-        button.addEventListener('click', function() {
-          const stepValue = button.getAttribute('step');
+        button.addEventListener('click', function(event) {
+          const stepValue = parseInt(event.target.dataset.step, 10);
           editMode(stepValue);
         })
       });
@@ -427,13 +427,7 @@ document.addEventListener("DOMContentLoaded", function () {
       removeBundleProductBtn.forEach((button) => {
         button.addEventListener('click', function(event) {
           const stepToRemove = parseInt(event.target.dataset.step, 10);
-          console.log('Step to remove:', stepToRemove);
-      
-          if (!isNaN(stepToRemove)) {
-            removeProduct(stepToRemove);
-          } else {
-            console.error('Invalid step number:', event.target.dataset.step);
-          }
+          removeProduct(stepToRemove);
         })
       });
 
