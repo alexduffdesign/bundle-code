@@ -367,7 +367,8 @@ document.addEventListener("DOMContentLoaded", function () {
     //////////// FUNCTIONS ////////////////
 
 
-    // Utility for opening the next step popup
+    // Utility functions (mainly for product added to bundle)
+
     function openNextStepPopup() {
     // Next step popup comes in
     nextStepEl.classList.add("is--open");
@@ -418,6 +419,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
     
     // logic function
+
     function addProductID(productBlock, index, step) {
       const idEl = productBlock.querySelector("[data-id]");
       if (idEl) {
@@ -583,7 +585,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
   
-    // 4a. Update position of the indicator
+    // 4 Update position of the indicator
     function updateIndicatorPosition(currentStep, totalSteps) {
       const indicatorThumbs = document.querySelectorAll(
         ".bundle_indicator-thumb"
@@ -601,7 +603,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
-    // 4b. Update the next step popup
+    // 5. Update the next step popup
     function updatePopup(stepElement) {
     
       const nextStepPopup = document.querySelector("[next-step-popup]");
@@ -665,7 +667,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     }
   
-    // 4b. Sets the is--selected class to the current step.
+    // 6. Sets the is--selected class to the current step.
     function markCurrentStepAsSelected(stepItems) {
     const currentBundleProductAdded = stepItems[state.currentStep].querySelector(
       "[bundle-product-added]"
@@ -673,7 +675,7 @@ document.addEventListener("DOMContentLoaded", function () {
     currentBundleProductAdded?.classList.add("is--selected");
     }
   
-    // 4c. Next step activated UI, bundle and map
+    // 7. Next step activated UI, bundle and map
     // -- (makes the image have a circle and adds the selected to the last steps image)
     function nextStepActivatedUi(stepItems) {
   
@@ -913,5 +915,196 @@ document.addEventListener("DOMContentLoaded", function () {
     
     }
 
-  
-});  
+
+
+    ////////// MENU FUNCTINALITY /////////
+
+    // BUNDLE MAP STEPS ABSOLUTE
+    function applyStyles() {
+      // Handle styles for items inside .bundle_intro
+      const introCmsItems = document.querySelectorAll(
+        ".bundle_intro [data-left][data-bottom]"
+      );
+      introCmsItems.forEach((item) => {
+        item.style.position = "absolute";
+        item.style.left = item.getAttribute("data-left") + "%";
+        item.style.bottom = item.getAttribute("data-bottom") + "%";
+      });
+
+      // Handle styles for items inside [map]
+      const mapCmsItems = document.querySelectorAll(
+        "[map] [data-left][data-bottom]"
+      );
+      mapCmsItems.forEach((item) => {
+        if (isMobile()) {
+          if (map.classList.contains("is--open")) {
+            item.style.position = "absolute";
+            item.style.left = item.getAttribute("data-left") + "%";
+            item.style.bottom = item.getAttribute("data-bottom") + "%";
+          } else {
+            item.style.position = "relative";
+            item.style.left = "";
+            item.style.bottom = "";
+          }
+        } else {
+          // Desktop
+          item.style.position = "absolute";
+          item.style.left = item.getAttribute("data-left") + "%";
+          item.style.bottom = item.getAttribute("data-bottom") + "%";
+        }
+      });
+    }
+
+    applyStyles();
+
+    // CLOSING MENU --
+    function closeAllMenus() {
+      map.classList.remove("is--open");
+      mapImg.classList.remove("is--open");
+      bundleCart.classList.remove("is--open");
+      body.style.overflow = "";
+      popupBg.style.pointerEvents = "none";
+      popupBg.classList.remove("is--open");
+      if (isMobile) {
+        popupBg.style.zIndex = "3";
+      }
+      mapText.innerText = "View Map";
+      indicatorMap.style.display = ""; // Show the indicator when all menus are closed
+      bundleCartIndicator.innerText = "Open"; // Set the bundle cart indicator text
+      applyStyles();
+    }
+
+    function togglePopupBackground() {
+      const isOpen =
+        map.classList.contains("is--open") ||
+        bundleCart.classList.contains("is--open");
+
+      if (isOpen) {
+        popupBg.classList.add("is--open");
+        popupBg.style.pointerEvents = "auto";
+        body.style.overflow = "hidden";
+        if (bundleCart.classList.contains("is--open") && isMobile()) {
+          popupBg.style.zIndex = "3"; // Set z-index to a higher value
+        } else {
+          popupBg.style.zIndex = "2"; // Reset z-index to its original value
+        }
+      } else {
+        popupBg.classList.remove("is--open");
+        popupBg.style.pointerEvents = "none";
+        body.style.overflow = "";
+        if (isMobile()) {
+          popupBg.style.zIndex = "3"; // Reset z-index to its original value
+        }
+      }
+    }
+
+    function toggleElement(element, openClass, textElement, openText, closeText) {
+      element.classList.toggle(openClass);
+
+      if (textElement) {
+        textElement.innerText = element.classList.contains(openClass)
+          ? openText
+          : closeText;
+      }
+
+      if (element === bundleCart) {
+        // Specifically for the bundleCart
+        bundleCartIndicator.innerText = element.classList.contains(openClass)
+          ? "Close"
+          : "Open";
+      }
+
+      togglePopupBackground();
+      applyStyles();
+    }
+
+    document.querySelectorAll("[view-map-btn]").forEach((button) => {
+      button.addEventListener("click", function () {
+        toggleElement(map, "is--open", mapText, "Close Map", "View Map");
+        mapImg.classList.toggle("is--open");
+        if (isMobile()) {
+          indicatorMap.style.display = map.classList.contains("is--open")
+            ? "none"
+            : "";
+        }
+      });
+    });
+
+    if (isMobile()) {
+      document
+        .querySelector("[bundle-cart-btn]")
+        .addEventListener("click", function () {
+          // If map is open, close it when bundle cart is toggled
+          if (map.classList.contains("is--open")) {
+            map.classList.remove("is--open");
+            mapImg.classList.remove("is--open");
+            mapText.innerText = "View Map";
+            indicatorMap.style.display = ""; // Show the indicator when map is closed
+          }
+
+          toggleElement(bundleCart, "is--open");
+          bundleCartIndicator.classList.toggle("is--open");
+        });
+    }
+
+    popupBg.addEventListener("click", closeAllMenus);
+    window.addEventListener("resize", applyStyles);
+    
+
+    // -- End
+
+    // SCROLLING UP OR DOWN
+    let lastScrollPosition = 0,
+      requestPending = false;
+
+    const viewMapButtons = document.querySelectorAll("[view-map-btn]");
+    const bundleComponent = document.querySelector(".bundle_component");
+
+    function handleScrollDirection(scrollDirection) {
+      if (scrollDirection === "down") {
+        // Hide the view-map-btn when scrolling down
+        viewMapButtons.forEach((button) => {
+          button.style.opacity = "0";
+          button.style.pointerEvents = "none";
+        });
+        bundleComponent.style.transform = "translateY(150%)";
+      } else {
+        // Show the view-map-btn when scrolling up
+        viewMapButtons.forEach((button) => {
+          button.style.opacity = "1";
+          button.style.pointerEvents = "auto";
+        });
+        bundleComponent.style.transform = "translateY(0%)";
+      }
+    }
+
+    window.addEventListener(
+      "scroll",
+      function () {
+        if (isMobile()) {
+          const currentScrollPosition =
+            window.pageYOffset || document.documentElement.scrollTop;
+
+          if (!requestPending) {
+            window.requestAnimationFrame(function () {
+              if (Math.abs(currentScrollPosition - lastScrollPosition) >= 20) {
+                if (currentScrollPosition > lastScrollPosition) {
+                  handleScrollDirection("down");
+                } else {
+                  handleScrollDirection("up");
+                }
+                lastScrollPosition =
+                  currentScrollPosition <= 0 ? 0 : currentScrollPosition;
+              }
+              requestPending = false;
+            });
+            requestPending = true;
+          }
+        }
+      },
+      {
+        passive: true
+      }
+    );
+
+  });
