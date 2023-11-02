@@ -352,7 +352,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     function updateUIforRemoveProduct(currentStep) {
-      
+
+      // Deactivate any active prize 🏆 elements and show the products if necessary
+      if (isPrizeStep(state.currentStep)) {
+        deactivatePrizeElements();
+        products.classList.add("is--active");
+      }
+
       // Update the indicator position
       updateIndicatorPosition(currentStep - 1, bundleStepsItems.length);
     
