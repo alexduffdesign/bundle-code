@@ -265,39 +265,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function removeProduct() { 
     }
-
-
-    //// Event listeners
-
-    // [add-to-bundle] button
-    document.addEventListener("click", function (e) {
-    if (!e.target.matches("[add-to-bundle]")) return;
-    const productBlocks = getClosestProductBlock(e.target);
-    addProductToBundle(productBlocks);
-    });
-
-    // [next-step-btn] buttons
-    document.querySelectorAll("[next-step-btn]").forEach((button) => {
-    button.addEventListener("click", moveToNextStepClick);
-    });
-
-    // [change] buttons  
-    changeBundleProductBtn.forEach((button) => {
-      button.addEventListener('click', function() {
-        const stepValue = button.getAttribute('step');
-        editMode(stepValue);
-      })
-    });
-
-    // [popup-exit] button
-    document.querySelector("[popup-exit]").addEventListener("click", function () {
-      closeNextStepPopup();
-      dontMoveToNextStep();
-    });
   
 
 
-    //// UI update functions   
+    //// Update UI based on actions functions
 
     // Calls all the UI update functions after a product is added
     function updateUIAfterProductAdded(productBlocks) {
@@ -364,6 +335,34 @@ document.addEventListener("DOMContentLoaded", function () {
       updateProductArea(stepData);
     }
 
+
+    //// Event listeners
+
+    // [add-to-bundle] button
+    document.addEventListener("click", function (e) {
+      if (!e.target.matches("[add-to-bundle]")) return;
+      const productBlocks = getClosestProductBlock(e.target);
+      addProductToBundle(productBlocks);
+      });
+  
+      // [next-step-btn] buttons
+      document.querySelectorAll("[next-step-btn]").forEach((button) => {
+      button.addEventListener("click", moveToNextStepClick);
+      });
+  
+      // [change] buttons  
+      changeBundleProductBtn.forEach((button) => {
+        button.addEventListener('click', function() {
+          const stepValue = button.getAttribute('step');
+          editMode(stepValue);
+        })
+      });
+  
+      // [popup-exit] button
+      document.querySelector("[popup-exit]").addEventListener("click", function () {
+        closeNextStepPopup();
+        dontMoveToNextStep();
+      });
 
 
     //////////// FUNCTIONS ////////////////
@@ -915,6 +914,14 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     
     }
+
+
+
+
+
+
+
+
 
 
 
