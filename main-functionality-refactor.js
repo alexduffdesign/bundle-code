@@ -354,7 +354,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateUIforRemoveProduct(currentStep) {
       
       // Update the indicator position
-      updateIndicatorPosition(currentStep - 1, totalSteps);
+      updateIndicatorPosition(currentStep - 1, bundleStepsItems.length);
     
       // 🕵️‍♀️ Investigate this a bit more
       // Update the step image for the bundle and map
