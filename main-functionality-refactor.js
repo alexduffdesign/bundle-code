@@ -362,7 +362,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // updateStepImage(mapStepsItems);
     
       // Update the mobile bundle step information
-      const dataForCurrentStep = getCurrentStepData(state.currentStep);
+      const dataForCurrentStep = getCurrentStepData(currentStep);
       updateMobileBundleStepInfo(dataForCurrentStep);
     
       // Update the product area to reflect the current step
