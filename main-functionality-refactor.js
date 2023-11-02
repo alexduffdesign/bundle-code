@@ -525,7 +525,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
       addToBundleAnim.finished.then(() => {
         // Scrolling the bundle down when a product is added
-        const targetPosition = bundleStepsItems[step.currentStep].offsetTop;
+        const targetPosition = bundleStepsItems[state.currentStep].offsetTop;
   
         // Adjust for the height of the "your bundle" sticky header
         const stickyHeaderOffset = 50; // Adjust this value to your needs
