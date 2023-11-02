@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const bundleOverflow = document.querySelector(".bundle_overflow");
     const bundleGuide = document.querySelector("[bundle-guide]");
     const changeBundleProductBtn = document.querySelectorAll("[change-btn]");
+    const removeBundleProductBtn = documeent.querySelectorAll("[remove-product]");
 
   
   
@@ -181,6 +182,7 @@ document.addEventListener("DOMContentLoaded", function () {
       currentStep: 0,
       editingStep: null,
       bundle: [],
+      discountClaimed: false,
       undoStack: [],
       lockedSteps: [1, 2, 3],
       dailyDiscount: null,
@@ -297,6 +299,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     
       changeBundleProductBtn[state.currentStep].classList.add("is--active");
+      removeBundleProductBtn[state.currentStep].classList.add("is--active");
 
       setTimeout(() => openNextStepPopup(), 720);
     }
