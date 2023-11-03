@@ -623,33 +623,38 @@ document.addEventListener("DOMContentLoaded", function () {
     // 2. Add the product data to the bundle
     // Refactored to handle both adding and removing product data
     function populateBundleProduct(productBlocks, action = 'add') {
-      // Ensure productBlocks is always treated as an array
-      const blocksArray = (productBlocks instanceof HTMLElement) ? [productBlocks] : productBlocks;
       const productContainers = getBundleProductsInsideBundleItem();
     
-      blocksArray.forEach((productBlock, index) => {
-        if (!productContainers[index]) {
-          console.warn(`No [bundle-product] found for index ${index}`);
-          return;
-        }
-    
-        const targetProductContainer = productContainers[index];
-        if (action === 'add') {
+      // When adding, we expect productBlocks to be an array or NodeList.
+      if (action === 'add') {
+        Array.from(productBlocks).forEach((productBlock, index) => {
+          if (!productContainers[index]) {
+            console.warn(`No [bundle-product] found for index ${index}`);
+            return;
+          }
+          
           // Populate data
           const imgSrc = productBlock.querySelector("[data-img]").src;
           const title = productBlock.querySelector("[data-title]").textContent;
           const price = productBlock.querySelector("[data-price]").textContent;
           
+          const targetProductContainer = productContainers[index];
           targetProductContainer.querySelector("[data-img]").src = imgSrc;
           targetProductContainer.querySelector("[data-title]").textContent = title;
           targetProductContainer.querySelector("[data-price]").textContent = price;
-        } else if (action === 'remove') {
+        });
+      } else if (action === 'remove') {
+        // When removing, we expect productBlocks to be a single element.
+        const targetProductContainer = productContainers[0]; // Assuming the first container is the target
+        if (targetProductContainer) {
           // Clear data
           targetProductContainer.querySelector("[data-img]").src = '';
           targetProductContainer.querySelector("[data-title]").textContent = '';
           targetProductContainer.querySelector("[data-price]").textContent = '';
+        } else {
+          console.warn("No [bundle-product] container found to clear data");
         }
-      });
+      }
     }
     
 
