@@ -279,7 +279,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Hide the popup if it's visible
       closeNextStepPopup();
 
-     updateUIforRemoveProduct(state.currentStep, bundleProduct);
+      updateUIforRemoveProduct(state.currentStep, bundleProduct);
 
     }
   
@@ -379,11 +379,13 @@ document.addEventListener("DOMContentLoaded", function () {
       // Update the product area to reflect the current step ✅
       updateProductArea(dataForCurrentStep);
     
-      // Update the popup data for the current step 
+      // Update the popup data for the current step ✅
       updatePopup(dataForCurrentStep);
 
       // Update the bundle product to remove data
       removeBundleProduct(bundleProduct);
+
+      applyTitleOverlay(bundleStepsItems);
 
       // ❌ Not created yet // 
       // Remove the is--selected class from the step and any steps completed after it
@@ -644,22 +646,6 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
     
-    
-    function removeBundleProduct(bundleProduct) {
-
-      console.log("inside remove", bundleProduct);
-      const productContainers = bundleProduct.querySelectorAll("[bundle-product]");
-    
-      productContainers.forEach(targetProductContainer => {
-        // Clear data
-        targetProductContainer.querySelector("[data-img]").src = '';
-        targetProductContainer.querySelector("[data-title]").textContent = '';
-        targetProductContainer.querySelector("[data-price]").textContent = '';
-      });
-    }
-    
-
-    
     // 3. Remove the title cover
     function clearTitleOverlay(bundleStepsItems) {
       const targetBundleItem = state.editingStep !== null ? bundleStepsItems[state.editingStep - 1] : bundleStepsItems[state.currentStep];
@@ -676,7 +662,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
     }
-  
+    
     // 4 Update position of the indicator
     function updateIndicatorPosition(currentStep, totalSteps) {
       const indicatorThumbs = document.querySelectorAll(
@@ -1005,6 +991,52 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     
     }
+
+
+    ///////////////////////////////////// Bundle Functionality (Remove Product) ///////////////////////////////////////
+
+
+    function applyTitleOverlay(bundleStepsItems) {
+      const targetBundleItem = bundleStepsItems[state.currentStep];
+      if (!targetBundleItem) return;
+    
+      const titleCoveredElements = targetBundleItem.querySelectorAll(".title-covered");
+      titleCoveredElements.forEach((element) => {
+        element.classList.remove("is--cleared"); // Remove the class that was previously added
+        const bundleProductText = element.querySelector(".bundle-product-text");
+        if (bundleProductText) {
+          bundleProductText.style.opacity = 0; // Reset opacity to show the overlay
+        }
+      });
+    }
+
+    function removeBundleProduct(bundleProduct) {
+
+      console.log("inside remove", bundleProduct);
+      const productContainers = bundleProduct.querySelectorAll("[bundle-product]");
+    
+      productContainers.forEach(targetProductContainer => {
+        // Clear data
+        targetProductContainer.querySelector("[data-img]").src = '';
+        targetProductContainer.querySelector("[data-title]").textContent = '';
+        targetProductContainer.querySelector("[data-price]").textContent = '';
+      });
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
