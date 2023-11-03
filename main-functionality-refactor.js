@@ -998,7 +998,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     function applyTitleOverlay(bundleStepsItems) {
-      const targetBundleItem = bundleStepsItems[state.currentStep];
+      const targetBundleItem = bundleStepsItems[state.currentStep - 1];
       console.log("The target bundle item", targetBundleItem)
       if (!targetBundleItem) return;
     
