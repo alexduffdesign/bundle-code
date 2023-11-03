@@ -290,7 +290,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateUIAfterProductAdded(productBlocks) {
       
       animateAddedProductToCart(productBlocks);
-      populateBundleProduct(productBlocks); 
+      populateBundleProduct(productBlocks, 'add');
       clearTitleOverlay(bundleStepsItems);
     
       if (state.editingStep === null) {
@@ -382,6 +382,8 @@ document.addEventListener("DOMContentLoaded", function () {
       // Update the popup data for the current step 
       updatePopup(dataForCurrentStep);
 
+      // Update the bundle product to remove data
+      populateBundleProduct(productBlocks, 'remove');
 
       // ❌ Not created yet // 
       // Remove the is--selected class from the step and any steps completed after it
@@ -617,25 +619,35 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   
     // 2. Add the product data to the bundle
-    function populateBundleProduct(productBlocks) {
+    // Refactored to handle both adding and removing product data
+    function populateBundleProduct(productBlocks, action = 'add') {
       const productContainers = getBundleProductsInsideBundleItem();
-    
+
       Array.from(productBlocks).forEach((productBlock, index) => {
         if (!productContainers[index]) {
           console.warn(`No [bundle-product] found for index ${index}`);
           return;
         }
-    
-        const imgSrc = productBlock.querySelector("[data-img]").src;
-        const title = productBlock.querySelector("[data-title]").textContent;
-        const price = productBlock.querySelector("[data-price]").textContent;
-        
+
         const targetProductContainer = productContainers[index];
-        targetProductContainer.querySelector("[data-img]").src = imgSrc;
-        targetProductContainer.querySelector("[data-title]").textContent = title;
-        targetProductContainer.querySelector("[data-price]").textContent = price;
+        if (action === 'add') {
+          // Populate data
+          const imgSrc = productBlock.querySelector("[data-img]").src;
+          const title = productBlock.querySelector("[data-title]").textContent;
+          const price = productBlock.querySelector("[data-price]").textContent;
+          
+          targetProductContainer.querySelector("[data-img]").src = imgSrc;
+          targetProductContainer.querySelector("[data-title]").textContent = title;
+          targetProductContainer.querySelector("[data-price]").textContent = price;
+        } else if (action === 'remove') {
+          // Clear data
+          targetProductContainer.querySelector("[data-img]").src = '';
+          targetProductContainer.querySelector("[data-title]").textContent = '';
+          targetProductContainer.querySelector("[data-price]").textContent = '';
+        }
       });
     }
+
     
     // 3. Remove the title cover
     function clearTitleOverlay(bundleStepsItems) {
