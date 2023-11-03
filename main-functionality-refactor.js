@@ -391,16 +391,25 @@ document.addEventListener("DOMContentLoaded", function () {
       // Update the popup data for the current step ✅
       updatePopup(dataForCurrentStep);
 
+      // Grabs all the bundleStepItems 
       bundleStepsItems.forEach((item, index) => {
+
+        // if the index of that item is above or equal to the current step
         if (index >= currentStep) {
+
+          // finds the [bundle-product] inside those bundle items
           const bundleProduct = item.querySelector("[bundle-product]");
-          if (bundleProduct) {
-            removeBundleProduct(bundleProduct); // Directly pass the element
-          }
+          
+          // if the index of that item is not the discount step 
           if (index !== state.discountStep) {
-            applyTitleOverlay(item); // Pass the single item
+
+            // removes them visually from the bundle
+            removeBundleProduct(bundleProduct); // Directly pass the element
+            applyTitleOverlay(item);
           }
-          if (index > currentStep) {
+    
+          // if the index of the item is equal of above the current step then remove its is--selected
+          if (index >= currentStep) {
             item.classList.remove("is--selected");
           }
         }
