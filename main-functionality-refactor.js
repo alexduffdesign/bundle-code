@@ -295,6 +295,7 @@ document.addEventListener("DOMContentLoaded", function () {
       populateBundleProduct(productBlocks);
       clearTitleOverlay(bundleStepsItems);
     
+      // if were not editing then it can add the selected to the bundleStep
       if (state.editingStep === null) {
         markCurrentStepAsSelected(bundleStepsItems);
         markCurrentStepAsSelected(mapStepsItems);
@@ -384,10 +385,24 @@ document.addEventListener("DOMContentLoaded", function () {
       // Update the popup data for the current step ✅
       updatePopup(dataForCurrentStep);
 
-      // Update the bundle product to remove data
-      removeBundleProduct(bundleProduct);
+      bundleStepsItems.forEach((item, index) => {
+        // If the have added products in subsiquent steps then these will be removed visually
+        if (index >= currentStep) {
+          const bundleProduct = item.querySelector("[bundle-product]");
+          removeBundleProduct(bundleProduct); // Assuming this function exists to handle UI removal
+          if (index !== discountStep || !discountClaimed) {
+            applyTitleOverlay(bundleStepsItems[index]);
+          }
+          item.classList.remove("is--selected");
+        }
+      });
 
-      applyTitleOverlay(bundleStepsItems);
+      // Update the bundle product to remove data
+      // removeBundleProduct(bundleProduct);
+
+      // applyTitleOverlay(bundleStepsItems);
+
+      removeCurrentStepAsSelected(bundleStepsItems);
 
       // ❌ Not created yet // 
       // Remove the is--selected class from the step and any steps completed after it
@@ -1026,6 +1041,13 @@ document.addEventListener("DOMContentLoaded", function () {
         targetProductContainer.querySelector("[data-price]").textContent = '~~~~~~~~';
       });
     }
+
+    function removeCurrentStepAsSelected(stepItems) {
+      const currentBundleProductAdded = stepItems[state.currentStep].querySelector(
+        "[bundle-product-added]"
+      );
+      currentBundleProductAdded?.classList.remove("is--selected");
+      }
 
 
 
