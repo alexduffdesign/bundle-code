@@ -648,7 +648,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function removeBundleProduct(bundleProduct) {
 
       console.log("inside remove", bundleProduct);
-      const productContainers = bundleItem.querySelectorAll("[bundle-product]");
+      const productContainers = bundleProduct.querySelectorAll("[bundle-product]");
     
       productContainers.forEach(targetProductContainer => {
         // Clear data
