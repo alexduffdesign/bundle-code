@@ -232,7 +232,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (isProductAddedForStep(state.currentStep)) {
         if (state.currentStep === state.discountStep) {
           state.discountClaimed = true;
-          console.log("is the discount claimed", state.discountClaimed);
+          
         }
         state.currentStep++;
         console.log("Next Step Button Clicked: After Increment currentStep =", state.currentStep);
@@ -275,6 +275,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function removeProduct(stepToRemove, bundleProduct) { 
       // Logic to identify the step and remove the product from the array
+      
       state.bundle = state.bundle.filter(product => product.step < stepToRemove);
       console.log("Checking Bundle To See If ID removed", state.bundle);
 
@@ -373,7 +374,6 @@ document.addEventListener("DOMContentLoaded", function () {
       updateIndicatorPosition(currentStep - 1, bundleStepsItems.length);
     
       // 🕵️‍♀️ Investigate this a bit more
-      // Update the step image for the bundle and map
       // updateStepImage(bundleStepsItems);
       // updateStepImage(mapStepsItems);
     
@@ -382,6 +382,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log("data for current step",dataForCurrentStep);
       console.log("data current step", currentStep);
 
+      // Update mobile bundle step info with current step data
       updateMobileBundleStepInfo(dataForCurrentStep);
     
       // Update the product area to reflect the current step ✅
@@ -391,14 +392,17 @@ document.addEventListener("DOMContentLoaded", function () {
       updatePopup(dataForCurrentStep);
 
       bundleStepsItems.forEach((item, index) => {
-        // If the have added products in subsiquent steps then these will be removed visually
         if (index >= currentStep) {
           const bundleProduct = item.querySelector("[bundle-product]");
-          removeBundleProduct(bundleProduct); // Assuming this function exists to handle UI removal
-          if (index !== discountStep || !discountClaimed) {
-            applyTitleOverlay(bundleStepsItems[index]);
+          if (bundleProduct) {
+            removeBundleProduct(bundleProduct); // Assuming this handles removing product data
           }
-          item.classList.remove("is--selected");
+          if (index !== state.discountStep) {
+            applyTitleOverlay(item); // This function should add title overlays
+          }
+          if (index > currentStep) {
+            item.classList.remove("is--selected");
+          }
         }
       });
 
@@ -407,7 +411,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // applyTitleOverlay(bundleStepsItems);
 
-      removeCurrentStepAsSelected(bundleStepsItems);
+      // removeCurrentStepAsSelected(bundleStepsItems);
 
       // ❌ Not created yet // 
       // Remove the is--selected class from the step and any steps completed after it
