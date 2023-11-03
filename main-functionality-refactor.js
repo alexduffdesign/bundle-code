@@ -431,6 +431,7 @@ document.addEventListener("DOMContentLoaded", function () {
         button.addEventListener('click', function(event) {
           const stepToRemove = parseInt(event.currentTarget.dataset.step, 10);
           const bundleProduct = event.currentTarget.closest("[bundle-item]");
+          console.log("bundle product identifyed", bundleProduct);
           removeProduct(stepToRemove, bundleProduct);
         })
       });
