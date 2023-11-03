@@ -394,7 +394,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Grabs all the bundleStepItems 
       bundleStepsItems.forEach((item, index) => {
         // Check if the index is equal to or above the current step
-        if (index >= currentStep) {
+        if (index - 1 >= currentStep) {
           const bundleProduct = item.querySelector("[bundle-product]");
           // Always remove the product data and apply the title overlay
           removeBundleProduct(bundleProduct); // Directly pass the element
@@ -402,7 +402,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           // Remove the 'is--selected' class if the index is above the current step
           // or it's the current step but not the discount step
-          if (index > currentStep || (index === currentStep && index !== state.discountStep)) {
+          if (index -1 > currentStep || (index === currentStep && index !== state.discountStep)) {
             item.classList.remove("is--selected");
           }
         }
