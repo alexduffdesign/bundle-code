@@ -393,27 +393,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Grabs all the bundleStepItems 
       bundleStepsItems.forEach((item, index) => {
-
-        // if the index of that item is above or equal to the current step
+        // Check if the index is equal to or above the current step
         if (index >= currentStep) {
-
-          // finds the [bundle-product] inside those bundle items
           const bundleProduct = item.querySelector("[bundle-product]");
-          
-          // if the index of that item is not the discount step 
-          if (index !== state.discountStep) {
+          // Always remove the product data and apply the title overlay
+          removeBundleProduct(bundleProduct); // Directly pass the element
+          applyTitleOverlay(item);
 
-            // removes them visually from the bundle
-            removeBundleProduct(bundleProduct); // Directly pass the element
-            applyTitleOverlay(item);
-          }
-    
-          // if the index of the item is equal of above the current step then remove its is--selected
-          if (index >= currentStep) {
+          // Remove the 'is--selected' class if the index is above the current step
+          // or it's the current step but not the discount step
+          if (index > currentStep || (index === currentStep && index !== state.discountStep)) {
             item.classList.remove("is--selected");
           }
         }
       });
+
 
       // Update the bundle product to remove data
       // removeBundleProduct(bundleProduct);
@@ -1031,7 +1025,6 @@ document.addEventListener("DOMContentLoaded", function () {
     ///////////////////////////////////// Bundle Functionality (Remove Product) ///////////////////////////////////////
 
     function applyTitleOverlay(bundleItem) {
-      // No need to get targetBundleItem again, use the passed bundleItem directly
       const titleCoveredElements = bundleItem.querySelectorAll(".title-covered");
       titleCoveredElements.forEach((element) => {
         element.classList.remove("is--cleared"); // Remove the class that was previously added
@@ -1043,7 +1036,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     function removeBundleProduct(bundleProduct) {
-      // bundleProduct is already the target container, no need for querySelectorAll
+
       console.log("inside remove", bundleProduct);
       // Clear data
       bundleProduct.querySelector("[data-img]").src = bundleProductImg;
