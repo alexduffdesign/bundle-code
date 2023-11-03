@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const bundleGuide = document.querySelector("[bundle-guide]");
     const changeBundleProductBtn = document.querySelectorAll("[change-btn]");
     const removeBundleProductBtn = document.querySelectorAll("[remove-product]");
+    const bundleProductImg = document.querySelector(".bundle_steps_product-img").src;
 
   
   
@@ -1019,7 +1020,8 @@ document.addEventListener("DOMContentLoaded", function () {
     
       productContainers.forEach(targetProductContainer => {
         // Clear data
-        targetProductContainer.querySelector("[data-img]").src = '';
+        targetProductContainer.querySelector("[data-img]").src = bundleProductImg;
+        targetProductContainer.querySelector("[data-img]").srcset = bundleProductImg;
         targetProductContainer.querySelector("[data-title]").textContent = 'Product Title';
         targetProductContainer.querySelector("[data-price]").textContent = '~~~~~~~~';
       });
