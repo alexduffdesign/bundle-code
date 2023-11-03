@@ -395,10 +395,10 @@ document.addEventListener("DOMContentLoaded", function () {
         if (index >= currentStep) {
           const bundleProduct = item.querySelector("[bundle-product]");
           if (bundleProduct) {
-            removeBundleProduct(bundleProduct); // Assuming this handles removing product data
+            removeBundleProduct(bundleProduct); // Directly pass the element
           }
           if (index !== state.discountStep) {
-            applyTitleOverlay(item); // This function should add title overlays
+            applyTitleOverlay(item); // Pass the single item
           }
           if (index > currentStep) {
             item.classList.remove("is--selected");
@@ -415,13 +415,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // ❌ Not created yet // 
       // Remove the is--selected class from the step and any steps completed after it
-      deselectCompletedSteps(currentStep);
+      ////// deselectCompletedSteps(currentStep);
     
       // Remove the is--active class from any bundle-item completed after the current step
-      deactivateSubsequentBundleItems(currentStep);
+      ///// deactivateSubsequentBundleItems(currentStep);
     
       // Reset the product data of the deleted product and any added after it (excluding discount prize)
-      resetProductData(currentStep);
+      //// resetProductData(currentStep);
     }
 
 
@@ -1021,13 +1021,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     ///////////////////////////////////// Bundle Functionality (Remove Product) ///////////////////////////////////////
 
-
-    function applyTitleOverlay(bundleStepsItems) {
-      const targetBundleItem = bundleStepsItems[state.currentStep - 1];
-      console.log("The target bundle item", targetBundleItem)
-      if (!targetBundleItem) return;
-    
-      const titleCoveredElements = targetBundleItem.querySelectorAll(".title-covered");
+    function applyTitleOverlay(bundleItem) {
+      // No need to get targetBundleItem again, use the passed bundleItem directly
+      const titleCoveredElements = bundleItem.querySelectorAll(".title-covered");
       titleCoveredElements.forEach((element) => {
         element.classList.remove("is--cleared"); // Remove the class that was previously added
         const bundleProductText = element.querySelector(".bundle-product-text");
@@ -1036,19 +1032,15 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
     }
-
-    function removeBundleProduct(bundleProduct) {
-
-      console.log("inside remove", bundleProduct);
-      const productContainers = bundleProduct.querySelectorAll("[bundle-product]");
     
-      productContainers.forEach(targetProductContainer => {
-        // Clear data
-        targetProductContainer.querySelector("[data-img]").src = bundleProductImg;
-        targetProductContainer.querySelector("[data-img]").srcset = bundleProductImg;
-        targetProductContainer.querySelector("[data-title]").textContent = 'Product Title';
-        targetProductContainer.querySelector("[data-price]").textContent = '~~~~~~~~';
-      });
+    function removeBundleProduct(bundleProduct) {
+      // bundleProduct is already the target container, no need for querySelectorAll
+      console.log("inside remove", bundleProduct);
+      // Clear data
+      bundleProduct.querySelector("[data-img]").src = bundleProductImg;
+      bundleProduct.querySelector("[data-img]").srcset = bundleProductImg;
+      bundleProduct.querySelector("[data-title]").textContent = 'Product Title';
+      bundleProduct.querySelector("[data-price]").textContent = '~~~~~~~~';
     }
 
     function removeCurrentStepAsSelected(stepItems) {
