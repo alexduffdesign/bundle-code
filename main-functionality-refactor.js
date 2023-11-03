@@ -267,7 +267,7 @@ document.addEventListener("DOMContentLoaded", function () {
       updateUIForEditMode(stepIndex);
     }
 
-    function removeProduct(stepToRemove) { 
+    function removeProduct(stepToRemove, bundleProduct) { 
       // Logic to identify the step and remove the product from the array
       state.bundle = state.bundle.filter(product => product.step < stepToRemove);
       console.log("Checking Bundle To See If ID removed", state.bundle);
@@ -279,7 +279,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Hide the popup if it's visible
       closeNextStepPopup();
 
-     updateUIforRemoveProduct(state.currentStep);
+     updateUIforRemoveProduct(state.currentStep, bundleProduct);
 
     }
   
@@ -645,9 +645,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     
-    function removeBundleProduct(bundleItem) {
+    function removeBundleProduct(bundleProduct) {
 
-      console.log("inside remove", bundleItem);
+      console.log("inside remove", bundleProduct);
       const productContainers = bundleItem.querySelectorAll("[bundle-product]");
     
       productContainers.forEach(targetProductContainer => {
