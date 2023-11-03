@@ -183,6 +183,7 @@ document.addEventListener("DOMContentLoaded", function () {
       currentStep: 0,
       editingStep: null,
       bundle: [],
+      discountStep: 4,
       discountClaimed: false,
       undoStack: [],
       lockedSteps: [1, 2, 3],
@@ -229,8 +230,12 @@ document.addEventListener("DOMContentLoaded", function () {
       
       // Only move to the next step if the current step's product has been added
       if (isProductAddedForStep(state.currentStep)) {
+        if (state.currentStep === state.discountStep) {
+          state.discountClaimed = true;
+        }
         state.currentStep++;
         console.log("Next Step Button Clicked: After Increment currentStep =", state.currentStep);
+        console.log("is the discount claimed", state.discountClaimed);
       }
     
       // Handle any popup-related actions
