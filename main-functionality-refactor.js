@@ -353,7 +353,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    function updateUIforRemoveProduct(currentStep) {
+    function updateUIforRemoveProduct(currentStep, bundleProduct) {
 
       // Deactivate any active prize 🏆 elements and show the products if necessary
       if (isPrizeStep(state.currentStep)) {
@@ -383,7 +383,7 @@ document.addEventListener("DOMContentLoaded", function () {
       updatePopup(dataForCurrentStep);
 
       // Update the bundle product to remove data
-      populateBundleProduct(productBlocks, 'remove');
+      populateBundleProduct(bundleProduct, 'remove');
 
       // ❌ Not created yet // 
       // Remove the is--selected class from the step and any steps completed after it
@@ -430,7 +430,8 @@ document.addEventListener("DOMContentLoaded", function () {
       removeBundleProductBtn.forEach((button) => {
         button.addEventListener('click', function(event) {
           const stepToRemove = parseInt(event.currentTarget.dataset.step, 10);
-          removeProduct(stepToRemove);
+          const bundleProduct = event.closest("[bundle-product]");
+          removeProduct(stepToRemove, bundleProduct);
         })
       });
 
