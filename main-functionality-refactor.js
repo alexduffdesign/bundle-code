@@ -232,10 +232,10 @@ document.addEventListener("DOMContentLoaded", function () {
       if (isProductAddedForStep(state.currentStep)) {
         if (state.currentStep === state.discountStep) {
           state.discountClaimed = true;
+          console.log("is the discount claimed", state.discountClaimed);
         }
         state.currentStep++;
         console.log("Next Step Button Clicked: After Increment currentStep =", state.currentStep);
-        console.log("is the discount claimed", state.discountClaimed);
       }
     
       // Handle any popup-related actions
