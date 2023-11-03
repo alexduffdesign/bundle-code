@@ -623,14 +623,16 @@ document.addEventListener("DOMContentLoaded", function () {
     // 2. Add the product data to the bundle
     // Refactored to handle both adding and removing product data
     function populateBundleProduct(productBlocks, action = 'add') {
+      // Ensure productBlocks is always an array
+      const blocksArray = Array.isArray(productBlocks) ? productBlocks : [productBlocks];
       const productContainers = getBundleProductsInsideBundleItem();
-
-      Array.from(productBlocks).forEach((productBlock, index) => {
+    
+      blocksArray.forEach((productBlock, index) => {
         if (!productContainers[index]) {
           console.warn(`No [bundle-product] found for index ${index}`);
           return;
         }
-
+    
         const targetProductContainer = productContainers[index];
         if (action === 'add') {
           // Populate data
@@ -649,6 +651,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
     }
+    
 
     
     // 3. Remove the title cover
