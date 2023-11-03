@@ -999,6 +999,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function applyTitleOverlay(bundleStepsItems) {
       const targetBundleItem = bundleStepsItems[state.currentStep];
+      console.log("The target bundle item", targetBundleItem)
       if (!targetBundleItem) return;
     
       const titleCoveredElements = targetBundleItem.querySelectorAll(".title-covered");
