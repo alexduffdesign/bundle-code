@@ -1018,8 +1018,8 @@ document.addEventListener("DOMContentLoaded", function () {
       productContainers.forEach(targetProductContainer => {
         // Clear data
         targetProductContainer.querySelector("[data-img]").src = '';
-        targetProductContainer.querySelector("[data-title]").textContent = '';
-        targetProductContainer.querySelector("[data-price]").textContent = '';
+        targetProductContainer.querySelector("[data-title]").textContent = 'Product Title';
+        targetProductContainer.querySelector("[data-price]").textContent = '~~~~~~~~';
       });
     }
 
