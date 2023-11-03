@@ -271,10 +271,11 @@ document.addEventListener("DOMContentLoaded", function () {
       // Logic to identify the step and remove the product from the array
       state.bundle = state.bundle.filter(product => product.step < stepToRemove);
       console.log("Checking Bundle To See If ID removed", state.bundle);
+
       // Set the current step to the one that had the product removed
       state.currentStep = stepToRemove;
 
-      console.log("Current Step", state.currentStep);
+      console.log("Current Step After Removing Product", state.currentStep);
 
       // Hide the popup if it's visible
       closeNextStepPopup();
