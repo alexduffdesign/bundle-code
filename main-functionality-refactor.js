@@ -279,7 +279,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Hide the popup if it's visible
       closeNextStepPopup();
 
-      updateUIforRemoveProduct(state.currentStep, bundleProduct);
+     updateUIforRemoveProduct(state.currentStep, bundleProduct);
 
     }
   
@@ -290,7 +290,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateUIAfterProductAdded(productBlocks) {
       
       animateAddedProductToCart(productBlocks);
-      populateBundleProduct(productBlocks, 'add');
+      populateBundleProduct(productBlocks);
       clearTitleOverlay(bundleStepsItems);
     
       if (state.editingStep === null) {
@@ -371,6 +371,9 @@ document.addEventListener("DOMContentLoaded", function () {
     
       // Update the mobile bundle step information
       const dataForCurrentStep = getCurrentStepData(currentStep);
+      console.log("data for current step",dataForCurrentStep);
+      console.log("data current step", currentStep);
+
       updateMobileBundleStepInfo(dataForCurrentStep);
     
       // Update the product area to reflect the current step ✅
@@ -380,7 +383,7 @@ document.addEventListener("DOMContentLoaded", function () {
       updatePopup(dataForCurrentStep);
 
       // Update the bundle product to remove data
-      populateBundleProduct(bundleProduct, 'remove');
+      removeBundleProduct(bundleProduct);
 
       // ❌ Not created yet // 
       // Remove the is--selected class from the step and any steps completed after it
@@ -619,34 +622,28 @@ document.addEventListener("DOMContentLoaded", function () {
   
     // 2. Add the product data to the bundle
     // Refactored to handle both adding and removing product data
-    function populateBundleProduct(productBlocks, action = 'add') {
-      const productContainers = getBundleProductsInsideBundleItem();
+    function populateBundleProduct(productBlocks) {
 
+      const productContainers = getBundleProductsInsideBundleItem();
+    
       Array.from(productBlocks).forEach((productBlock, index) => {
         if (!productContainers[index]) {
           console.warn(`No [bundle-product] found for index ${index}`);
           return;
         }
-
+        
+        // Populate data
+        const imgSrc = productBlock.querySelector("[data-img]").src;
+        const title = productBlock.querySelector("[data-title]").textContent;
+        const price = productBlock.querySelector("[data-price]").textContent;
+        
         const targetProductContainer = productContainers[index];
-        if (action === 'add') {
-          // Populate data
-          const imgSrc = productBlock.querySelector("[data-img]").src;
-          const title = productBlock.querySelector("[data-title]").textContent;
-          const price = productBlock.querySelector("[data-price]").textContent;
-          
-          targetProductContainer.querySelector("[data-img]").src = imgSrc;
-          targetProductContainer.querySelector("[data-title]").textContent = title;
-          targetProductContainer.querySelector("[data-price]").textContent = price;
-        } else if (action === 'remove') {
-          // Clear data
-          targetProductContainer.querySelector("[data-img]").src = '';
-          targetProductContainer.querySelector("[data-title]").textContent = '';
-          targetProductContainer.querySelector("[data-price]").textContent = '';
-        }
+        targetProductContainer.querySelector("[data-img]").src = imgSrc;
+        targetProductContainer.querySelector("[data-title]").textContent = title;
+        targetProductContainer.querySelector("[data-price]").textContent = price;
       });
     }
-
+    
     
     function removeBundleProduct(bundleProduct) {
 
