@@ -623,8 +623,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // 2. Add the product data to the bundle
     // Refactored to handle both adding and removing product data
     function populateBundleProduct(productBlocks, action = 'add') {
-      // Ensure productBlocks is always an array
-      const blocksArray = Array.isArray(productBlocks) ? productBlocks : [productBlocks];
+      // Ensure productBlocks is always treated as an array
+      const blocksArray = (productBlocks instanceof HTMLElement) ? [productBlocks] : productBlocks;
       const productContainers = getBundleProductsInsideBundleItem();
     
       blocksArray.forEach((productBlock, index) => {
