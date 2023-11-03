@@ -623,6 +623,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // 2. Add the product data to the bundle
     // Refactored to handle both adding and removing product data
     function populateBundleProduct(productBlocks) {
+
       const productContainers = getBundleProductsInsideBundleItem();
     
       Array.from(productBlocks).forEach((productBlock, index) => {
@@ -645,7 +646,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     
     function removeBundleProduct(bundleItem) {
-      const productContainers = bundleItem.querySelectorAll("[bundle-product]");
+      const productContainers = bundleItem[state.currentStep].querySelectorAll("[bundle-product]");
     
       productContainers.forEach(targetProductContainer => {
         // Clear data
