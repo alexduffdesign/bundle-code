@@ -430,7 +430,7 @@ document.addEventListener("DOMContentLoaded", function () {
       removeBundleProductBtn.forEach((button) => {
         button.addEventListener('click', function(event) {
           const stepToRemove = parseInt(event.currentTarget.dataset.step, 10);
-          const bundleProduct = event.closest("[bundle-product]");
+          const bundleProduct = event.parentElement("[bundle-product]");
           removeProduct(stepToRemove, bundleProduct);
         })
       });
