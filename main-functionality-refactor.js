@@ -336,11 +336,9 @@ document.addEventListener("DOMContentLoaded", function () {
       activateStepImage(bundleStepsItems[state.currentStep]);
       activateStepImage(mapStepsItems[state.currentStep]);
 
-      // Make Previous Step Image As Selected
-      makeStepImageSelected(bundleStepsItems[state.currentStep - 1]);
-  
-      deactiveStepUI(bundleStepsItems);
-      deactiveStepUI(mapStepsItems);
+      
+      deactivateStepImage(bundleStepsItems[state.currentStep - 1]);
+      deactivateStepImage(mapStepsItems[state.currentStep - 1]);
     
       // Update mobile bundle step info
       const dataForCurrentStep = getCurrentStepData(state.currentStep);
@@ -410,13 +408,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
         } if (index > currentStep) {
           item.querySelector("[bundle-item]").classList.remove("is--active");
-          deactiveStepUI(item);
+          deactivateStepUI(item);
         }
       });
 
       mapStepsItems.forEach((item, index) => {
         if (index > currentStep) {
-          deactiveStepUI(item);
+          deactivateStepUI(item);
         }
       });
 
@@ -1063,7 +1061,7 @@ document.addEventListener("DOMContentLoaded", function () {
       bundleProduct.querySelector("[data-price]").textContent = '~~~~~~~~';
     }
 
-    function deactiveStepUI(stepItems) {
+    function deactivateStepUI(stepItems) {
      // Previous Bundle Image Gets is--active removed
         const stepImageEl = stepItems.querySelector(
           "[step-image]"
