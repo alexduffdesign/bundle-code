@@ -282,7 +282,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       // Logic to identify the step and remove the product from the array
-      state.bundle = state.bundle.filter(product => product.step < stepToRemove);
+      state.bundle = state.bundle.filter(product => product.step < stepToRemove + 1);
       console.log("Checking Bundle To See If ID removed", state.bundle);
 
       // Set the current step to the one that had the product removed
