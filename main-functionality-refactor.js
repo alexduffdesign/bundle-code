@@ -275,18 +275,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function removeProduct(stepToRemove, bundleProduct) { 
 
+       // Deactivate any active prize 🏆 elements and show the products if necessary
+       if (isPrizeStep(state.currentStep)) {
+        deactivatePrizeElements();
+        products.classList.add("is--active");
+      }
+
       // Logic to identify the step and remove the product from the array
       state.bundle = state.bundle.filter(product => product.step < stepToRemove);
       console.log("Checking Bundle To See If ID removed", state.bundle);
 
       // Set the current step to the one that had the product removed
       state.currentStep = stepToRemove;
-
-       // Deactivate any active prize 🏆 elements and show the products if necessary
-       if (isPrizeStep(state.currentStep)) {
-        deactivatePrizeElements();
-        products.classList.add("is--active");
-      }
 
       console.log("Current Step After Removing Product", state.currentStep);
 
