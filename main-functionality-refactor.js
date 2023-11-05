@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const changeBundleProductBtn = document.querySelectorAll("[change-btn]");
     const removeBundleProductBtn = document.querySelectorAll("[remove-product]");
     const bundleProductImg = document.querySelector(".bundle_steps_product-img").src;
-    const popupCheckout = document.querySelector("[checkout-popup]");
+    const popupCheckout = document.querySelector("[popup-checkout]");
     const bundleCheckout = document.querySelector("[checkout]");
 
   
