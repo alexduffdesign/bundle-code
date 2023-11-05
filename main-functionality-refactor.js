@@ -183,14 +183,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const state = {
       currentStep: 0,
-      editingStep: null,
       bundle: [],
+      editingStep: null,   
+      prizeSteps: [2, 4, 6],
       discountStep: 4,
       discountClaimed: false,
-      undoStack: [],
-      lockedSteps: [1, 2, 3],
       dailyDiscount: null,
-      // add more state variables as needed
     };
 
 
@@ -329,7 +327,7 @@ document.addEventListener("DOMContentLoaded", function () {
       changeBundleProductBtn[state.currentStep].classList.add("is--active");
       removeBundleProductBtn[state.currentStep].classList.add("is--active");
 
-      if ([2, 4, 6].includes(state.currentStep)) {
+      if (state.prizeSteps.includes(state.currentStep)) {
       showCheckout();
       } else {
       hideCheckout();
@@ -367,6 +365,9 @@ document.addEventListener("DOMContentLoaded", function () {
     
       // Reset UI to no-popup state
       backToNoPopup();
+
+      if (!state.prizeSteps.includes(state.currentStep)) {
+      hideCheckout();
     }
 
 
