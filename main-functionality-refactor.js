@@ -335,6 +335,10 @@ document.addEventListener("DOMContentLoaded", function () {
       // Update the step images for bundle and map areas
       activateStepImage(bundleStepsItems[state.currentStep]);
       activateStepImage(mapStepsItems[state.currentStep]);
+
+      // Make previous step selected
+      makeStepImageSelected(bundleStepsItems[state.currentStep - 1]);
+      makeStepImageSelected(mapStepsItems[state.currentStep - 1]);
       
       // Deactivate Previous Step
       deactivateStepImage(bundleStepsItems[state.currentStep - 1]);
