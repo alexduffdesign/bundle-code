@@ -335,11 +335,13 @@ document.addEventListener("DOMContentLoaded", function () {
       // Update the step images for bundle and map areas
       activateStepImage(bundleStepsItems[state.currentStep]);
       activateStepImage(mapStepsItems[state.currentStep]);
-
       
+      // Deactivate Previous Step
       deactivateStepImage(bundleStepsItems[state.currentStep - 1]);
       deactivateStepImage(mapStepsItems[state.currentStep - 1]);
     
+      openBundleItem(bundleStepsItems[state.currentStep]);
+
       // Update mobile bundle step info
       const dataForCurrentStep = getCurrentStepData(state.currentStep);
       updateMobileBundleStepInfo(dataForCurrentStep);
@@ -786,6 +788,10 @@ document.addEventListener("DOMContentLoaded", function () {
     colourBundleProduct?.classList.add("is--selected");
     }
 
+    function openBundleItem(stepItems) {
+      const bundleItemEl = stepItems.querySelector("[bundle-item]");
+      bundleItemEl?.classList.add("is--active");
+    }
 
     function activateStepImage(stepItems) {
       const stepImageEl = stepItems.querySelector(
