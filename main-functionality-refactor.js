@@ -416,15 +416,6 @@ document.addEventListener("DOMContentLoaded", function () {
           unactiveStepImage(item);
         }
       });
-      }
-
-
-      // Update the bundle product to remove data
-      // removeBundleProduct(bundleProduct);
-
-      // applyTitleOverlay(bundleStepsItems);
-
-      // removeCurrentStepAsSelected(bundleStepsItems);
 
       // ❌ Not created yet // 
       // Remove the is--selected class from the step and any steps completed after it
