@@ -334,8 +334,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateUIAfterMoveToNextStep() {
       // Update the step images for bundle and map areas
-      updateStepImage(bundleStepsItems);
-      updateStepImage(mapStepsItems);
+      activeStepImage(bundleStepsItems);
+      activeStepImage(mapStepsItems);
+      unactiveStepImage(bundleStepsItems);
+      unactiveStepImage(mapStepsItems);
     
       // Update mobile bundle step info
       const dataForCurrentStep = getCurrentStepData(state.currentStep);
@@ -373,9 +375,9 @@ document.addEventListener("DOMContentLoaded", function () {
       // Update the indicator position ✅
       updateIndicatorPosition(currentStep, bundleStepsItems.length);
     
-      // 🕵️‍♀️ Investigate this a bit more
-      // updateStepImage(bundleStepsItems);
-      // updateStepImage(mapStepsItems);
+      
+      activeStepImage(bundleStepsItems);
+      activeStepImage(mapStepsItems);
     
       // Update the mobile bundle step information
       const dataForCurrentStep = getCurrentStepData(currentStep);
@@ -405,8 +407,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
         } if (index > currentStep) {
           item.querySelector("[bundle-item]").classList.remove("is--active");
+          unactiveStepImage(item);
         }
       });
+
+      mapStepsItems.forEach((item, index) => {
+        if (index > currentStep) {
+          unactiveStepImage(item);
+        }
+      });
+      }
 
 
       // Update the bundle product to remove data
@@ -856,21 +866,28 @@ document.addEventListener("DOMContentLoaded", function () {
     
     // UI Functions (mainly for next step click)
 
-    function updateStepImage(stepItems) {
+
+    function activeStepImage(stepItems) {
     
-      const currentStepImage = stepItems[state.currentStep].querySelector(
+      const activeStepImage = stepItems[state.currentStep].querySelector(
         "[step-image]"
       );
-    
+
       // currentStepImage?.classList.remove("is--active");
-      currentStepImage?.classList.add("is--active");
+      activeStepImage ?.classList.add("is--active");
+      activeStepImage ?.classList.add("is--selected");
     
-      // Previous Bundle Image Gets is--active - Removed
-      const previousStepImage = stepItems[state.currentStep - 1].querySelector(
-        "[step-image]"
-      );
-      previousStepImage?.classList.remove("is--active");
     }
+
+    function unactiveStepImage(stepItems) {
+     // Previous Bundle Image Gets is--active removed
+     const unactiveStepImage = stepItems.querySelector(
+      "[step-image]"
+    );
+    unactiveStepImage?.classList.remove("is--active");
+    unactiveStepImage?.classList.remove("is--selected");
+    }
+    
     
     function updateMobileBundleStepInfo(stepElement) {
       if (isMobile()) {
