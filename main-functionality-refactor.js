@@ -329,7 +329,7 @@ document.addEventListener("DOMContentLoaded", function () {
       changeBundleProductBtn[state.currentStep].classList.add("is--active");
       removeBundleProductBtn[state.currentStep].classList.add("is--active");
 
-      if (state.currentStep === 3, 5, 6) {
+      if ([3, 5, 6].includes(state.currentStep)) {
       showCheckout();
       } else {
       hideCheckout();
