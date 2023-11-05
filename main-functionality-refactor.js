@@ -368,6 +368,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if (!state.prizeSteps.includes(state.currentStep)) {
       hideCheckout();
+      }
     }
 
 
