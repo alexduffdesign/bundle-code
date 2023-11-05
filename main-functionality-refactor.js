@@ -671,6 +671,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
         const targetProductContainer = productContainers[index];
         targetProductContainer.querySelector("[data-img]").src = imgSrc;
+        targetProductContainer.querySelector("[data-img]").srcset = imgSrc;
         targetProductContainer.querySelector("[data-title]").textContent = title;
         targetProductContainer.querySelector("[data-price]").textContent = price;
       });
