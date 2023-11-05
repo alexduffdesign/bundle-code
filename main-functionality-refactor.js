@@ -377,14 +377,18 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    function updateUIforRemoveProduct(currentStep, bundleProduct) {
+    function updateUIforRemoveProduct(currentStep) {
 
       // Update the indicator position ✅
       updateIndicatorPosition(currentStep, bundleStepsItems.length);
+
+      // Update bundleImage
+      activateStepImage(bundleStepsItems[state.currentStep]);
+      activateStepImage(mapStepsItems[state.currentStep]);
     
       // Update the mobile bundle step information
       const dataForCurrentStep = getCurrentStepData(currentStep);
-      console.log("data for current step",dataForCurrentStep);
+      console.log("data for current step", dataForCurrentStep);
       console.log("data current step", currentStep);
 
       // Update mobile bundle step info with current step data
