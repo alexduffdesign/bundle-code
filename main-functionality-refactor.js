@@ -382,10 +382,6 @@ document.addEventListener("DOMContentLoaded", function () {
       // Update the indicator position ✅
       updateIndicatorPosition(currentStep, bundleStepsItems.length);
     
-      
-      activateStepImage(bundleStepsItems);
-      activateStepImage(mapStepsItems);
-    
       // Update the mobile bundle step information
       const dataForCurrentStep = getCurrentStepData(currentStep);
       console.log("data for current step",dataForCurrentStep);
