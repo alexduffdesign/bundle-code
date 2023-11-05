@@ -780,7 +780,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
     // 6. Sets the is--selected class to the current step.
     function colourSignifyingTheProductIsAdded(stepItems) {
-    const colourBundleProduct = stepItems[state.currentStep].querySelector(
+    const colourBundleProduct = stepItems.querySelector(
       "[bundle-product-added]"
     );
     colourBundleProduct?.classList.add("is--selected");
@@ -788,21 +788,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     function activateStepImage(stepItems) {
-      const stepImageEl = stepItems[state.currentStep].querySelector(
+      const stepImageEl = stepItems.querySelector(
         "[step-image]"
       );
       stepImageEl ?.classList.add("is--active");    
     }
 
     function deactivateStepImage(stepItems) {
-      const stepImageEl = stepItems[state.currentStep].querySelector(
+      const stepImageEl = stepItems.querySelector(
         "[step-image]"
       );
       stepImageEl ?.classList.remove("is--active");
     }
 
     function makeStepImageSelected (stepItems) {
-      const stepImageEl = stepItems[state.currentStep].querySelector(
+      const stepImageEl = stepItems.querySelector(
         "[step-image]"
       );
       stepImageEl ?.classList.add("is--selected");
