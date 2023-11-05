@@ -401,9 +401,10 @@ document.addEventListener("DOMContentLoaded", function () {
           applyTitleOverlay(item);
 
           item.querySelector("[remove-product]").classList.remove("is--active");
+          item.querySelector("[change-btn]").classList.remove("is--active");
+
         } if (index > currentStep) {
           item.querySelector("[bundle-item]").classList.remove("is--active");
-          item.querySelector("[change-btn]").classList.remove("is--active");
         }
       });
 
