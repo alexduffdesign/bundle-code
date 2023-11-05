@@ -231,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Only move to the next step if the current step's product has been added
       if (isProductAddedForStep(state.currentStep)) {
         if (state.currentStep === state.discountStep) {
-          state.discountClaimed = true;
+          state.discountClaimed === true;
           
         }
         state.currentStep++;
@@ -274,13 +274,19 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function removeProduct(stepToRemove, bundleProduct) { 
+
       // Logic to identify the step and remove the product from the array
-      
       state.bundle = state.bundle.filter(product => product.step < stepToRemove);
       console.log("Checking Bundle To See If ID removed", state.bundle);
 
       // Set the current step to the one that had the product removed
       state.currentStep = stepToRemove;
+
+       // Deactivate any active prize 🏆 elements and show the products if necessary
+       if (isPrizeStep(state.currentStep)) {
+        deactivatePrizeElements();
+        products.classList.add("is--active");
+      }
 
       console.log("Current Step After Removing Product", state.currentStep);
 
@@ -363,12 +369,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     function updateUIforRemoveProduct(currentStep, bundleProduct) {
-
-      // Deactivate any active prize 🏆 elements and show the products if necessary
-      if (isPrizeStep(state.currentStep)) {
-        deactivatePrizeElements();
-        products.classList.add("is--active");
-      }
 
       // Update the indicator position ✅
       updateIndicatorPosition(currentStep, bundleStepsItems.length);
