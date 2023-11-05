@@ -212,7 +212,7 @@ document.addEventListener("DOMContentLoaded", function () {
      
       // Adds ID of each product to the bundle array in state
       Array.from(productBlocks).forEach((productBlock, index) => {
-        let step = state.editingStep !== null ? state.editingStep : (state.currentStep + 1);
+        let step = state.editingStep !== null ? state.editingStep : (state.currentStep);
         addProductID(productBlock, index, step);
       });
 
@@ -282,7 +282,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       // Logic to identify the step and remove the product from the array
-      state.bundle = state.bundle.filter(product => product.step < stepToRemove + 1);
+      state.bundle = state.bundle.filter(product => product.step < stepToRemove);
       console.log("Checking Bundle To See If ID removed", state.bundle);
 
       // Set the current step to the one that had the product removed
