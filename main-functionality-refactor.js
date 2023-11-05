@@ -793,7 +793,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "[step-image]"
       );
   
-      // currentStepImage?.classList.remove("is--active");
+      currentStepImage?.classList.remove("is--active");
       currentStepImage?.classList.add("is--selected");
   
       // Next Step Bundle item gets and is--active
