@@ -399,6 +399,7 @@ document.addEventListener("DOMContentLoaded", function () {
           // Always remove the product data and apply the title overlay
           removeBundleProduct(bundleProduct); // Directly pass the element
           applyTitleOverlay(item);
+        } if (index > currentStep) {
           item.querySelector("[bundle-item]").classList.remove("is--active");
         }
       });
