@@ -32,8 +32,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const changeBundleProductBtn = document.querySelectorAll("[change-btn]");
     const removeBundleProductBtn = document.querySelectorAll("[remove-product]");
     const bundleProductImg = document.querySelector(".bundle_steps_product-img").src;
-    const popupCheckout = document.querySelector("[popup-checkout]");
-    const bundleCheckout = document.querySelector("[checkout]");
+    const popupCheckoutWrap = document.querySelector("[popup-checkout]");
+    const checkoutBtn = document.querySelectorAll("[checkout]");
 
   
   
@@ -820,15 +820,19 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function showCheckout() {
-      popupCheckout.classList.add("is--active");
-      bundleCheckout.classList.add("is--active");
-      bundleCheckout.classList.remove("is--disabled");
+      popupCheckoutWrap.classList.add("is--active");
+      checkoutBtn.forEach((btn) =>{
+        btn.classList.add("is--active");
+        btn.classList.remove("is--disabled");
+      });
     }
 
     function hideCheckout() {
-      popupCheckout.classList.remove("is--active");
-      bundleCheckout.classList.remove("is--active");
-      bundleCheckout.classList.add("is--disabled");
+      popupCheckoutWrap.classList.remove("is--active");
+      checkoutBtn.forEach((btn) =>{
+        btn.classList.remove("is--active");
+        btn.classList.add("is--disabled");
+      });
     }
 
     
