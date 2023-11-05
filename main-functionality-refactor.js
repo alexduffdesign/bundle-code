@@ -329,7 +329,7 @@ document.addEventListener("DOMContentLoaded", function () {
       changeBundleProductBtn[state.currentStep].classList.add("is--active");
       removeBundleProductBtn[state.currentStep].classList.add("is--active");
 
-      if ([3, 5, 6].includes(state.currentStep)) {
+      if ([2, 4, 5].includes(state.currentStep)) {
       showCheckout();
       } else {
       hideCheckout();
@@ -822,11 +822,13 @@ document.addEventListener("DOMContentLoaded", function () {
     function showCheckout() {
       popupCheckout.classList.add("is--active");
       bundleCheckout.classList.add("is--active");
+      bundleCheckout.classList.remove("is--disabled");
     }
 
     function hideCheckout() {
       popupCheckout.classList.remove("is--active");
       bundleCheckout.classList.remove("is--active");
+      bundleCheckout.classList.add("is--disabled");
     }
 
     
