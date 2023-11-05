@@ -32,6 +32,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const changeBundleProductBtn = document.querySelectorAll("[change-btn]");
     const removeBundleProductBtn = document.querySelectorAll("[remove-product]");
     const bundleProductImg = document.querySelector(".bundle_steps_product-img").src;
+    const popupCheckout = document.querySelector("[checkout-popup]");
+    const bundleCheckout = document.querySelector("[checkout]");
 
   
   
@@ -209,7 +211,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //// Actions
 
     function addProductToBundle(productBlocks) {
-     
+      
       // Adds ID of each product to the bundle array in state
       Array.from(productBlocks).forEach((productBlock, index) => {
         let step = state.editingStep !== null ? state.editingStep : (state.currentStep);
@@ -327,6 +329,12 @@ document.addEventListener("DOMContentLoaded", function () {
       changeBundleProductBtn[state.currentStep].classList.add("is--active");
       removeBundleProductBtn[state.currentStep].classList.add("is--active");
 
+      if (state.currentStep === 3, 5, 6) {
+      showCheckout();
+      } else {
+      hideCheckout();
+      }
+
       setTimeout(() => openNextStepPopup(), 720);
     }
 
@@ -379,6 +387,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateUIforRemoveProduct(currentStep) {
 
+
       // Update the indicator position ✅
       updateIndicatorPosition(currentStep, bundleStepsItems.length);
 
@@ -424,15 +433,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
 
-      // ❌ Not created yet // 
-      // Remove the is--selected class from the step and any steps completed after it
-      ////// deselectCompletedSteps(currentStep);
-    
-      // Remove the is--active class from any bundle-item completed after the current step
-      ///// deactivateSubsequentBundleItems(currentStep);
-    
-      // Reset the product data of the deleted product and any added after it (excluding discount prize)
-      //// resetProductData(currentStep);
+      
     }
 
 
@@ -816,6 +817,16 @@ document.addEventListener("DOMContentLoaded", function () {
         "[step-image]"
       );
       stepImageEl ?.classList.add("is--selected");
+    }
+
+    function showCheckout() {
+      popupCheckout.classList.add("is--active");
+      bundleCheckout.classList.add("is--active");
+    }
+
+    function hideCheckout() {
+      popupCheckout.classList.remove("is--active");
+      bundleCheckout.classList.remove("is--active");
     }
 
     
