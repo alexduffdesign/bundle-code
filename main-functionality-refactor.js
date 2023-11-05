@@ -371,7 +371,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       // Update the indicator position ✅
-      updateIndicatorPosition(currentStep - 1, bundleStepsItems.length);
+      updateIndicatorPosition(currentStep, bundleStepsItems.length);
     
       // 🕵️‍♀️ Investigate this a bit more
       // updateStepImage(bundleStepsItems);
@@ -399,9 +399,11 @@ document.addEventListener("DOMContentLoaded", function () {
           // Always remove the product data and apply the title overlay
           removeBundleProduct(bundleProduct); // Directly pass the element
           applyTitleOverlay(item);
+
           item.querySelector("[remove-product]").classList.remove("is--active");
         } if (index > currentStep) {
           item.querySelector("[bundle-item]").classList.remove("is--active");
+          item.querySelector("[change-btn]").classList.remove("is--active");
         }
       });
 
