@@ -275,6 +275,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function removeProduct(stepToRemove, bundleProduct) { 
 
+      state.editingStep = null;
+
        // Deactivate any active prize 🏆 elements and show the products if necessary
        if (isPrizeStep(state.currentStep)) {
         deactivatePrizeElements();
