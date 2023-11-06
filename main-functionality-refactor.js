@@ -451,7 +451,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // [change] buttons  
       changeBundleProductBtn.forEach((button) => {
         button.addEventListener('click', function(event) {
-          const stepValue = parseInt(event.currentTarget.dataset.step, 10);
+          const stepValue = parseInt(event.currentTarget.dataset.step, 10) - 1;
           console.log("stepValue of Change", stepValue);
           editMode(stepValue);
         })
