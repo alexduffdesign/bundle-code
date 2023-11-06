@@ -497,7 +497,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function getBundleProductsInsideBundleItem() {
   
     // depending on if we are in edit mode or not, get the step number 
-    const targetStep = state.editingStep !== null ? (state.editingStep - 1) : state.currentStep;
+    const targetStep = state.editingStep !== null ? (state.editingStep) : state.currentStep;
   
     // get the index and find that bundle item of that index
     const bundleItem = bundleStepsItems[targetStep];
