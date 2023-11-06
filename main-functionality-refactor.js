@@ -211,10 +211,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function addProductToBundle(productBlocks) {
       
       // Adds ID of each product to the bundle array in state
-      Array.from(productBlocks).forEach((productBlock, index) => {
-        let step = state.editingStep !== null ? state.editingStep : (state.currentStep);
-        addProductID(productBlock, index, step);
-      });
+      state.bundle = processProductBlocks(productBlocks, state.currentStep, state.editingStep);
 
       console.log("product Id's", state.bundle);
     
@@ -531,21 +528,65 @@ document.addEventListener("DOMContentLoaded", function () {
     
     // Logic function
 
-    function addProductID(productBlock, step) {
+    function getProductIDFromBlock(productBlock) {
       const idEl = productBlock.querySelector("[data-id]");
-      if (idEl) {
-        const id = idEl.getAttribute("data-id");
-        const idNumber = parseInt(id, 10);
-        const stepIndex = state.bundle.findIndex((item) => item.step === step);
-    
-        if (stepIndex !== -1) {
-          state.bundle[stepIndex].idNumber = idNumber;
-        } else {
-          state.bundle.push({ step, idNumber });
-        }
-        console.log(state.bundle);
-      }
+      return idEl ? parseInt(idEl.getAttribute("data-id"), 10) : null;
     }
+
+    function upsertProductInBundle(bundle, step, idNumber) {
+      const stepIndex = bundle.findIndex((item) => item.step === step);
+      
+      if (stepIndex !== -1) {
+        // If the product ID is not already in the array, add it
+        if (!bundle[stepIndex].productIds.includes(idNumber)) {
+          bundle[stepIndex].productIds.push(idNumber);
+        }
+      } else {
+        // Add a new step with a new product ids array
+        bundle.push({ step, productIds: [idNumber] });
+      }
+      
+      return bundle; // Return the new state of the bundle
+    }
+
+    function processProductBlocks(productBlocks, currentStep, editingStep) {
+      // Start with a fresh copy of the bundle array
+      let updatedBundle = [...state.bundle];
+    
+      // Loop over each product block to process them
+      productBlocks.forEach((productBlock) => {
+        // Determine the step number for the product
+        const step = editingStep ?? currentStep;
+        // Extract the product ID from the block
+        const idNumber = getProductIDFromBlock(productBlock);
+    
+        // If an ID was found, upsert it into the updated bundle array
+        if (idNumber !== null) {
+          updatedBundle = upsertProductInBundle(updatedBundle, step, idNumber);
+        }
+      });
+    
+      // Return the updated bundle array
+      return updatedBundle;
+    }
+    
+    
+
+    // function addProductID(productBlock, step) {
+    //   const idEl = productBlock.querySelector("[data-id]");
+    //   if (idEl) {
+    //     const id = idEl.getAttribute("data-id");
+    //     const idNumber = parseInt(id, 10);
+    //     const stepIndex = state.bundle.findIndex((item) => item.step === step);
+    
+    //     if (stepIndex !== -1) {
+    //       state.bundle[stepIndex].idNumber = idNumber;
+    //     } else {
+    //       state.bundle.push({ step, idNumber });
+    //     }
+    //     console.log(state.bundle);
+    //   }
+    // }
 
 
     // UI Functions (mainly for add to bundle action) // 
