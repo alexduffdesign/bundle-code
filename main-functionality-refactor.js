@@ -538,7 +538,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const idEl = productBlock.querySelector("[data-id]");
       if (idEl) {
         const id = idEl.getAttribute("data-id");
-        const idNumber = parseInt(id, 10);
+        const idNumber = parseInt(id, 10) -1;
         const stepIndex = state.bundle.findIndex((item) => item.step === step);
     
         if (stepIndex !== -1) {
