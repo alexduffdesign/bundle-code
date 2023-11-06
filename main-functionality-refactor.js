@@ -380,17 +380,15 @@ document.addEventListener("DOMContentLoaded", function () {
         deactivatePrizeElements();
         products.classList.add("is--active");
       }
-    
+
       // Update the product area with data from the step being edited
       const stepData = getCurrentStepData(stepIndex);
-      console.log("this is the step data", stepData);
 
       updateProductArea(stepData);
     }
 
 
     function updateUIforRemoveProduct(currentStep) {
-
 
       // Update the indicator position ✅
       updateIndicatorPosition(currentStep, bundleStepsItems.length);
@@ -436,7 +434,6 @@ document.addEventListener("DOMContentLoaded", function () {
           deactivateStepUI(item);
         }
       });
-
       
     }
 
@@ -522,7 +519,6 @@ document.addEventListener("DOMContentLoaded", function () {
     function isProductAddedForStep(currentStep) {
       // Assuming step is the index or identifier for the bundle step
       const stepElement = document.querySelector(`[bundle-step="${state.currentStep + 1}"]`);
-      console.log("Step Found", stepElement);
       
       if (stepElement) {
         const bundleStepsProductElement = stepElement.querySelector('.bundle_steps_product');
@@ -841,8 +837,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     
 
-
-  
     // 7. Next step activated UI, bundle and map
     // -- (makes the image have a circle and adds the selected to the last steps image)
     // function nextStepActivatedUi(stepItems) {
