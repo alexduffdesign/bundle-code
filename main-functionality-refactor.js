@@ -531,11 +531,11 @@ document.addEventListener("DOMContentLoaded", function () {
     
     // Logic function
 
-    function addProductID(productBlock, index, step) {
+    function addProductID(productBlock, step) {
       const idEl = productBlock.querySelector("[data-id]");
       if (idEl) {
         const id = idEl.getAttribute("data-id");
-        const idNumber = parseInt(id, 10) -1;
+        const idNumber = parseInt(id, 10);
         const stepIndex = state.bundle.findIndex((item) => item.step === step);
     
         if (stepIndex !== -1) {
