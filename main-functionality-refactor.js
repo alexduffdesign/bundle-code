@@ -263,9 +263,13 @@ document.addEventListener("DOMContentLoaded", function () {
     
       // Set editingStep to the chosen step
       state.editingStep = stepValue;
+          
+      // Calculate the zero-based index for JS array access
+      const stepIndex = state.editingStep - 1;
+      console.log("Step Index", stepIndex);
 
       // Update the UI to reflect the editing mode state
-      updateUIForEditMode(state.editingStep);
+      updateUIForEditMode(stepIndex);
     }
 
     function removeProduct(stepToRemove, bundleProduct) { 
