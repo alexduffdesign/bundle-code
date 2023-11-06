@@ -529,13 +529,16 @@ document.addEventListener("DOMContentLoaded", function () {
       return idEl ? parseInt(idEl.getAttribute("data-id"), 10) : null;
     }
 
-    function upsertProductInBundle(bundle, step, idNumber) {
+    function upsertProductInBundle(bundle, step, idNumber, isLastStep = false) {
       const stepIndex = bundle.findIndex((item) => item.step === step);
       
       if (stepIndex !== -1) {
-        // If the product ID is not already in the array, add it
-        if (!bundle[stepIndex].productIds.includes(idNumber)) {
+        // If it's the last step and the product ID is not already in the array, add it
+        if (isLastStep && !bundle[stepIndex].productIds.includes(idNumber)) {
           bundle[stepIndex].productIds.push(idNumber);
+        } else {
+          // For any other step, or if it's not the last step, replace the product IDs
+          bundle[stepIndex].productIds = [idNumber];
         }
       } else {
         // Add a new step with a new product ids array
@@ -544,27 +547,23 @@ document.addEventListener("DOMContentLoaded", function () {
       
       return bundle; // Return the new state of the bundle
     }
+    
 
     function processProductBlocks(productBlocks, currentStep, editingStep) {
-      // Start with a fresh copy of the bundle array
       let updatedBundle = [...state.bundle];
+      const isLastStep = (editingStep ?? currentStep) === 6; // Define LAST_STEP_NUMBER accordingly
     
-      // Loop over each product block to process them
       productBlocks.forEach((productBlock) => {
-        // Determine the step number for the product
         const step = editingStep ?? currentStep;
-        // Extract the product ID from the block
         const idNumber = getProductIDFromBlock(productBlock);
-    
-        // If an ID was found, upsert it into the updated bundle array
         if (idNumber !== null) {
-          updatedBundle = upsertProductInBundle(updatedBundle, step, idNumber);
+          updatedBundle = upsertProductInBundle(updatedBundle, step, idNumber, isLastStep);
         }
       });
     
-      // Return the updated bundle array
       return updatedBundle;
     }
+    
     
     
 
