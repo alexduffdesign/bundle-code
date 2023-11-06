@@ -263,14 +263,9 @@ document.addEventListener("DOMContentLoaded", function () {
     
       // Set editingStep to the chosen step
       state.editingStep = stepValue;
-      console.log("Editing Step Real Number:", state.editingStep);
-    
-      // Calculate the zero-based index for JS array access
-      const stepIndex = state.editingStep - 1;
-      console.log("Step Index", stepIndex);
 
       // Update the UI to reflect the editing mode state
-      updateUIForEditMode(stepIndex);
+      updateUIForEditMode(state.editingStep);
     }
 
     function removeProduct(stepToRemove, bundleProduct) { 
@@ -471,9 +466,7 @@ document.addEventListener("DOMContentLoaded", function () {
       removeBundleProductBtn.forEach((button) => {
         button.addEventListener('click', function(event) {
           const stepToRemove = parseInt(event.currentTarget.dataset.step, 10) - 1;
-          console.log("stepToRemove", stepToRemove);
           const bundleProduct = event.currentTarget.closest("[bundle-item]");
-          console.log("bundle product identifyed", bundleProduct);
           removeProduct(stepToRemove, bundleProduct);
         })
       });
