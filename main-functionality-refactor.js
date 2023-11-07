@@ -321,7 +321,7 @@ document.addEventListener("DOMContentLoaded", function () {
       changeBundleProductBtn[state.currentStep].classList.add("is--active");
       removeBundleProductBtn[state.currentStep].classList.add("is--active");
 
-      if (state.prizeSteps.includes(state.currentStep)) {
+      if (state.prizeSteps.includes(state.currentStep) && isProductAddedForStep(state.currentStep)) {
       showCheckout();
       } else {
       hideCheckout();
@@ -547,7 +547,6 @@ document.addEventListener("DOMContentLoaded", function () {
       
       return bundle; // Return the new state of the bundle
     }
-    
 
     function processProductBlocks(productBlocks, currentStep, editingStep) {
       let updatedBundle = [...state.bundle];
