@@ -190,16 +190,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const stepsTracker = {
       milestones: [
-        "firstProduct",
-        "secondProduct",
-        "firstPrize",
-        "thirdProduct",
-        "secondPrize",
-        "fourthProduct",
-        "thirdPrize"
-      ],
-      milestoneStatus: new Array(7).fill(false) // Creates an array of 7 elements, all set to false
+        { firstProduct: false },
+        { secondProduct: false },
+        { firstPrize: false },
+        { thirdProduct: false },
+        { secondPrize: false },
+        { fourthProduct: false },
+        { thirdPrize: false }
+      ]
     };
+    
 
 
     //// Initial States
@@ -585,15 +585,20 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     function markMilestonesAsComplete(currentStep) {
-      // Go through each milestone status and set it to true up to the current step
-      stepsTracker.milestoneStatus.fill(true, 0, currentStep + 1);
+      // Go through each milestone and set it to true up to the current step
+      for (let i = 0; i <= currentStep; i++) {
+        const milestoneKey = Object.keys(stepsTracker.milestones[i])[0];
+        stepsTracker.milestones[i][milestoneKey] = true;
+      }
     }
     
     function resetMilestonesFromStep(step) {
       // Reset the milestones from the current step onward
-      stepsTracker.milestoneStatus.fill(false, step);
-    }    
-    
+      for (let i = step; i < stepsTracker.milestones.length; i++) {
+        const milestoneKey = Object.keys(stepsTracker.milestones[i])[0];
+        stepsTracker.milestones[i][milestoneKey] = false;
+      }
+    }
     
 
     // UI Functions (mainly for add to bundle action) // 
