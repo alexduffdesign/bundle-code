@@ -299,10 +299,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
       updateUIforRemoveProduct(state.currentStep, bundleProduct);
 
-       // Unclaim prize if applicable
-      if (state.claimedPrizes.includes(stepToRemove)) {
-        unclaimPrize(stepToRemove);
-      }
+      // Unclaim prize if applicable
+      reevaluateClaimedPrizes();
 
       // Evaluate checkout rules after removing a product
       updateCheckoutStatus();
@@ -555,14 +553,6 @@ document.addEventListener("DOMContentLoaded", function () {
       return !(lastStep === 6 && !state.claimedPrizes.includes(5));
     }
 
-    // Rulebook - an array of rule functions
-    const rulebook = [
-      ruleMinimumProductsAdded,
-      ruleCannotCheckoutAfterFourthProduct,
-      ruleCanCheckoutAfterPrizeClaimed,
-      ruleCheckoutAfterLastStep,
-    ];
-
     function evaluateCheckoutRules(state) {
       // Determine if minimum products rule passes
       const minimumProductsAdded = ruleMinimumProductsAdded(state);
@@ -600,14 +590,26 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
 
-    function unclaimPrize(step) {
-      const index = state.claimedPrizes.indexOf(step);
-      if (index > -1) {
-        state.claimedPrizes.splice(index, 1);
-        console.log(`Prize for step ${step} unclaimed.`);
-      }
+    function reevaluateClaimedPrizes() {
+      // Define thresholds for prizes based on the number of paid products required
+      const prizeThresholds = {
+        2: 1, // Step 2 prize claimed after 2 paid products added
+        4: 3, // Step 4 prize (discount) claimed after 3 paid products added
+        6: 4  // Step 6 prize claimed after 4 paid products added
+      };
+    
+      // Count the number of paid products in the bundle
+      const paidProductsCount = state.bundle.filter(item => !item.isPrize).length;
+    
+      // Reevaluate claimed prizes
+      state.claimedPrizes = state.claimedPrizes.filter(prizeStep => {
+        // Keep the prize if the number of paid products meets or exceeds the threshold
+        return paidProductsCount >= prizeThresholds[prizeStep];
+      });
+    
+      // Log the new state of claimed prizes
+      console.log(`Reevaluated claimed prizes: ${state.claimedPrizes}`);
     }
-        
 
     
     // Logic function
