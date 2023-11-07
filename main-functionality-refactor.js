@@ -321,7 +321,7 @@ document.addEventListener("DOMContentLoaded", function () {
       changeBundleProductBtn[state.currentStep].classList.add("is--active");
       removeBundleProductBtn[state.currentStep].classList.add("is--active");
 
-      if (state.prizeSteps.includes(state.currentStep) && isProductAddedForStep(state.currentStep)) {
+      if ( isProductAddedForStep(bundleStepsItems[2]) || isProductAddedForStep(bundleStepsItems[4]) || isProductAddedForStep(bundleStepsItems[6]) ) {
       showCheckout();
       } else {
       hideCheckout();
