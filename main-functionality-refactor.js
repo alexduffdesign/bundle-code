@@ -189,15 +189,16 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     const stepsTracker = {
-      milestones: {
-        firstProduct: false,
-        secondProduct: false,
-        firstPrize: false,
-        thirdProduct: false,
-        secondPrize: false,
-        fourthProduct: false,
-        thirdPrize: false
-      }
+      milestones: [
+        "firstProduct",
+        "secondProduct",
+        "firstPrize",
+        "thirdProduct",
+        "secondPrize",
+        "fourthProduct",
+        "thirdPrize"
+      ],
+      milestoneStatus: new Array(7).fill(false) // Creates an array of 7 elements, all set to false
     };
 
 
@@ -584,28 +585,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     function markMilestonesAsComplete(currentStep) {
-      // Go through each milestone and set it to true up to the current step
-      for (const milestone in stepsTracker.milestones) {
-        if (stepsTracker.milestones.hasOwnProperty(milestone)) {
-          const milestoneStep = parseInt(milestone.replace(/[^\d]/g, '')); // Extract step number from milestone name
-          if (milestoneStep <= currentStep + 1) { // +1 because steps are 1-indexed in milestones and 0-indexed in currentStep
-            stepsTracker.milestones[milestone] = true;
-          }
-        }
-      }
+      // Go through each milestone status and set it to true up to the current step
+      stepsTracker.milestoneStatus.fill(true, 0, currentStep + 1);
     }
-
+    
     function resetMilestonesFromStep(step) {
       // Reset the milestones from the current step onward
-      for (const milestone in stepsTracker.milestones) {
-        if (stepsTracker.milestones.hasOwnProperty(milestone)) {
-          const milestoneStep = parseInt(milestone.replace(/[^\d]/g, '')); // Extract step number from milestone name
-          if (milestoneStep >= step + 1) { // +1 because steps are 1-indexed in milestones and 0-indexed in step
-            stepsTracker.milestones[milestone] = false;
-          }
-        }
-      }
-    }
+      stepsTracker.milestoneStatus.fill(false, step);
+    }    
+    
+    
 
     // UI Functions (mainly for add to bundle action) // 
     
