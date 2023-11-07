@@ -567,7 +567,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     
       // Get the index of the next step after the last prize step
-      const nextStepAfterLastPrize = state.prizeSteps[state.prizeSteps.length - 1] + 1;
+      const nextStepAfterLastPrize = state.prizeSteps[state.prizeSteps.length] + 1;
     
       // Show checkout if we are on the step immediately after the last prize step
       // and no product has been added to this step yet
