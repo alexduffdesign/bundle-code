@@ -221,6 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Claim prize if applicable
       if (state.prizeSteps.includes(state.currentStep)) {
         claimPrize(state.currentStep);
+        console.log(state.claimedPrizes);
       }
 
       // Evaluate checkout rules after adding a product
