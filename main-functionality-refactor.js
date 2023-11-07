@@ -321,10 +321,14 @@ document.addEventListener("DOMContentLoaded", function () {
       changeBundleProductBtn[state.currentStep].classList.add("is--active");
       removeBundleProductBtn[state.currentStep].classList.add("is--active");
 
-      if ( isProductAddedForStep(bundleStepsItems[2]) || isProductAddedForStep(bundleStepsItems[4]) || isProductAddedForStep(bundleStepsItems[6]) ) {
-      showCheckout();
+      const isNextStepComplete = isProductAddedForStep(state.currentStep + 1);
+      const shouldShowCheckout = state.prizeSteps.includes(state.currentStep) || 
+                                 (state.prizeSteps.includes(state.currentStep - 1) && !isNextStepComplete);
+    
+      if (shouldShowCheckout) {
+        showCheckout();
       } else {
-      hideCheckout();
+        hideCheckout();
       }
 
       setTimeout(() => openNextStepPopup(), 720);
