@@ -323,7 +323,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       updateCheckoutVisibility();
 
-
       setTimeout(() => openNextStepPopup(), 720);
     }
 
@@ -357,9 +356,6 @@ document.addEventListener("DOMContentLoaded", function () {
       // Reset UI to no-popup state
       backToNoPopup();
 
-      if (!state.prizeSteps.includes(state.currentStep)) {
-      hideCheckout();
-      }
     }
 
 
@@ -559,7 +555,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
       return updatedBundle;
     }
-    
+
     function shouldShowCheckout() {
       // Show checkout if the current step is a prize step
       if (state.prizeSteps.includes(state.currentStep)) {
@@ -567,7 +563,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     
       // Get the index of the next step after the last prize step
-      const nextStepAfterLastPrize = state.prizeSteps[state.prizeSteps.length] + 1;
+      const nextStepAfterLastPrize = state.prizeSteps[state.prizeSteps.length - 1] + 1;
     
       // Show checkout if we are on the step immediately after the last prize step
       // and no product has been added to this step yet
@@ -586,6 +582,8 @@ document.addEventListener("DOMContentLoaded", function () {
         hideCheckout();
       }
     }
+    
+    
     
     
 
