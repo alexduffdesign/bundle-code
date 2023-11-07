@@ -234,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       markMilestonesAsComplete(state.currentStep);
-      console.log("Milestones after removing", stepsTracker.milestones);
+      console.log("Milestones after adding", stepsTracker.milestones);
 
 
     }
