@@ -230,7 +230,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Claim prize if applicable
 
-      const step = editingStep === null ? state.currentStep : state.editingStep;
+      const step = state.editingStep === null ? state.currentStep : state.editingStep;
       markMilestonesAsComplete(step);
       console.log("Milestones after adding", stepsTracker.milestones);
 
