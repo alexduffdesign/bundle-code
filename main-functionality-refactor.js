@@ -233,6 +233,7 @@ document.addEventListener("DOMContentLoaded", function () {
       markMilestonesAsComplete(state.currentStep);
       console.log("Milestones after adding", stepsTracker.milestones);
 
+      updateCheckoutVisibility();
 
     }
 
@@ -307,6 +308,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
       resetMilestonesFromStep(stepToRemove);
       console.log("Milestones after removing", stepsTracker.milestones);
+
+      updateCheckoutVisibility();
+
     }
   
 
@@ -595,7 +599,37 @@ document.addEventListener("DOMContentLoaded", function () {
         stepsTracker.milestones[i][milestoneKey] = false;
       }
     }
+
+    function shouldShowCheckout() {
+      // Conditions to check for when to show or hide checkout
+      const milestones = stepsTracker.milestones;
+      
+      // If first prize is claimed, we can show checkout
+      if (milestones[2].firstPrize) {
+        // If third product is added but second prize is not claimed, hide checkout
+        if (milestones[3].thirdProduct && !milestones[4].secondPrize) {
+          return false;
+        }
+        // If fourth product is added but third prize is not claimed, hide checkout
+        if (milestones[5].fourthProduct && !milestones[6].thirdPrize) {
+          return false;
+        }
+        // In all other cases, show checkout
+        return true;
+      }
     
+      // If first prize is not claimed, don't show checkout
+      return false;
+    }
+    
+    function updateCheckoutVisibility() {
+      if (shouldShowCheckout()) {
+        showCheckout(); // make sure to define this function or replace it with the actual code to show checkout buttons
+      } else {
+        hideCheckout(); // make sure to define this function or replace it with the actual code to hide checkout buttons
+      }
+    }
+     
 
     // UI Functions (mainly for add to bundle action) // 
     
