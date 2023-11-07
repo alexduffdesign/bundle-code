@@ -321,11 +321,8 @@ document.addEventListener("DOMContentLoaded", function () {
       changeBundleProductBtn[state.currentStep].classList.add("is--active");
       removeBundleProductBtn[state.currentStep].classList.add("is--active");
 
-      if (state.prizeSteps.includes(state.currentStep)) {
-      showCheckout();
-      } else {
-      hideCheckout();
-      }
+      updateCheckoutVisibility();
+
 
       setTimeout(() => openNextStepPopup(), 720);
     }
@@ -563,6 +560,32 @@ document.addEventListener("DOMContentLoaded", function () {
       return updatedBundle;
     }
     
+    function shouldShowCheckout() {
+      // Show checkout if the current step is a prize step
+      if (state.prizeSteps.includes(state.currentStep)) {
+        return true;
+      }
+    
+      // Get the index of the next step after the last prize step
+      const nextStepAfterLastPrize = state.prizeSteps[state.prizeSteps.length - 1] + 1;
+    
+      // Show checkout if we are on the step immediately after the last prize step
+      // and no product has been added to this step yet
+      if (state.currentStep === nextStepAfterLastPrize && !isProductAddedForStep(state.currentStep)) {
+        return true;
+      }
+    
+      // Otherwise, do not show checkout
+      return false;
+    }
+    
+    function updateCheckoutVisibility() {
+      if (shouldShowCheckout()) {
+        showCheckout();
+      } else {
+        hideCheckout();
+      }
+    }
     
     
 
