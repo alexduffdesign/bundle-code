@@ -585,7 +585,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Otherwise, hide checkout
         hideCheckout();
       }
-    }
+    }    
     
 
     // Call this function after actions like adding/removing products, claiming prizes, etc.
