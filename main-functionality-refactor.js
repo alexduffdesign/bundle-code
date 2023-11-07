@@ -186,8 +186,6 @@ document.addEventListener("DOMContentLoaded", function () {
       bundle: [],
       editingStep: null,   
       prizeSteps: [2, 4, 6],
-      discountStep: 4,
-      discountClaimed: false,
       claimedPrizes: []
     };
 
@@ -239,7 +237,6 @@ document.addEventListener("DOMContentLoaded", function () {
       if (isProductAddedForStep(state.currentStep)) {
         if (state.currentStep === state.discountStep) {
           state.discountClaimed = true;
-          
         }
         state.currentStep++;
         console.log("Next Step Button Clicked: After Increment currentStep =", state.currentStep);
@@ -335,6 +332,12 @@ document.addEventListener("DOMContentLoaded", function () {
     
       changeBundleProductBtn[state.currentStep].classList.add("is--active");
       removeBundleProductBtn[state.currentStep].classList.add("is--active");
+
+      if (state.prizeSteps.includes(state.currentStep)) {
+      showCheckout();
+      } else {
+      hideCheckout();
+      }
 
       setTimeout(() => openNextStepPopup(), 720);
     }
