@@ -229,10 +229,6 @@ document.addEventListener("DOMContentLoaded", function () {
       updateUIAfterProductAdded(productBlocks);
 
       // Claim prize if applicable
-      if (state.prizeSteps.includes(state.currentStep)) {
-        claimPrize(state.currentStep);
-        console.log(state.claimedPrizes);
-      }
 
       markMilestonesAsComplete(state.currentStep);
       console.log("Milestones after adding", stepsTracker.milestones);
