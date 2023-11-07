@@ -285,8 +285,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function removeProduct(stepToRemove, bundleProduct) { 
 
-      state.editingStep = null;
-
        // Deactivate any active prize 🏆 elements and show the products if necessary
        if (isPrizeStep(state.currentStep)) {
         deactivatePrizeElements();
@@ -343,12 +341,6 @@ document.addEventListener("DOMContentLoaded", function () {
     
       changeBundleProductBtn[state.currentStep].classList.add("is--active");
       removeBundleProductBtn[state.currentStep].classList.add("is--active");
-
-      if (state.prizeSteps.includes(state.currentStep)) {
-      showCheckout();
-      } else {
-      hideCheckout();
-      }
 
       setTimeout(() => openNextStepPopup(), 720);
     }
@@ -631,6 +623,8 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
      
+
+
 
     // UI Functions (mainly for add to bundle action) // 
     
