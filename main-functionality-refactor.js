@@ -188,11 +188,11 @@ document.addEventListener("DOMContentLoaded", function () {
       prizeSteps: [2, 4, 6],
       discountStep: 4,
       discountClaimed: false,
-      dailyDiscount: null,
+      claimedPrizes: []
     };
 
 
-    //// Inicail States
+    //// Initial States
 
     function initialSetup() {
       const initialStepElement = getCurrentStepData(0);
@@ -214,9 +214,18 @@ document.addEventListener("DOMContentLoaded", function () {
       state.bundle = processProductBlocks(productBlocks, state.currentStep, state.editingStep);
 
       console.log("product Id's", state.bundle);
-    
+
       // Call the function to handle all UI updates
       updateUIAfterProductAdded(productBlocks);
+
+      // Claim prize if applicable
+      if (state.prizeSteps.includes(state.currentStep)) {
+        claimPrize(state.currentStep);
+      }
+
+      // Evaluate checkout rules after adding a product
+      updateCheckoutStatus();
+
     }
 
     function moveToNextStepClick() {
@@ -289,6 +298,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
       updateUIforRemoveProduct(state.currentStep, bundleProduct);
 
+       // Unclaim prize if applicable
+      if (state.claimedPrizes.includes(stepToRemove)) {
+        unclaimPrize(stepToRemove);
+      }
+
+      // Evaluate checkout rules after removing a product
+      updateCheckoutStatus();
     }
   
 
@@ -320,8 +336,6 @@ document.addEventListener("DOMContentLoaded", function () {
     
       changeBundleProductBtn[state.currentStep].classList.add("is--active");
       removeBundleProductBtn[state.currentStep].classList.add("is--active");
-
-      updateCheckoutVisibility();
 
       setTimeout(() => openNextStepPopup(), 720);
     }
@@ -370,6 +384,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const stepData = getCurrentStepData(stepIndex);
 
       updateProductArea(stepData);
+
     }
 
 
@@ -419,8 +434,6 @@ document.addEventListener("DOMContentLoaded", function () {
           deactivateStepUI(item);
         }
       });
-
-      updateCheckoutVisibility();
       
     }
 
@@ -516,6 +529,71 @@ document.addEventListener("DOMContentLoaded", function () {
       return false; // Return false if the step element or .bundle_steps_product element doesn't exist
     }
   
+
+    // Rule functions
+    function ruleMinimumProductsAdded(state) {
+      // Rule 1: At least 3 products must be added to the cart
+      const addedProductsCount = state.bundle.length;
+      return addedProductsCount >= 3;
+    }
+
+    function ruleCannotCheckoutAfterFourthProduct(state) {
+      // Rule 2: User cannot checkout if the 4th product is added without claiming a prize
+      // Assuming 'claimedPrizes' is an array keeping track of claimed prizes
+      return !state.bundle.some((item) => item.step === 4 && !state.claimedPrizes.includes(3));
+    }
+
+    function ruleCanCheckoutAfterPrizeClaimed(state) {
+      // Rule 3: User can checkout if the prize after step 4 is claimed
+      return state.claimedPrizes.includes(3);
+    }
+
+    function ruleCheckoutAfterLastStep(state) {
+      // Rule 4: User can checkout after last step unless a new product is added
+      const lastStep = Math.max(...state.bundle.map((item) => item.step));
+      return !(lastStep === 6 && !state.claimedPrizes.includes(5));
+    }
+
+    // Rulebook - an array of rule functions
+    const rulebook = [
+      ruleMinimumProductsAdded,
+      ruleCannotCheckoutAfterFourthProduct,
+      ruleCanCheckoutAfterPrizeClaimed,
+      ruleCheckoutAfterLastStep,
+    ];
+
+    // Function to evaluate rules
+    function evaluateCheckoutRules(state) {
+      for (const rule of rulebook) {
+        if (rule(state)) {
+          showCheckout();
+          return;
+        }
+      }
+      hideCheckout();
+    }
+
+    // Call this function after actions like adding/removing products, claiming prizes, etc.
+    function updateCheckoutStatus() {
+      evaluateCheckoutRules(state);
+    }
+
+    function claimPrize(step) {
+      if (!state.claimedPrizes.includes(step)) {
+        state.claimedPrizes.push(step);
+        console.log(`Prize for step ${step} claimed.`);
+      }
+    }
+
+    function unclaimPrize(step) {
+      const index = state.claimedPrizes.indexOf(step);
+      if (index > -1) {
+        state.claimedPrizes.splice(index, 1);
+        console.log(`Prize for step ${step} unclaimed.`);
+      }
+    }
+        
+
     
     // Logic function
 
@@ -558,53 +636,33 @@ document.addEventListener("DOMContentLoaded", function () {
       return updatedBundle;
     }
 
-    function shouldShowCheckout() {
-      // Show checkout if the current step is a prize step
-      if (state.prizeSteps.includes(state.currentStep)) {
-        return true;
-      }
+    // function shouldShowCheckout() {
+    //   // Show checkout if the current step is a prize step
+    //   if (state.prizeSteps.includes(state.currentStep)) {
+    //     return true;
+    //   }
     
-      // Get the index of the next step after the last prize step
-      const nextStepAfterLastPrize = state.prizeSteps[state.prizeSteps.length - 1] + 1;
+    //   // Get the index of the next step after the last prize step
+    //   const nextStepAfterLastPrize = state.prizeSteps[state.prizeSteps.length - 1] + 1;
     
-      // Show checkout if we are on the step immediately after the last prize step
-      // and no product has been added to this step yet
-      if (state.currentStep === nextStepAfterLastPrize && !isProductAddedForStep(state.currentStep)) {
-        return true;
-      }
+    //   // Show checkout if we are on the step immediately after the last prize step
+    //   // and no product has been added to this step yet
+    //   if (state.currentStep === nextStepAfterLastPrize && !isProductAddedForStep(state.currentStep)) {
+    //     return true;
+    //   }
     
-      // Otherwise, do not show checkout
-      return false;
-    }
+    //   // Otherwise, do not show checkout
+    //   return false;
+    // }
     
-    function updateCheckoutVisibility() {
-      if (shouldShowCheckout()) {
-        showCheckout();
-      } else {
-        hideCheckout();
-      }
-    }
-    
-    
-    
-    
-
-    // function addProductID(productBlock, step) {
-    //   const idEl = productBlock.querySelector("[data-id]");
-    //   if (idEl) {
-    //     const id = idEl.getAttribute("data-id");
-    //     const idNumber = parseInt(id, 10);
-    //     const stepIndex = state.bundle.findIndex((item) => item.step === step);
-    
-    //     if (stepIndex !== -1) {
-    //       state.bundle[stepIndex].idNumber = idNumber;
-    //     } else {
-    //       state.bundle.push({ step, idNumber });
-    //     }
-    //     console.log(state.bundle);
+    // function updateCheckoutVisibility() {
+    //   if (shouldShowCheckout()) {
+    //     showCheckout();
+    //   } else {
+    //     hideCheckout();
     //   }
     // }
-
+    
 
     // UI Functions (mainly for add to bundle action) // 
     
@@ -889,33 +947,6 @@ document.addEventListener("DOMContentLoaded", function () {
         btn.classList.add("is--disabled");
       });
     }
-
-    
-
-    // 7. Next step activated UI, bundle and map
-    // -- (makes the image have a circle and adds the selected to the last steps image)
-    // function nextStepActivatedUi(stepItems) {
-  
-    //   const currentStepImage = stepItems[state.currentStep].querySelector(
-    //     "[step-image]"
-    //   );
-  
-    //   currentStepImage?.classList.remove("is--active");
-    //   currentStepImage?.classList.add("is--selected");
-  
-    //   // Next Step Bundle item gets and is--active
-    //   const nextBundleItem = stepItems[state.currentStep + 1].querySelector(
-    //     "[bundle-item]"
-    //   );
-  
-    //   nextBundleItem?.classList.add("is--active");
-  
-    //   // Next Step Bundle Image gets an is--active
-    //   const nextStepImage = stepItems[state.currentStep + 1].querySelector(
-    //     "[step-image]"
-    //   );
-    //   nextStepImage?.classList.add("is--selected");
-    // }
 
 
 
