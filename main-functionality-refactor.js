@@ -508,7 +508,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
     function isProductAddedForStep(stepIndex) {
       // Assuming step is the index or identifier for the bundle step
-      const stepElement = document.querySelector(`[bundle-step="${stepIndex}"]`);
+      const stepElement = document.querySelector(`[bundle-step="${stepIndex + 1}"]`);
       
       if (stepElement) {
         const bundleStepsProductElement = stepElement.querySelector('.bundle_steps_product');
