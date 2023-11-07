@@ -563,16 +563,30 @@ document.addEventListener("DOMContentLoaded", function () {
       ruleCheckoutAfterLastStep,
     ];
 
-    // Function to evaluate rules
     function evaluateCheckoutRules(state) {
-      for (const rule of rulebook) {
-        if (rule(state)) {
-          showCheckout();
-          return;
-        }
+      // Determine if minimum products rule passes
+      const minimumProductsAdded = ruleMinimumProductsAdded(state);
+    
+      // If minimum products have not been added, hide checkout and return early
+      if (!minimumProductsAdded) {
+        hideCheckout();
+        return;
       }
-      hideCheckout();
+    
+      // If minimum products are added, check the other rules
+      const canCheckoutAfterFourthProduct = ruleCannotCheckoutAfterFourthProduct(state);
+      const canCheckoutAfterPrizeClaimed = ruleCanCheckoutAfterPrizeClaimed(state);
+      const checkoutAfterLastStep = ruleCheckoutAfterLastStep(state);
+    
+      // If all other rules return true, show checkout
+      if (canCheckoutAfterFourthProduct && canCheckoutAfterPrizeClaimed && checkoutAfterLastStep) {
+        showCheckout();
+      } else {
+        // Otherwise, hide checkout
+        hideCheckout();
+      }
     }
+    
 
     // Call this function after actions like adding/removing products, claiming prizes, etc.
     function updateCheckoutStatus() {
