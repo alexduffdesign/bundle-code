@@ -230,7 +230,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Claim prize if applicable
 
-      markMilestonesAsComplete(state.currentStep);
+      const step = editingStep === null ? state.currentStep : state.editingStep;
+      markMilestonesAsComplete(step);
       console.log("Milestones after adding", stepsTracker.milestones);
 
       updateCheckoutVisibility();
