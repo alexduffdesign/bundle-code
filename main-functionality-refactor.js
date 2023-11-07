@@ -186,7 +186,18 @@ document.addEventListener("DOMContentLoaded", function () {
       bundle: [],
       editingStep: null,   
       prizeSteps: [2, 4, 6],
-      claimedPrizes: []
+    };
+
+    const stepsTracker = {
+      milestones: {
+        firstProduct: false,
+        secondProduct: false,
+        firstPrize: false,
+        thirdProduct: false,
+        secondPrize: false,
+        fourthProduct: false,
+        thirdPrize: false
+      }
     };
 
 
@@ -222,8 +233,9 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(state.claimedPrizes);
       }
 
-      // Evaluate checkout rules after adding a product
-      updateCheckoutStatus();
+      markMilestonesAsComplete(state.currentStep);
+      console.log("Milestones after removing", stepsTracker.milestones);
+
 
     }
 
@@ -296,11 +308,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
       updateUIforRemoveProduct(state.currentStep, bundleProduct);
 
-      // Unclaim prize if applicable
-      reevaluateClaimedPrizes();
-
-      // Evaluate checkout rules after removing a product
-      updateCheckoutStatus();
+      resetMilestonesFromStep(stepToRemove);
+      console.log("Milestones after removing", stepsTracker.milestones);
     }
   
 
@@ -573,34 +582,30 @@ document.addEventListener("DOMContentLoaded", function () {
     
       return updatedBundle;
     }
+    
+    function markMilestonesAsComplete(currentStep) {
+      // Go through each milestone and set it to true up to the current step
+      for (const milestone in stepsTracker.milestones) {
+        if (stepsTracker.milestones.hasOwnProperty(milestone)) {
+          const milestoneStep = parseInt(milestone.replace(/[^\d]/g, '')); // Extract step number from milestone name
+          if (milestoneStep <= currentStep + 1) { // +1 because steps are 1-indexed in milestones and 0-indexed in currentStep
+            stepsTracker.milestones[milestone] = true;
+          }
+        }
+      }
+    }
 
-    // function shouldShowCheckout() {
-    //   // Show checkout if the current step is a prize step
-    //   if (state.prizeSteps.includes(state.currentStep)) {
-    //     return true;
-    //   }
-    
-    //   // Get the index of the next step after the last prize step
-    //   const nextStepAfterLastPrize = state.prizeSteps[state.prizeSteps.length - 1] + 1;
-    
-    //   // Show checkout if we are on the step immediately after the last prize step
-    //   // and no product has been added to this step yet
-    //   if (state.currentStep === nextStepAfterLastPrize && !isProductAddedForStep(state.currentStep)) {
-    //     return true;
-    //   }
-    
-    //   // Otherwise, do not show checkout
-    //   return false;
-    // }
-    
-    // function updateCheckoutVisibility() {
-    //   if (shouldShowCheckout()) {
-    //     showCheckout();
-    //   } else {
-    //     hideCheckout();
-    //   }
-    // }
-    
+    function resetMilestonesFromStep(step) {
+      // Reset the milestones from the current step onward
+      for (const milestone in stepsTracker.milestones) {
+        if (stepsTracker.milestones.hasOwnProperty(milestone)) {
+          const milestoneStep = parseInt(milestone.replace(/[^\d]/g, '')); // Extract step number from milestone name
+          if (milestoneStep >= step + 1) { // +1 because steps are 1-indexed in milestones and 0-indexed in step
+            stepsTracker.milestones[milestone] = false;
+          }
+        }
+      }
+    }
 
     // UI Functions (mainly for add to bundle action) // 
     
