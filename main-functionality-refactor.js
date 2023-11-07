@@ -338,9 +338,12 @@ document.addEventListener("DOMContentLoaded", function () {
       } else if (!isProductAddedForStep(state.currentStep)) {
         updatePopup(popupDataPast);
       }
+
+      if (isProductAddedForStep(state.currentStep)) {
     
       changeBundleProductBtn[state.currentStep].classList.add("is--active");
       removeBundleProductBtn[state.currentStep].classList.add("is--active");
+      }
 
       setTimeout(() => openNextStepPopup(), 720);
     }
