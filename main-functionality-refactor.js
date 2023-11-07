@@ -585,10 +585,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     function markMilestonesAsComplete(currentStep) {
-      // Go through each milestone and set it to true up to the current step
-      for (let i = 0; i <= currentStep; i++) {
-        const milestoneKey = Object.keys(stepsTracker.milestones[i])[0];
-        stepsTracker.milestones[i][milestoneKey] = true;
+      // Only mark milestones as complete if not in edit mode or if editing a later step
+      if (state.editingStep === null || state.editingStep > currentStep) {
+        for (let i = 0; i <= currentStep; i++) {
+          stepsTracker.milestones[i] = true; // Assuming the milestones array is correctly ordered
+        }
       }
     }
     
