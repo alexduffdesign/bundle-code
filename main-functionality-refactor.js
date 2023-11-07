@@ -506,9 +506,9 @@ document.addEventListener("DOMContentLoaded", function () {
     return bundleItem.querySelectorAll("[bundle-product]");
     }
   
-    function isProductAddedForStep(currentStep) {
+    function isProductAddedForStep(stepIndex) {
       // Assuming step is the index or identifier for the bundle step
-      const stepElement = document.querySelector(`[bundle-step="${state.currentStep + 1}"]`);
+      const stepElement = document.querySelector(`[bundle-step="${stepIndex}"]`);
       
       if (stepElement) {
         const bundleStepsProductElement = stepElement.querySelector('.bundle_steps_product');
