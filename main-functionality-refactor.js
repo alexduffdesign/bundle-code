@@ -419,6 +419,8 @@ document.addEventListener("DOMContentLoaded", function () {
           deactivateStepUI(item);
         }
       });
+
+      updateCheckoutVisibility();
       
     }
 
