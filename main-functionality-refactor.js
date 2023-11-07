@@ -238,7 +238,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Only move to the next step if the current step's product has been added
       if (isProductAddedForStep(state.currentStep)) {
         if (state.currentStep === state.discountStep) {
-          state.discountClaimed === true;
+          state.discountClaimed = true;
           
         }
         state.currentStep++;
