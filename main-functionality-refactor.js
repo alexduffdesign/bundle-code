@@ -225,13 +225,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
       console.log("product Id's", state.bundle);
 
-      // Call the function to handle all UI updates
-      updateUIAfterProductAdded(productBlocks);
-
       // Claim prize if applicable
       const step = state.editingStep === null ? state.currentStep : state.editingStep;
       markMilestonesAsComplete(step);
       console.log("Milestones after adding", stepsTracker.milestones);
+
+      // Call the function to handle all UI updates
+      updateUIAfterProductAdded(productBlocks);
 
       updateCheckoutVisibility();
 
@@ -519,19 +519,18 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   
     function isProductAddedForStep(stepIndex) {
-      // Retrieve the milestone object for the given stepIndex
-      const milestone = stepsTracker.milestones[stepIndex];
-
-      console.log("milestone check", milestone);
-    
-      // If the milestone exists, check if the corresponding value is true
-      if (milestone) {
-        const milestoneKey = Object.keys(milestone)[0];
-        return milestone[milestoneKey];
+      // Assuming step is the index or identifier for the bundle step
+      const stepElement = document.querySelector(`[bundle-step="${stepIndex + 1}"]`);
+      
+      if (stepElement) {
+        const bundleStepsProductElement = stepElement.querySelector('.bundle_steps_product');
+        
+        if (bundleStepsProductElement) {
+          return bundleStepsProductElement.classList.contains('is--selected');
+        }
       }
     
-      // If no milestone is found for the step, return false
-      return false;
+      return false; // Return false if the step element or .bundle_steps_product element doesn't exist
     }
 
 
