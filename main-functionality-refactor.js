@@ -1204,28 +1204,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let total = 0;
 
-    // function calculateBundleTotal(productBlocks) {
-    
-    //   productBlocks.forEach(productBlock => {
-    //     const priceStr = productBlock.querySelector("[data-price]").textContent; 
-
-    //     // Extract just the number part from the string
-    //     const priceNumber = parseFloat(priceStr.replace(/[^\d.]/g, ''));
-
-    //     total += priceNumber;
-    //   });
-
-    //   console.log("this is the total", total);
-    
-    //   return total;
-    // }
-
     function calculateBundleTotal(bundle) {
-      return bundle.reduce((total, product) => {
-        return total + product.price;
+      return bundle.reduce((total, step) => {
+        // Calculate the sum of product prices for the current step
+        const stepTotal = step.productInfo.reduce((stepSum, product) => {
+          // Ensure productPrice is a number before adding it to stepSum
+          return stepSum + (Number(product.productPrice) || 0);
+        }, 0);
+        // Add the current step's total to the overall total
+        return total + stepTotal;
       }, 0);
     }
-
+    
 
 
 
