@@ -555,7 +555,36 @@ document.addEventListener("DOMContentLoaded", function () {
       return idEl ? parseInt(idEl.getAttribute("data-id"), 10) : null;
     }
 
-    function upsertProductInBundle(bundle, step, idNumber, isLastStep = false) {
+    function getPriceFromBlock(productBlock) {
+
+      // Find the element containing the price text
+      const priceEl = block.querySelector('[data-price]');
+    
+      // Extract just the number part from the price text
+      const priceText = priceEl.textContent;
+      const priceNumber = parseFloat(priceText.replace(/[^\d.]/g, ''));
+    
+      return priceNumber;
+    
+    }
+
+    function processProductBlocks(productBlocks, currentStep, editingStep) {
+      let updatedBundle = [...state.bundle];
+      const isLastStep = (editingStep ?? currentStep) === 6; // Define LAST_STEP_NUMBER accordingly
+    
+      productBlocks.forEach((productBlock) => {
+        const step = editingStep ?? currentStep;
+        const idNumber = getProductIDFromBlock(productBlock);
+        const price = getPriceFromBlock(productBlock);
+        if (idNumber !== null) {
+          updatedBundle = upsertProductInBundle(updatedBundle, step, idNumber, price, isLastStep);
+        }
+      });
+    
+      return updatedBundle;
+    }
+
+    function upsertProductInBundle(bundle, step, idNumber, price, isLastStep = false) {
       const stepIndex = bundle.findIndex((item) => item.step === step);
       
       if (stepIndex !== -1) {
@@ -568,25 +597,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       } else {
         // Add a new step with a new product ids array
-        bundle.push({ step, productIds: [idNumber] });
+        bundle.push({ step, productIds: [idNumber], price: price });
       }
       
       return bundle; // Return the new state of the bundle
-    }
-
-    function processProductBlocks(productBlocks, currentStep, editingStep) {
-      let updatedBundle = [...state.bundle];
-      const isLastStep = (editingStep ?? currentStep) === 6; // Define LAST_STEP_NUMBER accordingly
-    
-      productBlocks.forEach((productBlock) => {
-        const step = editingStep ?? currentStep;
-        const idNumber = getProductIDFromBlock(productBlock);
-        if (idNumber !== null) {
-          updatedBundle = upsertProductInBundle(updatedBundle, step, idNumber, isLastStep);
-        }
-      });
-    
-      return updatedBundle;
     }
     
     function markMilestonesAsComplete(currentStep) {
@@ -1190,20 +1204,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let total = 0;
 
-    function calculateBundleTotal(productBlocks) {
+    // function calculateBundleTotal(productBlocks) {
     
-      productBlocks.forEach(productBlock => {
-        const priceStr = productBlock.querySelector("[data-price]").textContent; 
+    //   productBlocks.forEach(productBlock => {
+    //     const priceStr = productBlock.querySelector("[data-price]").textContent; 
 
-        // Extract just the number part from the string
-        const priceNumber = parseFloat(priceStr.replace(/[^\d.]/g, ''));
+    //     // Extract just the number part from the string
+    //     const priceNumber = parseFloat(priceStr.replace(/[^\d.]/g, ''));
 
-        total += priceNumber;
-      });
+    //     total += priceNumber;
+    //   });
 
-      console.log("this is the total", total);
+    //   console.log("this is the total", total);
     
-      return total;
+    //   return total;
+    // }
+
+    function calculateBundleTotal(bundle) {
+      return bundle.reduce((total, product) => {
+        return total + product.price;
+      }, 0);
     }
 
 
