@@ -519,19 +519,19 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   
     function isProductAddedForStep(stepIndex) {
-      // Assuming step is the index or identifier for the bundle step
-      const stepElement = document.querySelector(`[bundle-step="${stepIndex + 1}"]`);
-      
-      if (stepElement) {
-        const bundleStepsProductElement = stepElement.querySelector('.bundle_steps_product');
-        
-        if (bundleStepsProductElement) {
-          return bundleStepsProductElement.classList.contains('is--selected');
-        }
+      // Retrieve the milestone object for the given stepIndex
+      const milestone = stepsTracker.milestones[stepIndex];
+    
+      // If the milestone exists, check if the corresponding value is true
+      if (milestone) {
+        const milestoneKey = Object.keys(milestone)[0];
+        return milestone[milestoneKey];
       }
     
-      return false; // Return false if the step element or .bundle_steps_product element doesn't exist
+      // If no milestone is found for the step, return false
+      return false;
     }
+    
 
 
     
