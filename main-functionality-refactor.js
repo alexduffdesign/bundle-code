@@ -229,7 +229,6 @@ document.addEventListener("DOMContentLoaded", function () {
       updateUIAfterProductAdded(productBlocks);
 
       // Claim prize if applicable
-
       const step = state.editingStep === null ? state.currentStep : state.editingStep;
       markMilestonesAsComplete(step);
       console.log("Milestones after adding", stepsTracker.milestones);
@@ -339,7 +338,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updatePopup(popupDataPast);
       }
 
-      if (isProductAddedForStep(state.currentStep)) {
+      if (editingStep === null && isProductAddedForStep(state.currentStep)) {
     
       changeBundleProductBtn[state.currentStep].classList.add("is--active");
       removeBundleProductBtn[state.currentStep].classList.add("is--active");
@@ -957,11 +956,10 @@ document.addEventListener("DOMContentLoaded", function () {
       const adjustedStep = stepIndex + 1; // Since your data-step-name starts from 1 instead of 0
       return document.querySelector(`.step[data-step-name="${adjustedStep}"]`);
     }
+
     
     // UI Functions (mainly for next step click)
 
-    
-    
     function updateMobileBundleStepInfo(stepElement) {
       if (isMobile()) {
         const mobileIndicator = document.querySelector(
