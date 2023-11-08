@@ -1145,7 +1145,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const colourBundleProduct = stepItems.querySelector(
         "[bundle-product-added]"
       );
-      colourBundleProduct?.classList.add("is--selected");
+      colourBundleProduct?.classList.remove("is--selected");
       }
 
 
