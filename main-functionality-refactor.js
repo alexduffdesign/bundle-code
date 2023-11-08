@@ -238,6 +238,9 @@ document.addEventListener("DOMContentLoaded", function () {
       const total = calculateBundleTotal(state.bundle);
       bundleTotalEl.textContent = total;
 
+      const totalComparePrice = calculateTotalComparePrice(state.bundle);
+      bundleComparePriceEl.textContent = totalComparePrice;
+
       // Call the function to handle all UI updates
       updateUIAfterProductAdded(productBlocks);
 
@@ -274,6 +277,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
      const total = calculateBundleTotal(state.bundle);
      bundleTotalEl.textContent = total;
+
+     const totalComparePrice = calculateTotalComparePrice(state.bundle);
+     bundleComparePriceEl.textContent = totalComparePrice;
 
      updateCheckoutVisibility();
 
@@ -1233,9 +1239,18 @@ document.addEventListener("DOMContentLoaded", function () {
       }, 0);
     }
     
-
-
-
+    function calculateTotalComparePrice(bundle) {
+      return bundle.reduce((total, step) => {
+        // Calculate the sum of compare prices for the current step, if they exist
+        const stepTotalCompare = step.productInfo.reduce((stepSum, product) => {
+          // Ensure comparePrice is a number before adding it to stepSum
+          return stepSum + (Number(product.comparePrice) || 0);
+        }, 0);
+        // Add the current step's total compare price to the overall total
+        return total + stepTotalCompare;
+      }, 0);
+    }
+    
 
 
 
