@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const popupCheckoutWrap = document.querySelector("[popup-checkout]");
     const checkoutBtn = document.querySelectorAll("[checkout]");
     const bundleCountEl = document.querySelector('[bundle-count]');
+    const bundleTotalEl = document.querySelector('[data-total]');
 
   
   
@@ -233,6 +234,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
       updateBundleCount();
 
+      const total = calculateBundleTotal(productBlocks);
+  
+      bundleTotalEl.textContent = total;
+
       // Call the function to handle all UI updates
       updateUIAfterProductAdded(productBlocks);
 
@@ -311,6 +316,10 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log("Milestones after removing", stepsTracker.milestones);
 
       updateBundleCount();
+
+      const total = calculateBundleTotal(bundleProduct);
+  
+      bundleTotalEl.textContent = total;
 
       updateCheckoutVisibility();
 
@@ -1182,7 +1191,17 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+    function calculateBundleTotal(productBlocks) {
 
+      let total = 0;
+    
+      productBlocks.forEach(productBlock => {
+        const price = productBlock.querySelector("[data-price]").textContent;
+        total += parseFloat(price); 
+      });
+    
+      return total;
+    }
 
 
 
