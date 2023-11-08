@@ -235,13 +235,46 @@ document.addEventListener("DOMContentLoaded", function () {
       updateBundleCount();
 
       const total = calculateBundleTotal(productBlocks);
-  
       bundleTotalEl.textContent = total;
 
       // Call the function to handle all UI updates
       updateUIAfterProductAdded(productBlocks);
 
       updateCheckoutVisibility();
+
+    }
+
+    function removeProduct(stepToRemove, bundleProduct) { 
+
+      // Deactivate any active prize 🏆 elements and show the products if necessary
+      if (isPrizeStep(state.currentStep)) {
+       deactivatePrizeElements();
+       products.classList.add("is--active");
+     }
+
+     // Logic to identify the step and remove the product from the array
+     state.bundle = state.bundle.filter(product => product.step < stepToRemove);
+     console.log("Checking Bundle To See If ID removed", state.bundle);
+
+     // Set the current step to the one that had the product removed
+     state.currentStep = stepToRemove;
+
+     console.log("Current Step After Removing Product", state.currentStep);
+
+     // Hide the popup if it's visible
+     closeNextStepPopup();
+
+     updateUIforRemoveProduct(state.currentStep, bundleProduct);
+
+     resetMilestonesFromStep(stepToRemove);
+     console.log("Milestones after removing", stepsTracker.milestones);
+
+     updateBundleCount();
+
+     const total = calculateBundleTotal(bundleProduct);
+     bundleTotalEl.textContent = total;
+
+     updateCheckoutVisibility();
 
     }
 
@@ -290,40 +323,6 @@ document.addEventListener("DOMContentLoaded", function () {
       updateUIForEditMode(state.editingStep);
     }
 
-    function removeProduct(stepToRemove, bundleProduct) { 
-
-       // Deactivate any active prize 🏆 elements and show the products if necessary
-       if (isPrizeStep(state.currentStep)) {
-        deactivatePrizeElements();
-        products.classList.add("is--active");
-      }
-
-      // Logic to identify the step and remove the product from the array
-      state.bundle = state.bundle.filter(product => product.step < stepToRemove);
-      console.log("Checking Bundle To See If ID removed", state.bundle);
-
-      // Set the current step to the one that had the product removed
-      state.currentStep = stepToRemove;
-
-      console.log("Current Step After Removing Product", state.currentStep);
-
-      // Hide the popup if it's visible
-      closeNextStepPopup();
-
-      updateUIforRemoveProduct(state.currentStep, bundleProduct);
-
-      resetMilestonesFromStep(stepToRemove);
-      console.log("Milestones after removing", stepsTracker.milestones);
-
-      updateBundleCount();
-
-      const total = calculateBundleTotal(bundleProduct);
-  
-      bundleTotalEl.textContent = total;
-
-      updateCheckoutVisibility();
-
-    }
   
 
 
@@ -1185,6 +1184,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
 
+      console.log("the current cound", count);
       // Update bundleCount 
       bundleCountEl.textContent = count;
 
