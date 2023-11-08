@@ -338,7 +338,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updatePopup(popupDataPast);
       }
 
-      if (editingStep === null && isProductAddedForStep(state.currentStep)) {
+      if (state.editingStep === null && isProductAddedForStep(state.currentStep)) {
     
       changeBundleProductBtn[state.currentStep].classList.add("is--active");
       removeBundleProductBtn[state.currentStep].classList.add("is--active");
