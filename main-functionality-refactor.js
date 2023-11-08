@@ -568,6 +568,19 @@ document.addEventListener("DOMContentLoaded", function () {
     
     }
 
+    function getComparePriceFromBlock(productBlock) {
+
+      // Find the element containing the price text
+      const comparePriceEl = productBlock.querySelector('[data-compare-price]');
+    
+      // Extract just the number part from the price text
+      const comparePriceText = comparePriceEl.textContent;
+      const comparePriceNumber = parseFloat(priceText.replace(/[^\d.]/g, ''));
+    
+      return comparePriceNumber;
+    
+    }
+
     function processProductBlocks(productBlocks, currentStep, editingStep) {
       let updatedBundle = [...state.bundle];
       const isLastStep = (editingStep ?? currentStep) === 6; // Define LAST_STEP_NUMBER accordingly
@@ -584,20 +597,20 @@ document.addEventListener("DOMContentLoaded", function () {
       return updatedBundle;
     }
 
-    function upsertProductInBundle(bundle, step, idNumber, price, isLastStep = false) {
+    function upsertProductInBundle(bundle, step, idNumber, price, comparePrice, isLastStep = false) {
       const stepIndex = bundle.findIndex((item) => item.step === step);
       
       if (stepIndex !== -1) {
         // If it's the last step and the product ID is not already in the array, add it
         if (isLastStep && !bundle[stepIndex].productInfo.includes(idNumber)) {
-          bundle[stepIndex].productInfo.push({ productId: idNumber, productPrice: price });
+          bundle[stepIndex].productInfo.push({ productId: idNumber, productPrice: price, comparePrice: comparePrice });
         } else {
           // For any other step, or if it's not the last step, replace the product IDs
-          bundle[stepIndex].productInfo = [{ productId: idNumber, productPrice: price }];
+          bundle[stepIndex].productInfo = [{ productId: idNumber, productPrice: price, comparePrice: comparePrice }];
         }
       } else {
         // Add a new step with a new product ids array
-        bundle.push({ step, productInfo: [ { productId: idNumber, productPrice: price } ] });
+        bundle.push({ step, productInfo: [ { productId: idNumber, productPrice: price, comparePrice: comparePrice } ] });
       }
       
       return bundle; // Return the new state of the bundle
