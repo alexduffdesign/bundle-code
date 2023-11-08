@@ -1198,6 +1198,8 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log("this is the price", price);
         total += parseFloat(price); 
       });
+
+      console.log("this is the total", total);
     
       return total;
     }
