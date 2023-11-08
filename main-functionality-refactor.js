@@ -334,14 +334,10 @@ document.addEventListener("DOMContentLoaded", function () {
         makeStepImageSelected(mapStepsItems[state.currentStep + 1]);
         updateIndicatorPosition(state.currentStep + 1, bundleStepsItems.length);
         updatePopup(popupDataCurrent);
+        changeBundleProductBtn[state.currentStep].classList.add("is--active");
+        removeBundleProductBtn[state.currentStep].classList.add("is--active");
       } else if (!isProductAddedForStep(state.currentStep)) {
         updatePopup(popupDataPast);
-      }
-
-      if (state.editingStep === null && isProductAddedForStep(state.currentStep)) {
-    
-      changeBundleProductBtn[state.currentStep].classList.add("is--active");
-      removeBundleProductBtn[state.currentStep].classList.add("is--active");
       }
 
       setTimeout(() => openNextStepPopup(), 720);
@@ -429,6 +425,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
           item.querySelector("[remove-product]").classList.remove("is--active");
           item.querySelector("[change-btn]").classList.remove("is--active");
+          removeColourSignifyingTheProductIsAdded(item);
 
         } if (index > currentStep) {
           item.querySelector("[bundle-item]").classList.remove("is--active");
@@ -1144,7 +1141,12 @@ document.addEventListener("DOMContentLoaded", function () {
         stepImageEl?.classList.remove("is--selected");
     }
 
-
+    function removeColourSignifyingTheProductIsAdded(stepItems) {
+      const colourBundleProduct = stepItems.querySelector(
+        "[bundle-product-added]"
+      );
+      colourBundleProduct?.classList.add("is--selected");
+      }
 
 
 
