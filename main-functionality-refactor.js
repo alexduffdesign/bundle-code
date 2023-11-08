@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const checkoutBtn = document.querySelectorAll("[checkout]");
     const bundleCountEl = document.querySelector('[bundle-count]');
     const bundleTotalEl = document.querySelector('[data-total]');
+    const bundleComparePriceEl = document.querySelector('[data-compare-price]');
 
   
   
@@ -573,11 +574,13 @@ document.addEventListener("DOMContentLoaded", function () {
       // Find the element containing the price text
       const comparePriceEl = productBlock.querySelector('[data-compare-price]');
     
+      if (comparePriceEl) {
       // Extract just the number part from the price text
       const comparePriceText = comparePriceEl.textContent;
-      const comparePriceNumber = parseFloat(priceText.replace(/[^\d.]/g, ''));
+      const comparePriceNumber = parseFloat(comparePriceText.replace(/[^\d.]/g, ''));
     
       return comparePriceNumber;
+      }
     
     }
 
