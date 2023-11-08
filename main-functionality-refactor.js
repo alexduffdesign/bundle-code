@@ -1183,8 +1183,6 @@ document.addEventListener("DOMContentLoaded", function () {
           count++; 
         }
       }
-
-      console.log("the current cound", count);
       // Update bundleCount 
       bundleCountEl.textContent = count;
 
@@ -1197,6 +1195,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
       productBlocks.forEach(productBlock => {
         const price = productBlock.querySelector("[data-price]").textContent;
+        console.log("this is the price", price);
         total += parseFloat(price); 
       });
     
