@@ -590,10 +590,10 @@ document.addEventListener("DOMContentLoaded", function () {
       if (stepIndex !== -1) {
         // If it's the last step and the product ID is not already in the array, add it
         if (isLastStep && !bundle[stepIndex].productIds.includes(idNumber)) {
-          bundle[stepIndex].productIds.push(idNumber);
+          bundle[stepIndex].productIds.push(idNumber, price);
         } else {
           // For any other step, or if it's not the last step, replace the product IDs
-          bundle[stepIndex].productIds = [idNumber];
+          bundle[stepIndex].productIds = [idNumber, price];
         }
       } else {
         // Add a new step with a new product ids array
