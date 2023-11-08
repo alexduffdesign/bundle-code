@@ -234,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       updateBundleCount();
 
-      const total = calculateBundleTotal(productBlocks);
+      const total = calculateBundleTotal(state.bundle);
       bundleTotalEl.textContent = total;
 
       // Call the function to handle all UI updates
@@ -271,7 +271,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
      updateBundleCount();
 
-     const total = calculateBundleTotal(bundleProduct);
+     const total = calculateBundleTotal(state.bundle);
      bundleTotalEl.textContent = total;
 
      updateCheckoutVisibility();
