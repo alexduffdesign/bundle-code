@@ -1194,9 +1194,12 @@ document.addEventListener("DOMContentLoaded", function () {
       let total = 0;
     
       productBlocks.forEach(productBlock => {
-        const price = productBlock.querySelector("[data-price]").textContent;
-        console.log("this is the price", price);
-        total += parseFloat(price); 
+        const priceStr = productBlock.querySelector("[data-price]").textContent; 
+
+        // Extract just the number part from the string
+        const priceNumber = parseFloat(priceStr.replace(/[^\d.]/g, ''));
+
+        total += priceNumber;
       });
 
       console.log("this is the total", total);
