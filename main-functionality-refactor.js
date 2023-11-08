@@ -597,7 +597,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       } else {
         // Add a new step with a new product ids array
-        bundle.push({ step, productIds: [ [idNumber, price] ] });
+        bundle.push({ step, productIds: [ { productId: idNumber, productPrice: price } ] });
       }
       
       return bundle; // Return the new state of the bundle
