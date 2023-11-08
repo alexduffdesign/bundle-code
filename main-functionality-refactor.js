@@ -589,8 +589,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const step = editingStep ?? currentStep;
         const idNumber = getProductIDFromBlock(productBlock);
         const price = getPriceFromBlock(productBlock);
+        const comparePrice = getComparePriceFromBlock(productBlock);
         if (idNumber !== null) {
-          updatedBundle = upsertProductInBundle(updatedBundle, step, idNumber, price, isLastStep);
+          updatedBundle = upsertProductInBundle(updatedBundle, step, idNumber, price, comparePrice, isLastStep);
         }
       });
     
