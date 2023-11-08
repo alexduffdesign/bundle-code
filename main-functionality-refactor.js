@@ -558,7 +558,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function getPriceFromBlock(productBlock) {
 
       // Find the element containing the price text
-      const priceEl = block.querySelector('[data-price]');
+      const priceEl = productBlock.querySelector('[data-price]');
     
       // Extract just the number part from the price text
       const priceText = priceEl.textContent;
