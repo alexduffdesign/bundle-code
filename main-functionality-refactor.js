@@ -1188,10 +1188,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
+    let total = 0;
 
     function calculateBundleTotal(productBlocks) {
-
-      let total = 0;
     
       productBlocks.forEach(productBlock => {
         const priceStr = productBlock.querySelector("[data-price]").textContent; 
