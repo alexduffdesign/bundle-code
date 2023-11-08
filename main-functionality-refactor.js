@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const bundleProductImg = document.querySelector(".bundle_steps_product-img").src;
     const popupCheckoutWrap = document.querySelector("[popup-checkout]");
     const checkoutBtn = document.querySelectorAll("[checkout]");
+    const bundleCountEl = document.querySelector('[bundle-count]');
 
   
   
@@ -230,6 +231,8 @@ document.addEventListener("DOMContentLoaded", function () {
       markMilestonesAsComplete(step);
       console.log("Milestones after adding", stepsTracker.milestones);
 
+      updateBundleCount();
+
       // Call the function to handle all UI updates
       updateUIAfterProductAdded(productBlocks);
 
@@ -306,6 +309,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
       resetMilestonesFromStep(stepToRemove);
       console.log("Milestones after removing", stepsTracker.milestones);
+
+      updateBundleCount();
 
       updateCheckoutVisibility();
 
@@ -1150,10 +1155,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+    ///////////////////////////////////// Bundle Functionality (Bundle product count) ///////////////////////////////////////
 
 
+    // Use the milestone check to see if the product has been added 
+    // If it has then it increments the cart by how many true items there are... 
+    // However we need to dodge the discount step as that's not really a product item (not sure wether to count it as one...)
 
 
+    function updateBundleCount() {
+
+      let count = 0;
+
+      // Loop through milestones and count completed
+      for (let i = 0; i < stepsTracker.milestones.length; i++) {
+        const milestone = stepsTracker.milestones[i];
+        const milestoneKey = Object.keys(milestone)[0];
+        if (milestone[milestoneKey]) {
+          count++; 
+        }
+      }
+
+      // Update bundleCount 
+      bundleCountEl.textContent = count;
+
+    }
 
 
 
