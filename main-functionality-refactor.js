@@ -320,6 +320,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (state.currentStep === state.prizeSteps[1]) {
         updateStateWithDiscount(state, 5, 15);
+
+        console.log("Discount Applied", state.discount);
+        
         }
       }
     
