@@ -1253,7 +1253,31 @@ document.addEventListener("DOMContentLoaded", function () {
     
 
 
+    //// Creating a discount Code 
 
+    function generateDiscountCode(minDiscount, maxDiscount) {
+      // Generate a random discount percentage between minDiscount and maxDiscount
+      const discount = Math.floor(Math.random() * (maxDiscount - minDiscount + 1)) + minDiscount;
+  
+      // Generate a random code - here we use a simple combination of letters and numbers
+      let code = '';
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      const codeLength = 10; // Length of the discount code
+  
+      for (let i = 0; i < codeLength; i++) {
+          code += characters.charAt(Math.floor(Math.random() * characters.length));
+      }
+  
+      return {
+          discountCode: code,
+          discountValue: discount
+      };
+  }
+  
+  // Example usage
+  const discountInfo = generateDiscountCode(5, 15);
+  console.log(`Discount Code: ${discountInfo.discountCode}, Discount Value: ${discountInfo.discountValue}%`);
+  
 
 
 
