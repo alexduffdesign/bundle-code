@@ -239,14 +239,15 @@ document.addEventListener("DOMContentLoaded", function () {
       updateBundleCount();
 
 
+      const total = calculateBundleTotal(state.bundle);
+      const totalComparePrice = calculateTotalComparePrice(state.bundle);
+
+
       if ( state.currentStep < state.prizeSteps[1] ) {
 
       console.log("the current step is not the prize step");
 
-      const total = calculateBundleTotal(state.bundle);
       bundleTotalEl.textContent = total;
-
-      const totalComparePrice = calculateTotalComparePrice(state.bundle);
       bundleComparePriceEl.textContent = totalComparePrice;
       
       } 
@@ -266,8 +267,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const savings = calculateSavings(total, discountedTotal);
 
       console.log("Savings from discount", savings);
-
-      const totalComparePriceWithDiscount = calculateTotalComparePrice(state.bundle) + savings;
+      
+      const totalComparePriceWithDiscount = totalComparePrice + savings;
 
       console.log("Total compare price with discount applied", totalComparePriceWithDiscount);
       
