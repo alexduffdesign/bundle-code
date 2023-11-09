@@ -313,10 +313,42 @@ document.addEventListener("DOMContentLoaded", function () {
      updateBundleCount();
 
      const total = calculateBundleTotal(state.bundle);
-     bundleTotalEl.textContent = total;
+      const totalComparePrice = calculateTotalComparePrice(state.bundle);
 
-     const totalComparePrice = calculateTotalComparePrice(state.bundle);
-     bundleComparePriceEl.textContent = totalComparePrice;
+
+      if ( state.currentStep < state.prizeSteps[1] ) {
+
+      console.log("the current step is not the prize step");
+
+      bundleTotalEl.textContent = total.toFixed(2);
+      bundleComparePriceEl.textContent = totalComparePrice.toFixed(2);
+      
+      } 
+      
+      if (state.currentStep >= state.prizeSteps[1] ){
+
+      console.log("the current step is the second prize step and a product has been added");
+
+      const discountPercentage = state.discount; 
+      console.log("Discount percentage", discountPercentage);
+
+      // Work out new total with discount applied
+      const discountedTotal = applyDiscountToTotal(total, discountPercentage);
+      console.log("Discounted total", discountedTotal);
+
+      // Work out new saved price with the percentage saved value added onto it
+      const savings = calculateSavings(total, discountedTotal);
+
+      console.log("Savings from discount", savings);
+      
+      const totalComparePriceWithDiscount = totalComparePrice + savings;
+
+      console.log("Total compare price with discount applied", totalComparePriceWithDiscount);
+      
+      bundleTotalEl.textContent = discountedTotal.toFixed(2);
+      bundleComparePriceEl.textContent = totalComparePriceWithDiscount.toFixed(2);
+
+      }
 
      updateCheckoutVisibility();
 
