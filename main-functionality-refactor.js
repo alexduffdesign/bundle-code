@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function () {
       editingStep: null,   
       prizeSteps: [2, 4, 6],
       isDiscountApplied: false,
-      discount: [], 
+      discount: 0, 
       discountCode: ""
     };
 
