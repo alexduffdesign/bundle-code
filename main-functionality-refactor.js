@@ -189,6 +189,7 @@ document.addEventListener("DOMContentLoaded", function () {
       bundle: [],
       editingStep: null,   
       prizeSteps: [2, 4, 6],
+      isDiscountApplied: false,
       discount: [], 
       discountCode: ""
     };
@@ -238,7 +239,7 @@ document.addEventListener("DOMContentLoaded", function () {
       updateBundleCount();
 
 
-      if ( !isProductAddedForStep(state.currentStep(2)) ) {
+      if ( state.currentStep != state.prizeSteps[1] ) {
 
       const total = calculateBundleTotal(state.bundle);
       bundleTotalEl.textContent = total;
@@ -246,10 +247,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const totalComparePrice = calculateTotalComparePrice(state.bundle);
       bundleComparePriceEl.textContent = totalComparePrice;
       
-      } else {
+      } else if (state.currentStep === state.prizeSteps[1] && isProductAddedForStep(state.currentStep) ){
 
-      // Add discount to state
-      updateStateWithDiscount(state, 5, 15);
       const discountPercentage = state.discount; 
 
       // Work out new total with discount applied
@@ -316,11 +315,12 @@ document.addEventListener("DOMContentLoaded", function () {
       
       // Only move to the next step if the current step's product has been added
       if (isProductAddedForStep(state.currentStep)) {
-        if (state.currentStep === state.discountStep) {
-          state.discountClaimed = true;
-        }
         state.currentStep++;
         console.log("Next Step Button Clicked: After Increment currentStep =", state.currentStep);
+
+        if (state.currentStep === state.prizeSteps[1]) {
+        updateStateWithDiscount(state, 5, 15);
+        }
       }
     
       // Handle any popup-related actions
@@ -1299,11 +1299,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
       function updateStateWithDiscount(state, minDiscount, maxDiscount) {
+        // Check if a discount has already been applied
+        if (state.isDiscountApplied) {
+            console.log("Discount already applied. No further discounts allowed.");
+            return; // Exit the function if a discount has already been applied
+        }
+    
         const discountInfo = generateDiscountCode(minDiscount, maxDiscount);
     
         // Update the state with the new discount and discount code
-        state.discount.push(discountInfo.discountValue); // Assuming you want to keep a history of discounts
+        state.discount.push(discountInfo.discountValue);
         state.discountCode = discountInfo.discountCode;
+        state.isDiscountApplied = true; // Set the flag to true as the discount is now applied
+    
+        // Additional logic for updates or re-renders if necessary
       }
 
     
