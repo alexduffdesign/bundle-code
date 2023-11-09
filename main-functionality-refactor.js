@@ -259,6 +259,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Work out new total with discount applied
       const discountedTotal = applyDiscountToTotal(total, discountPercentage);
+      console.log("Discounted total", discountedTotal);
 
       // Work out new saved price with the percentage saved value added onto it
       const savings = calculateSavings(total, discountedTotal);
