@@ -189,6 +189,8 @@ document.addEventListener("DOMContentLoaded", function () {
       bundle: [],
       editingStep: null,   
       prizeSteps: [2, 4, 6],
+      discount: [], 
+      discountCode: ""
     };
 
     const stepsTracker = {
@@ -235,11 +237,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
       updateBundleCount();
 
+
+      if ( !isProductAddedForStep(state.currentStep(2)) ) {
+
       const total = calculateBundleTotal(state.bundle);
       bundleTotalEl.textContent = total;
 
       const totalComparePrice = calculateTotalComparePrice(state.bundle);
       bundleComparePriceEl.textContent = totalComparePrice;
+      
+      } else {
+
+      // Add discount to state
+      updateStateWithDiscount(state, 5, 15);
+      const discountPercentage = state.discount; 
+
+      // Work out new total with discount applied
+      const discountedTotal = applyDiscountToTotal(total, discountPercentage);
+
+      // Work out new saved price with the percentage saved value added onto it
+      const savings = calculateSavings(total, discountedTotal);
+      const totalComparePriceWithDiscount = totalComparePrice + savings;
+      
+      bundleTotalEl.textContent = discountedTotal;
+      bundleComparePriceEl.textContent = totalComparePriceWithDiscount;
+
+      }
 
       // Call the function to handle all UI updates
       updateUIAfterProductAdded(productBlocks);
@@ -1256,30 +1279,41 @@ document.addEventListener("DOMContentLoaded", function () {
     //// Creating a discount Code 
 
     function generateDiscountCode(minDiscount, maxDiscount) {
-      // Generate a random discount percentage between minDiscount and maxDiscount
-      const discount = Math.floor(Math.random() * (maxDiscount - minDiscount + 1)) + minDiscount;
-  
-      // Generate a random code - here we use a simple combination of letters and numbers
-      let code = '';
-      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-      const codeLength = 10; // Length of the discount code
-  
-      for (let i = 0; i < codeLength; i++) {
-          code += characters.charAt(Math.floor(Math.random() * characters.length));
+        // Generate a random discount percentage between minDiscount and maxDiscount
+        const discount = Math.floor(Math.random() * (maxDiscount - minDiscount + 1)) + minDiscount;
+    
+        // Generate a random code - here we use a simple combination of letters and numbers
+        let code = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        const codeLength = 10; // Length of the discount code
+    
+        for (let i = 0; i < codeLength; i++) {
+            code += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+    
+        return {
+            discountCode: code,
+            discountValue: discount
+        };
       }
-  
-      return {
-          discountCode: code,
-          discountValue: discount
-      };
-  }
-  
-  // Example usage
-  const discountInfo = generateDiscountCode(5, 15);
-  console.log(`Discount Code: ${discountInfo.discountCode}, Discount Value: ${discountInfo.discountValue}%`);
-  
 
 
+      function updateStateWithDiscount(state, minDiscount, maxDiscount) {
+        const discountInfo = generateDiscountCode(minDiscount, maxDiscount);
+    
+        // Update the state with the new discount and discount code
+        state.discount.push(discountInfo.discountValue); // Assuming you want to keep a history of discounts
+        state.discountCode = discountInfo.discountCode;
+      }
+
+    
+      function applyDiscountToTotal(total, discountPercentage) {
+        return total * (1 - discountPercentage / 100);
+      }
+    
+      function calculateSavings(originalTotal, discountedTotal) {
+          return originalTotal - discountedTotal;
+      }
 
 
 
