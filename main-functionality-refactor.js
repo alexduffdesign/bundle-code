@@ -389,7 +389,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function dontMoveToNextStep() {
       closeNextStepPopup();
+      if (isProductAddedForStep(state.currentStep)) {
       bundleGuide.classList.add("is--active");
+      }
     }
       
     function editMode(stepValue) {
