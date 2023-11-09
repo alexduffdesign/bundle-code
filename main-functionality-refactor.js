@@ -241,13 +241,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
       if ( state.currentStep < state.prizeSteps[1] ) {
 
+      console.log("the current step is not the prize step");
+
       const total = calculateBundleTotal(state.bundle);
       bundleTotalEl.textContent = total;
 
       const totalComparePrice = calculateTotalComparePrice(state.bundle);
       bundleComparePriceEl.textContent = totalComparePrice;
       
-      } else if (state.currentStep === state.prizeSteps[1] && isProductAddedForStep(state.currentStep) ){
+      } 
+      
+      if (state.currentStep === state.prizeSteps[1] && isProductAddedForStep(state.currentStep) ){
 
       console.log("the current step is the second prize step and a product has been added");
 
