@@ -350,6 +350,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
       }
 
+      if (!isProductAddedForStep(state.currentStep)) {
+        bundleGuide.classList.remove("is--active");
+        }
+
      updateCheckoutVisibility();
 
     }
