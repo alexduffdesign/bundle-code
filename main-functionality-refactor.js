@@ -251,7 +251,7 @@ document.addEventListener("DOMContentLoaded", function () {
       
       } 
       
-      if (state.currentStep === state.prizeSteps[1] && isProductAddedForStep(state.currentStep) ){
+      if (state.currentStep >= state.prizeSteps[1] ){
 
       console.log("the current step is the second prize step and a product has been added");
 
