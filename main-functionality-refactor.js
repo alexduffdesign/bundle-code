@@ -256,6 +256,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log("the current step is the second prize step and a product has been added");
 
       const discountPercentage = state.discount; 
+      console.log("Discount percentage", discountPercentage);
 
       // Work out new total with discount applied
       const discountedTotal = applyDiscountToTotal(total, discountPercentage);
