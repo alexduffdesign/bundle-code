@@ -262,7 +262,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Work out new saved price with the percentage saved value added onto it
       const savings = calculateSavings(total, discountedTotal);
-      const totalComparePriceWithDiscount = totalComparePrice + savings;
+      const totalComparePriceWithDiscount = calculateTotalComparePrice(state.bundle) + savings;
       
       bundleTotalEl.textContent = discountedTotal;
       bundleComparePriceEl.textContent = totalComparePriceWithDiscount;
