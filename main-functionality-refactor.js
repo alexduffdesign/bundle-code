@@ -37,6 +37,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const bundleCountEl = document.querySelector('[bundle-count]');
     const bundleTotalEl = document.querySelector('[data-total]');
     const bundleComparePriceEl = document.querySelector('[data-saved-amount]');
+    const scratchCardDiscountEl = document.querySelector('[data-discount]');
 
   
   
@@ -332,11 +333,11 @@ document.addEventListener("DOMContentLoaded", function () {
         state.currentStep++;
         console.log("Next Step Button Clicked: After Increment currentStep =", state.currentStep);
 
+        // Create Discount
         if (state.currentStep === state.prizeSteps[1]) {
         updateStateWithDiscount(state, 5, 15);
-
+        scratchCardDiscountEl.textContent = state.discount;
         console.log("Discount Applied", state.discount);
-
         }
       }
     
@@ -1340,6 +1341,11 @@ document.addEventListener("DOMContentLoaded", function () {
       function calculateSavings(originalTotal, discountedTotal) {
           return originalTotal - discountedTotal;
       }
+
+
+
+
+
 
 
 
