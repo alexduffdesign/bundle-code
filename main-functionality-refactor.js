@@ -248,8 +248,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
       console.log("the current step is not the prize step");
 
-      bundleTotalEl.textContent = total;
-      bundleComparePriceEl.textContent = totalComparePrice;
+      bundleTotalEl.textContent = total.toFixed(2);
+      bundleComparePriceEl.textContent = totalComparePrice.toFixed(2);
       
       } 
       
@@ -273,8 +273,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
       console.log("Total compare price with discount applied", totalComparePriceWithDiscount);
       
-      bundleTotalEl.textContent = discountedTotal;
-      bundleComparePriceEl.textContent = totalComparePriceWithDiscount;
+      bundleTotalEl.textContent = discountedTotal.toFixed(2);
+      bundleComparePriceEl.textContent = totalComparePriceWithDiscount.toFixed(2);
 
       }
 
@@ -1296,23 +1296,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //// Creating a discount Code 
 
-    function generateDiscountCode(minDiscount, maxDiscount) {
-        // Generate a random discount percentage between minDiscount and maxDiscount
-        const discount = Math.floor(Math.random() * (maxDiscount - minDiscount + 1)) + minDiscount;
-    
-        // Generate a random code - here we use a simple combination of letters and numbers
-        let code = '';
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        const codeLength = 10; // Length of the discount code
-    
-        for (let i = 0; i < codeLength; i++) {
-            code += characters.charAt(Math.floor(Math.random() * characters.length));
-        }
-    
-        return {
-            discountCode: code,
-            discountValue: discount
-        };
+      function generateDiscountCode(minDiscount, maxDiscount) {
+          // Generate a random discount percentage between minDiscount and maxDiscount
+          const discount = Math.floor(Math.random() * (maxDiscount - minDiscount + 1)) + minDiscount;
+      
+          // Generate a random code - here we use a simple combination of letters and numbers
+          let code = '';
+          const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+          const codeLength = 10; // Length of the discount code
+      
+          for (let i = 0; i < codeLength; i++) {
+              code += characters.charAt(Math.floor(Math.random() * characters.length));
+          }
+      
+          return {
+              discountCode: code,
+              discountValue: discount
+          };
       }
 
 
@@ -1335,11 +1335,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     
       function applyDiscountToTotal(total, discountPercentage) {
-        return total * (1 - discountPercentage / 100);
+        const discountedTotal = total * (1 - discountPercentage / 100);
+        return Number(discountedTotal.toFixed(2)); // This will round the number to 2 decimal places
       }
-    
+      
       function calculateSavings(originalTotal, discountedTotal) {
-          return originalTotal - discountedTotal;
+        const savings = originalTotal - discountedTotal;
+        return Number(savings.toFixed(2)); // This will round the number to 2 decimal places
       }
 
 
