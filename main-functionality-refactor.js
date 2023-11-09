@@ -1324,7 +1324,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const discountInfo = generateDiscountCode(minDiscount, maxDiscount);
     
         // Update the state with the new discount and discount code
-        state.discount.push(discountInfo.discountValue);
+        state.discount.discountInfo.discountValue; 
         state.discountCode = discountInfo.discountCode;
         state.isDiscountApplied = true; // Set the flag to true as the discount is now applied
     
