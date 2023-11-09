@@ -1296,24 +1296,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //// Creating a discount Code 
 
-      function generateDiscountCode(minDiscount, maxDiscount) {
-          // Generate a random discount percentage between minDiscount and maxDiscount
-          const discount = Math.floor(Math.random() * (maxDiscount - minDiscount + 1)) + minDiscount;
-      
-          // Generate a random code - here we use a simple combination of letters and numbers
-          let code = '';
-          const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-          const codeLength = 10; // Length of the discount code
-      
-          for (let i = 0; i < codeLength; i++) {
-              code += characters.charAt(Math.floor(Math.random() * characters.length));
-          }
-      
-          return {
-              discountCode: code,
-              discountValue: discount
-          };
+    function generateDiscountCode(minDiscount, maxDiscount) {
+      // Generate a biased random number between 0 (inclusive) and 1 (exclusive)
+      const bias = Math.random() ** 2;
+    
+      // Convert the biased random number to the range of the discounts
+      const range = maxDiscount - minDiscount + 1;
+      const discount = Math.floor(bias * range) + minDiscount;
+    
+      // Generate a random code - here we use a simple combination of letters and numbers
+      let code = '';
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      const codeLength = 10; // Length of the discount code
+    
+      for (let i = 0; i < codeLength; i++) {
+        code += characters.charAt(Math.floor(Math.random() * characters.length));
       }
+    
+      return {
+        discountCode: code,
+        discountValue: discount
+      };
+    }
+    
 
 
       function updateStateWithDiscount(state, minDiscount, maxDiscount) {
