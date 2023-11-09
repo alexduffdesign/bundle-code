@@ -239,7 +239,7 @@ document.addEventListener("DOMContentLoaded", function () {
       updateBundleCount();
 
 
-      if ( state.currentStep != state.prizeSteps[1] ) {
+      if ( state.currentStep < state.prizeSteps[1] ) {
 
       const total = calculateBundleTotal(state.bundle);
       bundleTotalEl.textContent = total;
@@ -248,6 +248,8 @@ document.addEventListener("DOMContentLoaded", function () {
       bundleComparePriceEl.textContent = totalComparePrice;
       
       } else if (state.currentStep === state.prizeSteps[1] && isProductAddedForStep(state.currentStep) ){
+
+      console.log("the current step is the second prize step and a product has been added");
 
       const discountPercentage = state.discount; 
 
@@ -322,7 +324,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updateStateWithDiscount(state, 5, 15);
 
         console.log("Discount Applied", state.discount);
-        
+
         }
       }
     
