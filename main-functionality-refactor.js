@@ -115,19 +115,19 @@ document.addEventListener("DOMContentLoaded", function () {
           ],
           [
             owlRive,
-            { transform: "translateY(-30em)" },
+            { transform: "translateY(-30em)", opacity: 0 },
             { delay: 0.1, duration: 0.64 }
           ],
           [
             scroll,
-            { transform: "translateY(0em) rotate(0) scale(1)" },
+            { transform: "translateY(0em) rotate(0deg) scale(1)" },
             { duration: 0.56, at: "<", delay: 0.2, easing: fastEase }
           ],
           [ scrollMiddle, { width: "100%" }, { duration: 0.64, easing: fastEase }],
           [ scrollCovering, { opacity: 0 }, { duration: 0.35 }]
         ];
   
-        const animation = Motion.timeline(animationSequence, {
+        Motion.timeline(animationSequence, {
           defaultOptions: { easing: "ease-in-out" }
         });
   
@@ -138,6 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // INTRO CODE
   
     if (introButton) {
+        
       introButton.addEventListener("click", function () {
         
         clickCount++;
@@ -153,8 +154,10 @@ document.addEventListener("DOMContentLoaded", function () {
                   highlightIntroPrizes(step);
               }
           });
-            
-        } else if (clickCount === 2) { closeScroll();}
+        } 
+        
+        else if (clickCount === 2) { closeScroll();}
+      
       });
     }
 
@@ -167,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
           scroll,
           {
             pointerEvents: "none",
-            transform: "translate(0em) rotate(260) scale(0.4)"
+            transform: "translate(0em) rotate(260deg) scale(0.4)"
           },
           { duration: 1, at: "<" }
         ],
