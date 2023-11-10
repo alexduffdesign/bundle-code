@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const nextStepEl = document.querySelector(".bundle_next-step");
 
     const introMapSteps = document.querySelectorAll("[intro] [bundle-step]");
-    console.log("introMap steps" , introMapSteps);
   
     const products = document.querySelector("[products-area]");
     const cmsItems = document.querySelectorAll("[data-left][data-bottom]");
@@ -149,6 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
             introList.style.justifyContent = "flex-end";
             introMapSteps.forEach((step) => {
               if (state.prizeSteps.includes(step)) {
+                console.log("introMap prize steps" , step);
               highlightIntroPrizes(step);
               }
             })
