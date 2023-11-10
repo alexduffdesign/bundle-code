@@ -147,12 +147,13 @@ document.addEventListener("DOMContentLoaded", function () {
           if (introList) {
             introList.style.justifyContent = "flex-end";
 
-            introMapSteps.forEach((step) => {
-              if (state.prizeSteps.includes(step)) {
-                console.log("introMap prize steps" , step);
-              highlightIntroPrizes(step);
+            introMapSteps.forEach((step, index) => {
+              if (state.prizeSteps.includes(index)) {
+                  console.log("introMap prize steps", step);
+                  highlightIntroPrizes(step);
               }
-            });
+          });
+          
             
           }
         } else if (clickCount === 2) {
@@ -195,12 +196,13 @@ document.addEventListener("DOMContentLoaded", function () {
   
 
     function highlightIntroPrizes(step) {
-        step.forEach((item) => {
-          const stepImage = item.querySelector("[step-image]");
+      const stepImage = step.querySelector("[step-image]");
+      if (stepImage) {
           stepImage.classList.add("is--selected");
-          item.style.transform = "scale(1.1)";
-        })
+          step.style.transform = "scale(1.1)";
+      }
     }
+  
   
   
     ///////////////////////////////////// Bundle Functionality (add to bundle) ///////////////////////////////////////
