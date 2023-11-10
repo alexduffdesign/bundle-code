@@ -393,7 +393,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function dontMoveToNextStep() {
       closeNextStepPopup();
-      if (isProductAddedForStep(state.currentStep)) {
+      if (isProductAddedForStep(state.currentStep) && state.currentStep != prizeSteps[2]) {
       bundleGuide.classList.add("is--active");
       }
     }
