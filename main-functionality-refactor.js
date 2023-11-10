@@ -193,7 +193,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function highlightIntroPrizes(stepItems) {
         stepItems.forEach((item) => {
-          const stepImage = item.querySelector(".step-image");
+          const stepImage = item.querySelector("[step-image]");
           stepImage.classList.add("is--selected");
           item.style.transform = "scale(1.1)";
         })
