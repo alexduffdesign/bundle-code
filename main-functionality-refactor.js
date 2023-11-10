@@ -356,6 +356,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
      updateCheckoutVisibility();
 
+     bundleCart.classList.remove("is--active");
+
     }
 
     function moveToNextStepClick() {
@@ -410,6 +412,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Update the UI to reflect the editing mode state
       updateUIForEditMode(state.editingStep);
+      
+      bundleCart.classList.remove("is--active");
+
     }
 
   
@@ -831,8 +836,8 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             { duration: 0.64, easing: "ease-in-out" }
           ],
-          [bundleComponent, { opacity: 0 }, { duration: 0.3 }],
-          [".bundle_map-wrap", { opacity: 0 }, { duration: 0.3, at: "<" }]
+          [ bundleComponent, { opacity: 0 }, { duration: 0.3 }],
+          [ map, { opacity: 0 }, { duration: 0.3, at: "<" }]
         ];
   
         // Add animation to aray
