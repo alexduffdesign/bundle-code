@@ -278,8 +278,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       }
 
-      toggleHeaderFooter();
-
       // Call the function to handle all UI updates
       updateUIAfterProductAdded(productBlocks);
 
