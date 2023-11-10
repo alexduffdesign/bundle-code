@@ -1263,6 +1263,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     function toggleHeaderFooter(reverse = false) {
+      console.log(`toggleHeaderFooter called, reverse: ${reverse}`);
+
       const initialState = [
         [bundleComponent, { opacity: [0, 1] }, { duration: 0.3, direction: reverse ? 'reverse' : 'normal' }],
         [map, { opacity: [0, 1] }, { duration: 0.3, at: "<", direction: reverse ? 'reverse' : 'normal' }]
