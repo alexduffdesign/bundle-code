@@ -472,7 +472,8 @@ document.addEventListener("DOMContentLoaded", function () {
       bundleGuide.classList.remove("is--active");
     
       // Reset UI to no-popup state
-      backToNoPopup();
+      showHeaderFooter();
+      scrollToTop();
 
     }
 
@@ -1224,19 +1225,20 @@ document.addEventListener("DOMContentLoaded", function () {
       body.style.overflow = "auto";
     }
     
-    function backToNoPopup() {
+    function showHeaderFooter() {
       const initialState = [
-        [bundleComponent, { opacity: 1 }, { duration: 0.3 }],
-        [".bundle_map-wrap", { opacity: 1 }, { duration: 0.3, at: "<" }]
+        [bundleComponent, { opacity: [0, 1] }, { duration: 0.3 }],
+        [map, { opacity: [0, 1] }, { duration: 0.3, at: "<" }]
       ];
       Motion.timeline(initialState);
-    
+    }
+
+    function scrollToTop() {    
       // Scroll to the top
       const topElement = document.getElementById("top");
       if (topElement) {
         topElement.scrollIntoView({ behavior: "smooth" });
       }
-    
     }
 
 
