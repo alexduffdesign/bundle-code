@@ -396,6 +396,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (isProductAddedForStep(state.currentStep) && state.currentStep != state.prizeSteps[2]) {
       bundleGuide.classList.add("is--active");
       }
+      toggleHeaderFooter(true);
     }
       
     function editMode(stepValue) {
@@ -541,8 +542,6 @@ document.addEventListener("DOMContentLoaded", function () {
           deactivateStepUI(item);
         }
       });
-
-      toggleHeaderFooter(true);
       
     }
 
