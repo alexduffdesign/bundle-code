@@ -15,6 +15,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const fastEase = "cubic-bezier(.9, 0, .1, 1)";
     const body = document.querySelector("body");
     const nextStepEl = document.querySelector(".bundle_next-step");
+
+    const introMapSteps = document.querySelectorAll("[intro] [bundle-step]");
   
     const products = document.querySelector("[products-area]");
     const cmsItems = document.querySelectorAll("[data-left][data-bottom]");
@@ -102,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
             { transform: "translateY(25.5em)" },
             { duration: 0.64, at: 0.6 }
           ],
-          [glowingScroll, { opacity: 0 }, { duration: 0.3 }],
+          [ glowingScroll, { opacity: 0 }, { duration: 0.3 }],
           [
             scroll,
             { opacity: 1, pointerEvents: "auto" },
@@ -118,8 +120,8 @@ document.addEventListener("DOMContentLoaded", function () {
             { transform: "translateY(0em) rotate(0) scale(1)" },
             { duration: 0.56, at: "<", delay: 0.2, easing: fastEase }
           ],
-          [scrollMiddle, { width: "100%" }, { duration: 0.64, easing: fastEase }],
-          [scrollCovering, { opacity: 0 }, { duration: 0.35 }]
+          [ scrollMiddle, { width: "100%" }, { duration: 0.64, easing: fastEase }],
+          [ scrollCovering, { opacity: 0 }, { duration: 0.35 }]
         ];
   
         const animation = Motion.timeline(animationSequence, {
@@ -144,40 +146,58 @@ document.addEventListener("DOMContentLoaded", function () {
           const introList = document.querySelector(".bundle_intro-list");
           if (introList) {
             introList.style.justifyContent = "flex-end";
+            introMapSteps.forEach((step) => {
+              if (state.prizeSteps.includes(step)) {
+              highlightIntroPrizes(step);
+              }
+            })
           }
         } else if (clickCount === 2) {
-          const closeScroll = [
-            [scrollCovering, { opacity: 1 }, { duration: 0.35 }],
-            [scrollMiddle, { width: "8%" }, { duration: 1, easing: fastEase }],
-            [
-              scroll,
-              {
-                pointerEvents: "none",
-                transform: "translate(0em) rotate(260) scale(0.4)"
-              },
-              { duration: 1, at: "<" }
-            ],
-            [
-              openingSlide,
-              { opacity: 0, pointerEvents: "none" },
-              { duration: 0.5, at: "0.8", easing: fastEase }
-            ],
-            [
-              products,
-              { display: "flex" },
-              { duration: 0.01, at: "<", easing: fastEase }
-            ],
-            [
-              products,
-              { opacity: 1 },
-              { duration: 0.5, at: "<", easing: fastEase }
-            ]
-          ];
-          const closeScrollAnim = Motion.timeline(closeScroll);
+          closeScroll();
         }
       });
     }
+
+
+    function closeScroll() {
+      const closeScroll = [
+        [scrollCovering, { opacity: 1 }, { duration: 0.35 }],
+        [scrollMiddle, { width: "8%" }, { duration: 1, easing: fastEase }],
+        [
+          scroll,
+          {
+            pointerEvents: "none",
+            transform: "translate(0em) rotate(260) scale(0.4)"
+          },
+          { duration: 1, at: "<" }
+        ],
+        [
+          openingSlide,
+          { opacity: 0, pointerEvents: "none" },
+          { duration: 0.5, at: "0.8", easing: fastEase }
+        ],
+        [
+          products,
+          { display: "flex" },
+          { duration: 0.01, at: "<", easing: fastEase }
+        ],
+        [
+          products,
+          { opacity: 1 },
+          { duration: 0.5, at: "<", easing: fastEase }
+        ]
+      ];
+      Motion.timeline(closeScroll);
+    }
   
+
+    function highlightIntroPrizes(stepItems) {
+        stepItems.forEach((item) => {
+          const stepImage = item.querySelector(".step-image");
+          stepImage.classList.add("is--selected");
+          item.style.transform = "scale(1.1)";
+        })
+    }
   
   
     ///////////////////////////////////// Bundle Functionality (add to bundle) ///////////////////////////////////////
