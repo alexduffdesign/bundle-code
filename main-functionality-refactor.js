@@ -384,6 +384,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (isPrizeStep(state.currentStep)) {
         activatePrizes(state.currentStep);
         toggleHeaderFooter(true);
+        console.log("its a prize step");
       } else { toggleHeaderFooter(); }
     
       // Perform UI updates after state changes
