@@ -428,7 +428,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const popupDataCurrent = getCurrentStepData(state.currentStep);
       const popupDataPast = getCurrentStepData(state.currentStep - 1);
     
-      if (state.editingStep === null && isProductAddedForStep(state.currentStep)) {
+      if (state.editingStep === null && isProductAddedForStep(state.currentStep) && state.currentStep != state.prizeSteps[2]) {
         makeStepImageSelected(bundleStepsItems[state.currentStep + 1]);
         makeStepImageSelected(mapStepsItems[state.currentStep + 1]);
         updateIndicatorPosition(state.currentStep + 1, bundleStepsItems.length);
