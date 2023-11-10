@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
         [
           openingSlide,
           { opacity: 0, pointerEvents: "none" },
-          { duration: 0.5, at: "<", easing: fastEase }
+          { duration: 0.5, delay: 0.1, easing: fastEase }
         ],
         [
           products,
