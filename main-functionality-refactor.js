@@ -173,7 +173,7 @@ document.addEventListener("DOMContentLoaded", function () {
             transform: "translate(0em) rotate(260deg) scale(0.4)",
             opacity: 0
           },
-          { duration: 1, at: "<" }
+          { duration: 1 }
         ],
         [
           openingSlide,
