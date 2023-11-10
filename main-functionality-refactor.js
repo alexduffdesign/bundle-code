@@ -17,6 +17,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const nextStepEl = document.querySelector(".bundle_next-step");
 
     const introMapSteps = document.querySelectorAll("[intro] [bundle-step]");
+    let clickCount = 0;
+    const introButton = document.querySelector("[intro-btn]");
   
     const products = document.querySelector("[products-area]");
     const cmsItems = document.querySelectorAll("[data-left][data-bottom]");
@@ -133,29 +135,24 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   
     // INTRO CODE
-    let clickCount = 0;
-    const introButton = document.querySelector("[intro-btn]");
-  
   
     if (introButton) {
       introButton.addEventListener("click", function () {
+        
         clickCount++;
   
         if (clickCount === 1) {
           introButton.textContent = "Start";
           const introList = document.querySelector(".bundle_intro-list");
-          if (introList) {
-            introList.style.justifyContent = "flex-end";
+          introList.style.justifyContent = "flex-end";
 
-            introMapSteps.forEach((step, index) => {
+          introMapSteps.forEach((step, index) => {
               if (state.prizeSteps.includes(index)) {
                   console.log("introMap prize steps", step);
                   highlightIntroPrizes(step);
               }
           });
-          
             
-          }
         } else if (clickCount === 2) {
           closeScroll();
         }
@@ -199,7 +196,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const stepImage = step.querySelector("[step-image]");
       if (stepImage) {
           stepImage.classList.add("is--selected");
-          step.style.transform = "scale(1.1)";
+          step.style.transform = "scale(1.2)";
       }
     }
   
