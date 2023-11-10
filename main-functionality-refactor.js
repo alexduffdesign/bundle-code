@@ -541,6 +541,8 @@ document.addEventListener("DOMContentLoaded", function () {
           deactivateStepUI(item);
         }
       });
+
+      toggleHeaderFooter(true);
       
     }
 
