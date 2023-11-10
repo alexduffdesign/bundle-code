@@ -525,8 +525,6 @@ document.addEventListener("DOMContentLoaded", function () {
       bundleGuide.classList.remove("is--active");
     
       // Reset UI to no-popup state
-
-      toggleHeaderFooter();
       scrollToTop();
 
     }
