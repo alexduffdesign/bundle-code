@@ -76,6 +76,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Initialize the bundle steps and map steps separately:
     initializeSteps(bundleStepsItems);
     initializeSteps(mapStepsItems);
+    initializeSteps(introMapSteps);
   
     // STARTING ANIMATION
     if (startButton) {
@@ -142,20 +143,18 @@ document.addEventListener("DOMContentLoaded", function () {
         clickCount++;
   
         if (clickCount === 1) {
+
           introButton.textContent = "Start";
           const introList = document.querySelector(".bundle_intro-list");
           introList.style.justifyContent = "flex-end";
 
           introMapSteps.forEach((step, index) => {
               if (state.prizeSteps.includes(index)) {
-                  console.log("introMap prize steps", step);
                   highlightIntroPrizes(step);
               }
           });
             
-        } else if (clickCount === 2) {
-          closeScroll();
-        }
+        } else if (clickCount === 2) { closeScroll();}
       });
     }
 
@@ -194,10 +193,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function highlightIntroPrizes(step) {
       const stepImage = step.querySelector("[step-image]");
-      if (stepImage) {
-          stepImage.classList.add("is--selected");
-          step.style.transform = "scale(1.2)";
-      }
+        stepImage.classList.add("is--selected");
+        step.style.transform = "scale(1.2)";
     }
   
   
