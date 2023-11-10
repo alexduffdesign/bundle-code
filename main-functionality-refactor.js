@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const nextStepEl = document.querySelector(".bundle_next-step");
 
     const introMapSteps = document.querySelectorAll("[intro] [bundle-step]");
+    console.log("introMap steps" , introMapSteps);
   
     const products = document.querySelector("[products-area]");
     const cmsItems = document.querySelectorAll("[data-left][data-bottom]");
@@ -191,8 +192,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   
 
-    function highlightIntroPrizes(stepItems) {
-        stepItems.forEach((item) => {
+    function highlightIntroPrizes(step) {
+        step.forEach((item) => {
           const stepImage = item.querySelector("[step-image]");
           stepImage.classList.add("is--selected");
           item.style.transform = "scale(1.1)";
