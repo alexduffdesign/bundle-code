@@ -278,7 +278,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       }
 
-      toggleHeaderFooter(true);
+      toggleHeaderFooter();
 
       // Call the function to handle all UI updates
       updateUIAfterProductAdded(productBlocks);
@@ -385,7 +385,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // If the step involves a prize, activate the prize UI
       if (isPrizeStep(state.currentStep)) {
         activatePrizes(state.currentStep);
-        toggleHeaderFooter();
+        toggleHeaderFooter(true);
       }
     
       // Perform UI updates after state changes
