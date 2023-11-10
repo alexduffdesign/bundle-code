@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
           scroll,
           {
             pointerEvents: "none",
-            transform: "translate(0em) rotate(260deg) scale(0.4)",
+            transform: "translate(0em) rotate(360deg) scale(0.4)",
             opacity: 0
           },
           { duration: 1, at: "<" }
@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
         [
           openingSlide,
           { opacity: 0, pointerEvents: "none" },
-          { duration: 0.5, delay: 0.1, easing: fastEase }
+          { duration: 0.5, at: 1.25, easing: fastEase }
         ],
         [
           products,
