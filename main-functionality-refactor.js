@@ -444,56 +444,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       setTimeout(() => openNextStepPopup(), 720);
     }
-
-
-    function updateUIAfterMoveToNextStep() {
-      // Update the step images for bundle and map areas
-      activateStepImage(bundleStepsItems[state.currentStep]);
-      activateStepImage(mapStepsItems[state.currentStep]);
-
-      // Make previous step selected
-      makeStepImageSelected(bundleStepsItems[state.currentStep - 1]);
-      makeStepImageSelected(mapStepsItems[state.currentStep - 1]);
-      
-      // Deactivate Previous Step
-      deactivateStepImage(bundleStepsItems[state.currentStep - 1]);
-      deactivateStepImage(mapStepsItems[state.currentStep - 1]);
     
-      openBundleItem(bundleStepsItems[state.currentStep]);
-
-      // Update mobile bundle step info
-      const dataForCurrentStep = getCurrentStepData(state.currentStep);
-      updateMobileBundleStepInfo(dataForCurrentStep);
-    
-      // Update the product area 
-      const productAreaData = getCurrentStepData(state.currentStep);
-      updateProductArea(productAreaData);
-    
-      // Remove active state from the bundle guide
-      bundleGuide.classList.remove("is--active");
-    
-      // Reset UI to no-popup state
-
-      toggleHeaderFooter();
-      scrollToTop();
-
-    }
-
-
-    function updateUIForEditMode(stepIndex) {
-      // Deactivate any active prize elements and show the products if necessary
-      if (isPrizeStep(state.currentStep)) {
-        deactivatePrizeElements();
-        products.classList.add("is--active");
-      }
-
-      // Update the product area with data from the step being edited
-      const stepData = getCurrentStepData(stepIndex);
-
-      updateProductArea(stepData);
-
-    }
-
 
     function updateUIforRemoveProduct(currentStep) {
 
@@ -544,6 +495,56 @@ document.addEventListener("DOMContentLoaded", function () {
       });
       
     }
+
+
+    function updateUIAfterMoveToNextStep() {
+      // Update the step images for bundle and map areas
+      activateStepImage(bundleStepsItems[state.currentStep]);
+      activateStepImage(mapStepsItems[state.currentStep]);
+
+      // Make previous step selected
+      makeStepImageSelected(bundleStepsItems[state.currentStep - 1]);
+      makeStepImageSelected(mapStepsItems[state.currentStep - 1]);
+      
+      // Deactivate Previous Step
+      deactivateStepImage(bundleStepsItems[state.currentStep - 1]);
+      deactivateStepImage(mapStepsItems[state.currentStep - 1]);
+    
+      openBundleItem(bundleStepsItems[state.currentStep]);
+
+      // Update mobile bundle step info
+      const dataForCurrentStep = getCurrentStepData(state.currentStep);
+      updateMobileBundleStepInfo(dataForCurrentStep);
+    
+      // Update the product area 
+      const productAreaData = getCurrentStepData(state.currentStep);
+      updateProductArea(productAreaData);
+    
+      // Remove active state from the bundle guide
+      bundleGuide.classList.remove("is--active");
+    
+      // Reset UI to no-popup state
+
+      toggleHeaderFooter();
+      scrollToTop();
+
+    }
+
+
+    function updateUIForEditMode(stepIndex) {
+      // Deactivate any active prize elements and show the products if necessary
+      if (isPrizeStep(state.currentStep)) {
+        deactivatePrizeElements();
+        products.classList.add("is--active");
+      }
+
+      // Update the product area with data from the step being edited
+      const stepData = getCurrentStepData(stepIndex);
+
+      updateProductArea(stepData);
+
+    }
+
 
 
     //// Event listeners
