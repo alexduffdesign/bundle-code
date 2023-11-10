@@ -146,12 +146,14 @@ document.addEventListener("DOMContentLoaded", function () {
           const introList = document.querySelector(".bundle_intro-list");
           if (introList) {
             introList.style.justifyContent = "flex-end";
+
             introMapSteps.forEach((step) => {
               if (state.prizeSteps.includes(step)) {
                 console.log("introMap prize steps" , step);
               highlightIntroPrizes(step);
               }
-            })
+            });
+            
           }
         } else if (clickCount === 2) {
           closeScroll();
