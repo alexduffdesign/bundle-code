@@ -356,7 +356,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
      updateCheckoutVisibility();
 
-     bundleCart.classList.remove("is--active");
+     hideBundleCart();
 
     }
 
@@ -413,8 +413,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Update the UI to reflect the editing mode state
       updateUIForEditMode(state.editingStep);
       
-      bundleCart.classList.remove("is--active");
-
+      hideBundleCart();
     }
 
   
@@ -1049,6 +1048,13 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
+    function showBundleCart() {
+      bundleCart.classList.add("is--open");
+    }
+
+    function hideBundleCart() {
+      bundleCart.classList.remove("is--open");
+    }
 
 
 ///////////////////////////////////// Bundle Functionality (Next step click) ///////////////////////////////////////
