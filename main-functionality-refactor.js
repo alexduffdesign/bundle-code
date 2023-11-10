@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
           scroll,
           {
             pointerEvents: "none",
-            transform: "translate(0em) rotate(360deg) scale(0.4)",
+            transform: "translate(0em) rotate(260deg) scale(0.4)",
             opacity: 0
           },
           { duration: 1, at: "<" }
