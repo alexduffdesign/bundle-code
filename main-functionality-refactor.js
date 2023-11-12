@@ -544,9 +544,9 @@ document.addEventListener("DOMContentLoaded", function () {
       deactivateStepImage(mapStepsItems[state.currentStep - 1]);
     
       openBundleItem(bundleStepsItems[state.currentStep]);
-      if (isMobile()) {
+     
         reCalculateIndicatorHeight();
-      }
+    
 
       // Update mobile bundle step info
       const dataForCurrentStep = getCurrentStepData(state.currentStep);
