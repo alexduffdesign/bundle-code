@@ -1049,7 +1049,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const totalHeight = 0;
       const children = bundleStepWrap.children; // Get all the child nodes
       
-      for (var i = 0; i < children.length; i++) {
+      for (const i = 0; i < children.length; i++) {
         totalHeight += children[i].offsetHeight; // Sum up all the children's heights
       }
       
