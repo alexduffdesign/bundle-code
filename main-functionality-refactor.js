@@ -490,8 +490,6 @@ document.addEventListener("DOMContentLoaded", function () {
     
       // Update the mobile bundle step information
       const dataForCurrentStep = getCurrentStepData(currentStep);
-      console.log("data for current step", dataForCurrentStep);
-      console.log("data current step", currentStep);
 
       // Update mobile bundle step info with current step data
       updateMobileBundleStepInfo(dataForCurrentStep);
@@ -526,6 +524,8 @@ document.addEventListener("DOMContentLoaded", function () {
           deactivateStepUI(item);
         }
       });
+
+      reCalculateIndicatorHeight();
       
     }
 
@@ -545,8 +545,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
       openBundleItem(bundleStepsItems[state.currentStep]);
      
-        reCalculateIndicatorHeight();
-    
+      reCalculateIndicatorHeight();
 
       // Update mobile bundle step info
       const dataForCurrentStep = getCurrentStepData(state.currentStep);
