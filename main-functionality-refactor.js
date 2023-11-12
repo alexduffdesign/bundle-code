@@ -1043,7 +1043,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function reCalculateIndicatorHeight() {
       const bundleStepWrapHeight = bundleStepWrap.offsetHeight; // Get the current height of the content
-      bundleIndicatorBar.style.height = bundleStepWrapHeight + 'em'; // Set the height of the indicator
+      bundleIndicatorBar.style.height = bundleStepWrapHeight + '%'; // Set the height of the indicator
       
     }
     
