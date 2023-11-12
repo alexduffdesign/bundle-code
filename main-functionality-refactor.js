@@ -436,7 +436,6 @@ document.addEventListener("DOMContentLoaded", function () {
       // Update the UI to reflect the editing mode state
       updateUIForEditMode(state.editingStep);
       
-      hideBundleCart();
     }
 
   
@@ -555,6 +554,8 @@ document.addEventListener("DOMContentLoaded", function () {
       // Reset UI to no-popup state
       scrollToTop();
 
+      hideBundleCart();
+
     }
 
 
@@ -569,6 +570,8 @@ document.addEventListener("DOMContentLoaded", function () {
       const stepData = getCurrentStepData(stepIndex);
 
       updateProductArea(stepData);
+
+      hideBundleCart();
 
     }
 
