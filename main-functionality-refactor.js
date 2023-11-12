@@ -1053,7 +1053,7 @@ document.addEventListener("DOMContentLoaded", function () {
         totalHeight += children[i].offsetHeight; // Sum up all the children's heights
       }
       
-      bundleCartIndicator.style.height = totalHeight + 'px'; // Set the height of the indicator
+      bundleIndicatorBar.style.height = totalHeight + 'px'; // Set the height of the indicator
       console.log("new height", totalHeight);
     }
     
