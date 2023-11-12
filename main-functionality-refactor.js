@@ -198,7 +198,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function highlightIntroPrizes(step) {
       const stepImage = step.querySelector("[step-image]");
         stepImage.classList.add("is--selected");
-        step.style.transform = "scale(1.2)";
+        stepImage.style.transform = "scale(1.2)";
     }
   
   
