@@ -1046,10 +1046,17 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function reCalculateIndicatorHeight() {
-      const bundleStepWrapHeight = bundleStepWrap.offsetHeight; // Get the current height of the content
-      console.log("bundle heigh", bundleStepWrapHeight);
-      bundleIndicatorBar.style.height = bundleStepWrapHeight + '%'; // Set the height of the indicator
+      const totalHeight = 0;
+      const children = bundleStepWrap.children; // Get all the child nodes
+      
+      for (var i = 0; i < children.length; i++) {
+        totalHeight += children[i].offsetHeight; // Sum up all the children's heights
+      }
+      
+      bundleCartIndicator.style.height = totalHeight + 'px'; // Set the height of the indicator
+      console.log("new height", totalHeight);
     }
+    
     
 
     function activateStepImage(stepItems) {
