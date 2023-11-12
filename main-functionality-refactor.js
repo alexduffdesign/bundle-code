@@ -242,9 +242,9 @@ document.addEventListener("DOMContentLoaded", function () {
         updatePopup(initialStepElement);  // Debug log
         updateProductArea(initialStepElement);
         updateMobileBundleStepInfo(initialStepElement);
-        if (isMobile()) {
+        // if (isMobile()) {
           reCalculateIndicatorHeight();
-        }
+       // }
       }
     }
 
