@@ -242,7 +242,9 @@ document.addEventListener("DOMContentLoaded", function () {
         updatePopup(initialStepElement);  // Debug log
         updateProductArea(initialStepElement);
         updateMobileBundleStepInfo(initialStepElement);
-        reCalculateIndicatorHeight();
+        if (isMobile()) {
+          reCalculateIndicatorHeight();
+        }
       }
     }
 
@@ -542,7 +544,9 @@ document.addEventListener("DOMContentLoaded", function () {
       deactivateStepImage(mapStepsItems[state.currentStep - 1]);
     
       openBundleItem(bundleStepsItems[state.currentStep]);
-      reCalculateIndicatorHeight();
+      if (isMobile()) {
+        reCalculateIndicatorHeight();
+      }
 
       // Update mobile bundle step info
       const dataForCurrentStep = getCurrentStepData(state.currentStep);
@@ -1045,7 +1049,6 @@ document.addEventListener("DOMContentLoaded", function () {
       const bundleStepWrapHeight = bundleStepWrap.offsetHeight; // Get the current height of the content
       console.log("bundle heigh", bundleStepWrapHeight);
       bundleIndicatorBar.style.height = bundleStepWrapHeight + '%'; // Set the height of the indicator
-      
     }
     
 
