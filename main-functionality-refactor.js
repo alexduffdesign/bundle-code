@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const bundleTotalEl = document.querySelector('[data-total]');
     const bundleComparePriceEl = document.querySelector('[data-saved-amount]');
     const scratchCardDiscountEl = document.querySelector('[data-discount]');
-    const bundleStepWrap = document.querySelector('[bundle-step-wrap]');
+    const bundleStepWrap = document.querySelector('.bundle_steps-cms-wrap');
     const bundleIndicatorBar = document.querySelector('.bundle_indicator-bar');
 
   
