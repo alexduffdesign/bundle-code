@@ -42,6 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const bundleTotalEl = document.querySelector('[data-total]');
     const bundleComparePriceEl = document.querySelector('[data-saved-amount]');
     const scratchCardDiscountEl = document.querySelector('[data-discount]');
+    const bundleStepWrap = document.querySelector('[bundle-step-wrap]');
 
   
   
@@ -539,6 +540,7 @@ document.addEventListener("DOMContentLoaded", function () {
       deactivateStepImage(mapStepsItems[state.currentStep - 1]);
     
       openBundleItem(bundleStepsItems[state.currentStep]);
+      reCalculateIndicatorHeight();
 
       // Update mobile bundle step info
       const dataForCurrentStep = getCurrentStepData(state.currentStep);
@@ -1036,6 +1038,12 @@ document.addEventListener("DOMContentLoaded", function () {
       const bundleItemEl = stepItems.querySelector("[bundle-item]");
       bundleItemEl?.classList.add("is--active");
     }
+
+    function reCalculateIndicatorHeight() {
+      const bundleStepWrapHeight = bundleStepWrap.offsetHeight; // Get the current height of the content
+      bundleCartIndicator.style.height = bundleStepWrapHeight + 'px'; // Set the height of the indicator
+    }
+    
 
     function activateStepImage(stepItems) {
       const stepImageEl = stepItems.querySelector(
