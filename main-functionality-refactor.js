@@ -1046,10 +1046,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function reCalculateIndicatorHeight() {
-      const totalHeight = 0;
+      let totalHeight = 0;
       const children = bundleStepWrap.children; // Get all the child nodes
       
-      for (const i = 0; i < children.length; i++) {
+      for (let i = 0; i < children.length; i++) {
         totalHeight += children[i].offsetHeight; // Sum up all the children's heights
       }
       
