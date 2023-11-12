@@ -43,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const bundleComparePriceEl = document.querySelector('[data-saved-amount]');
     const scratchCardDiscountEl = document.querySelector('[data-discount]');
     const bundleStepWrap = document.querySelector('[bundle-step-wrap]');
+    const bundleIndicatorBar = document.querySelector('.bundle_indicator-bar');
 
   
   
@@ -1042,7 +1043,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function reCalculateIndicatorHeight() {
       const bundleStepWrapHeight = bundleStepWrap.offsetHeight; // Get the current height of the content
-      bundleCartIndicator.style.height = bundleStepWrapHeight + 'px'; // Set the height of the indicator
+      bundleIndicatorBar.style.height = bundleStepWrapHeight + 'px'; // Set the height of the indicator
+      
     }
     
 
@@ -1332,7 +1334,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "[bundle-product-added]"
       );
       colourBundleProduct?.classList.remove("is--selected");
-      }
+    }
 
 
 
