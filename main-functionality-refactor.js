@@ -870,13 +870,13 @@ document.addEventListener("DOMContentLoaded", function () {
               ]
             },
             { duration: 0.64, easing: "ease-in-out" }
-          ]
+          ],
+          [ bundleComponent, { opacity: 0 }, { duration: 0.3 }],
+          [ map, { opacity: 0 }, { duration: 0.3, at: "<" }]
         ];
-
+  
         // Add animation to aray
         animations.push(...mobileAnimations);
-
-        hideHeaderAndFooter();
       }
   
       const addToBundleAnim = Motion.timeline(animations, {
