@@ -1052,7 +1052,7 @@ document.addEventListener("DOMContentLoaded", function () {
         totalHeight += children[i].offsetHeight; // Sum up all the children's heights
       }
       
-      bundleIndicatorBar.style.height = totalHeight + 'px'; // Set the height of the indicator
+      bundleIndicatorBar.style.height = (totalHeight - 30) + 'px'; // Set the height of the indicator
       console.log("new height", totalHeight);
     }
     
