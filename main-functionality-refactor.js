@@ -852,6 +852,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
       // If we're on mobile this will be the animation
       if (isMobile()) {
+
         
         const mobileAnimations = [
           [
@@ -872,7 +873,7 @@ document.addEventListener("DOMContentLoaded", function () {
             animations.push(...mobileAnimations);
       }
 
-      showHeaderAndFooter();
+      showHeaderAndFooter().then(() => {
   
       const addToBundleAnim = Motion.timeline(animations, {
         defaultEasing: "ease-in-out"
@@ -908,7 +909,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
       });
+      });
     }
+
 
 
 
