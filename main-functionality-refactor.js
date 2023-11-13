@@ -852,9 +852,12 @@ document.addEventListener("DOMContentLoaded", function () {
   
       // If we're on mobile this will be the animation
       if (isMobile()) {
-
-        showHeaderAndFooter();
         const mobileAnimations = [
+          [
+            bundleComponent,
+            { opacity: 1, transform: "translateY(0%)" },
+            { duration: 0.2, easing: "ease-in-out" }
+          ],
           [
             ".bundle_cart-trigger",
             {
