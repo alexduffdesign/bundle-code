@@ -855,7 +855,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const mobileAnimations = [
           [
             bundleComponent,
-            { transform: "translateY(0%)" },
+            { opacity: 1, transform: "translateY(0%)" },
             { duration: 0.2, easing: "ease-in-out" }
           ],
           [
@@ -870,9 +870,7 @@ document.addEventListener("DOMContentLoaded", function () {
               ]
             },
             { duration: 0.64, easing: "ease-in-out" }
-          ],
-          [ bundleComponent, { opacity: 0 }, { duration: 0.3 }],
-          [ map, { opacity: 0 }, { duration: 0.3, at: "<" }]
+          ]
         ];
   
         // Add animation to aray
@@ -887,6 +885,10 @@ document.addEventListener("DOMContentLoaded", function () {
       // - Delete cloned blocks
   
       addToBundleAnim.finished.then(() => {
+
+        // Shut Header and Footer
+        hideHeaderAndFooter();
+
         // Scrolling the bundle down when a product is added
         const targetPosition = bundleStepsItems[state.currentStep].offsetTop;
   
