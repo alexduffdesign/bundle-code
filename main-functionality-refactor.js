@@ -1293,6 +1293,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (isMobile()) {
       bundleComponent.style.opacity = 0;
       bundleComponent.pointerEvents = "none";
+      bundleComponent.translateYValue = "-100%";
       map.style.opacity = 0;
       map.pointerEvents = "none";
       }
@@ -1302,6 +1303,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (isMobile()) {
       bundleComponent.style.opacity = 1;
       bundleComponent.pointerEvents = "auto";
+      bundleComponent.translateYValue = "0%";
       map.style.opacity = 1;
       map.pointerEvents = "auto";
       }
