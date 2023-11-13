@@ -853,8 +853,11 @@ document.addEventListener("DOMContentLoaded", function () {
       // If we're on mobile this will be the animation
       if (isMobile()) {
 
-        
         const mobileAnimations = [
+          [
+            bundleComponent, 
+            { opacity: 1, transform: "translateY(0%)" }, { duration: 0.64 }  
+          ],
           [
             ".bundle_cart-trigger",
             {
@@ -872,8 +875,6 @@ document.addEventListener("DOMContentLoaded", function () {
             // Add animation to aray
             animations.push(...mobileAnimations);
       }
-
-      showHeaderAndFooter().then(() => {
   
       const addToBundleAnim = Motion.timeline(animations, {
         defaultEasing: "ease-in-out"
@@ -907,8 +908,6 @@ document.addEventListener("DOMContentLoaded", function () {
           );
           clonedProductBlock?.remove();
         });
-
-      });
       });
     }
 
