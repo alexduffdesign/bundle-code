@@ -870,6 +870,10 @@ document.addEventListener("DOMContentLoaded", function () {
               ]
             },
             { duration: 0.64, easing: "ease-in-out" }
+          ], 
+          [
+            bundleComponent, 
+            { opacity: 0, transform: "translateY(100%)" }, { duration: 0.64 }  
           ]
         ];
             // Add animation to aray
@@ -884,9 +888,6 @@ document.addEventListener("DOMContentLoaded", function () {
       // - Delete cloned blocks
   
       addToBundleAnim.finished.then(() => {
-
-        // Shut Header and Footer
-        hideHeaderAndFooter();
 
         // Scrolling the bundle down when a product is added
         const targetPosition = bundleStepsItems[state.currentStep].offsetTop;
