@@ -1307,6 +1307,7 @@ document.addEventListener("DOMContentLoaded", function () {
       bundleComponent.translateYValue = "0%";
       map.style.opacity = 1;
       map.pointerEvents = "auto";
+      console.log("show header and footer called");
       }
     }
     
