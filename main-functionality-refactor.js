@@ -1296,6 +1296,7 @@ document.addEventListener("DOMContentLoaded", function () {
       bundleComponent.translateYValue = "-100%";
       map.style.opacity = 0;
       map.pointerEvents = "none";
+      console.log("hide header and footer called");
       }
     }
 
