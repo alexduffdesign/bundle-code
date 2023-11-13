@@ -852,7 +852,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
       // If we're on mobile this will be the animation
       if (isMobile()) {
-        showHeaderAndFooter();
+        showHeaderAndFooter().then(() => {
         const mobileAnimations = [
           [
             ".bundle_cart-trigger",
@@ -868,9 +868,9 @@ document.addEventListener("DOMContentLoaded", function () {
             { duration: 0.64, easing: "ease-in-out" }
           ]
         ];
-  
-        // Add animation to aray
-        animations.push(...mobileAnimations);
+            // Add animation to aray
+            animations.push(...mobileAnimations);
+        });
       }
   
       const addToBundleAnim = Motion.timeline(animations, {
@@ -1340,7 +1340,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
 
-    
+
 
     ///////////////////////////////////// Bundle Functionality (Remove Product) ///////////////////////////////////////
 
