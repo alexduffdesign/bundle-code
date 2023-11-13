@@ -413,9 +413,9 @@ document.addEventListener("DOMContentLoaded", function () {
       // If the step involves a prize, activate the prize UI
       if (isPrizeStep(state.currentStep)) {
         activatePrizes(state.currentStep);
-        toggleHeaderFooter(true);
+        hideHeaderAndFooter();
         console.log("its a prize step");
-      } else { toggleHeaderFooter(); }
+      } else { showHeaderAndFooter(); }
     
       // Perform UI updates after state changes
       updateUIAfterMoveToNextStep();
@@ -428,7 +428,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (isProductAddedForStep(state.currentStep) && state.currentStep != state.prizeSteps[2]) {
       bundleGuide.classList.add("is--active");
       }
-      toggleHeaderFooter(true);
+      showHeaderAndFooter();
     }
       
     function editMode(stepValue) {
@@ -1286,15 +1286,14 @@ document.addEventListener("DOMContentLoaded", function () {
       body.style.overflow = "auto";
     }
     
-    function toggleHeaderFooter(reverse = false) {
-      console.log(`toggleHeaderFooter called, reverse: ${reverse}`);
+    function hideHeaderAndFooter() {
+      bundleComponent.style.opacity = 0;
+      map.style.opacity = 0;
+    }
 
-      const initialState = [
-        [bundleComponent, { opacity: [0, 1] }, { duration: 0.3, direction: reverse ? 'reverse' : 'normal' }],
-        [map, { opacity: [0, 1] }, { duration: 0.3, at: "<", direction: reverse ? 'reverse' : 'normal' }]
-      ];
-    
-      Motion.timeline(initialState);
+    function showHeaderAndFooter() {
+      bundleComponent.style.opacity = 1;
+      map.style.opacity = 1;
     }
     
 
