@@ -1288,12 +1288,17 @@ document.addEventListener("DOMContentLoaded", function () {
     
     function hideHeaderAndFooter() {
       bundleComponent.style.opacity = 0;
+      bundleComponent.pointerEvents = "none";
       map.style.opacity = 0;
+      map.pointerEvents = "none";
+
     }
 
     function showHeaderAndFooter() {
       bundleComponent.style.opacity = 1;
+      bundleComponent.pointerEvents = "auto";
       map.style.opacity = 1;
+      map.pointerEvents = "auto";
     }
     
 
