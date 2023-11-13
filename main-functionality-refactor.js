@@ -413,9 +413,12 @@ document.addEventListener("DOMContentLoaded", function () {
       // If the step involves a prize, activate the prize UI
       if (isPrizeStep(state.currentStep)) {
         activatePrizes(state.currentStep);
+        
         hideHeaderAndFooter();
         console.log("its a prize step");
-      } else { showHeaderAndFooter(); }
+      } else { 
+        showHeaderAndFooter();
+        }
     
       // Perform UI updates after state changes
       updateUIAfterMoveToNextStep();
@@ -428,7 +431,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (isProductAddedForStep(state.currentStep) && state.currentStep != state.prizeSteps[2]) {
       bundleGuide.classList.add("is--active");
       }
-      showHeaderAndFooter();
+      showHeaderAndFooter(); 
     }
       
     function editMode(stepValue) {
@@ -1287,18 +1290,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     function hideHeaderAndFooter() {
+      if (isMobile()) {
       bundleComponent.style.opacity = 0;
       bundleComponent.pointerEvents = "none";
       map.style.opacity = 0;
       map.pointerEvents = "none";
-
+      }
     }
 
     function showHeaderAndFooter() {
+      if (isMobile()) {
       bundleComponent.style.opacity = 1;
       bundleComponent.pointerEvents = "auto";
       map.style.opacity = 1;
       map.pointerEvents = "auto";
+      }
     }
     
 
