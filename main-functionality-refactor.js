@@ -873,7 +873,10 @@ document.addEventListener("DOMContentLoaded", function () {
           ], 
           [
             bundleComponent, 
-            { opacity: 0, transform: "translateY(100%)" }, { duration: 0.64 }  
+            { opacity: 0, transform: "translateY(150%)" }, { duration: 0.64 }  
+          ],
+          [
+            map, { opacity: 0 }, { at: "<", duration: 0.64 }
           ]
         ];
             // Add animation to aray
