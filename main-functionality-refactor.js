@@ -1290,29 +1290,47 @@ document.addEventListener("DOMContentLoaded", function () {
       popupBg.classList.remove("is--open");
       body.style.overflow = "auto";
     }
+
+
+    // HEADER AND FOOTER
     
     function hideHeaderAndFooter() {
       if (isMobile()) {
-      bundleComponent.style.opacity = 0;
-      bundleComponent.pointerEvents = "none";
-      bundleComponent.translateYValue = "100%";
-      map.style.opacity = 0;
-      map.pointerEvents = "none";
+      hideMap();
+      hideBundle();
       console.log("hide header and footer called");
       }
     }
 
     function showHeaderAndFooter() {
       if (isMobile()) {
-      bundleComponent.style.opacity = 1;
-      bundleComponent.pointerEvents = "auto";
-      bundleComponent.translateYValue = "0%";
-      map.style.opacity = 1;
-      map.pointerEvents = "auto";
+      showMap();
+      showBundle();
       console.log("show header and footer called");
       }
     }
-    
+
+    function hideMap() {
+      map.style.opacity = 0;
+      map.pointerEvents = "none";
+    }
+
+    function showMap() {
+      map.style.opacity = 1;
+      map.pointerEvents = "auto";
+    }
+
+    function showBundle() {
+      bundleComponent.style.opacity = 1;
+      bundleComponent.pointerEvents = "auto";
+      bundleComponent.translateYValue = "0%";
+    }
+
+    function hideBundle() {
+      bundleComponent.style.opacity = 0;
+      bundleComponent.pointerEvents = "none";
+      bundleComponent.translateYValue = "100%";
+    }
 
     function scrollToTop() {    
       // Scroll to the top
@@ -1322,6 +1340,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
 
+    
 
     ///////////////////////////////////// Bundle Functionality (Remove Product) ///////////////////////////////////////
 
