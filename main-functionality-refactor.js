@@ -870,10 +870,10 @@ document.addEventListener("DOMContentLoaded", function () {
               ]
             },
             { duration: 0.64, easing: "ease-in-out" }
-          ],
-          [ bundleComponent, { opacity: 0 }, { duration: 0.3 }],
-          [ map, { opacity: 0 }, { duration: 0.3, at: "<" }]
+          ]
         ];
+
+        hideHeaderAndFooter();
   
         // Add animation to aray
         animations.push(...mobileAnimations);
@@ -1310,7 +1310,6 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log("show header and footer called");
       }
     }
-    
 
     function scrollToTop() {    
       // Scroll to the top
