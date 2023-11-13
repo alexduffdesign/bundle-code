@@ -1293,7 +1293,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (isMobile()) {
       bundleComponent.style.opacity = 0;
       bundleComponent.pointerEvents = "none";
-      bundleComponent.translateYValue = "-100%";
+      bundleComponent.translateYValue = "100%";
       map.style.opacity = 0;
       map.pointerEvents = "none";
       console.log("hide header and footer called");
