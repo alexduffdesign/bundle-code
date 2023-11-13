@@ -873,10 +873,10 @@ document.addEventListener("DOMContentLoaded", function () {
           ]
         ];
 
-        hideHeaderAndFooter();
-  
         // Add animation to aray
         animations.push(...mobileAnimations);
+
+        hideHeaderAndFooter();
       }
   
       const addToBundleAnim = Motion.timeline(animations, {
@@ -1310,6 +1310,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log("show header and footer called");
       }
     }
+    
 
     function scrollToTop() {    
       // Scroll to the top
