@@ -852,7 +852,7 @@ document.addEventListener("DOMContentLoaded", function () {
   
       // If we're on mobile this will be the animation
       if (isMobile()) {
-        showHeaderAndFooter().then(() => {
+        
         const mobileAnimations = [
           [
             ".bundle_cart-trigger",
@@ -870,8 +870,9 @@ document.addEventListener("DOMContentLoaded", function () {
         ];
             // Add animation to aray
             animations.push(...mobileAnimations);
-        });
       }
+
+      showHeaderAndFooter();
   
       const addToBundleAnim = Motion.timeline(animations, {
         defaultEasing: "ease-in-out"
@@ -905,6 +906,7 @@ document.addEventListener("DOMContentLoaded", function () {
           );
           clonedProductBlock?.remove();
         });
+
       });
     }
 
