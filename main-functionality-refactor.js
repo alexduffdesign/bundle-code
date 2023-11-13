@@ -803,112 +803,112 @@ document.addEventListener("DOMContentLoaded", function () {
     // UI Functions (mainly for add to bundle action) // 
     
     // 1. Animate the product into the cart
-    function animateAddedProductToCart(productBlocks) {
-      const animations = [];
+    // function animateAddedProductToCart(productBlocks) {
+    //   const animations = [];
   
-      productBlocks.forEach((productBlock, index) => {
-        const clonedProductBlock = productBlock.cloneNode(true);
-        const rect = productBlock.getBoundingClientRect();
-        clonedProductBlock.style.position = "fixed";
-        clonedProductBlock.style.top = rect.top + "px";
-        clonedProductBlock.style.left = rect.left + "px";
-        clonedProductBlock.style.width = rect.width + "px";
-        clonedProductBlock.style.zIndex = 1000 + index;
+    //   productBlocks.forEach((productBlock, index) => {
+    //     const clonedProductBlock = productBlock.cloneNode(true);
+    //     const rect = productBlock.getBoundingClientRect();
+    //     clonedProductBlock.style.position = "fixed";
+    //     clonedProductBlock.style.top = rect.top + "px";
+    //     clonedProductBlock.style.left = rect.left + "px";
+    //     clonedProductBlock.style.width = rect.width + "px";
+    //     clonedProductBlock.style.zIndex = 1000 + index;
   
-        // Add the cloned product card to the body
-        body.appendChild(clonedProductBlock);
+    //     // Add the cloned product card to the body
+    //     body.appendChild(clonedProductBlock);
   
-        // Retrieve all [bundle-product] inside the current [bundle-item]
-        // If the editingStep is set (in edit mode), then we use that steps bundle-product as a target
-        const bundleProducts = getBundleProductsInsideBundleItem();
+    //     // Retrieve all [bundle-product] inside the current [bundle-item]
+    //     // If the editingStep is set (in edit mode), then we use that steps bundle-product as a target
+    //     const bundleProducts = getBundleProductsInsideBundleItem();
   
-        // Use the index to get the specific [bundle-product] for animation
-        const targetElement = bundleProducts[index];
-        const targetRect = targetElement.getBoundingClientRect();
+    //     // Use the index to get the specific [bundle-product] for animation
+    //     const targetElement = bundleProducts[index];
+    //     const targetRect = targetElement.getBoundingClientRect();
   
-        // Calculate the translation values
-        const translateYValue = targetRect.top - rect.top;
-        const translateXValue = targetRect.left - rect.left;
+    //     // Calculate the translation values
+    //     const translateYValue = targetRect.top - rect.top;
+    //     const translateXValue = targetRect.left - rect.left;
   
-        // Animate them to the bundle
-        const animationForThisProduct = [
-          [
-            clonedProductBlock,
-            {
-              transform: [
-                "translate(0%, 0%) scale(1)",
-                "translate(5%, -20%) scale(1)",
-                `translate(${translateXValue}px, ${translateYValue}px) scale(0.1)`
-              ],
-              opacity: [1, 0]
-            },
-            { duration: 0.5 }
-          ]
-        ];
+    //     // Animate them to the bundle
+    //     const animationForThisProduct = [
+    //       [
+    //         clonedProductBlock,
+    //         {
+    //           transform: [
+    //             "translate(0%, 0%) scale(1)",
+    //             "translate(5%, -20%) scale(1)",
+    //             `translate(${translateXValue}px, ${translateYValue}px) scale(0.1)`
+    //           ],
+    //           opacity: [1, 0]
+    //         },
+    //         { duration: 0.5 }
+    //       ]
+    //     ];
   
-        // Add this animation to the array
-        animations.push(...animationForThisProduct);
-      });
+    //     // Add this animation to the array
+    //     animations.push(...animationForThisProduct);
+    //   });
   
-      // If we're on mobile this will be the animation
-      if (isMobile()) {
-        const mobileAnimations = [
-          [
-            bundleComponent,
-            { transform: "translateY(0%)" },
-            { duration: 0.2, easing: "ease-in-out" }
-          ],
-          [
-            ".bundle_cart-trigger",
-            {
-              transform: [
-                "translateY(0%)",
-                "translateY(-10%)",
-                "translateY(0%)",
-                "translateY(-10%)",
-                "translateY(0%)"
-              ]
-            },
-            { duration: 0.64, easing: "ease-in-out" }
-          ],
-          [ bundleComponent, { opacity: 0 }, { duration: 0.3 }],
-          [ map, { opacity: 0 }, { duration: 0.3, at: "<" }]
-        ];
+    //   // If we're on mobile this will be the animation
+    //   if (isMobile()) {
+    //     const mobileAnimations = [
+    //       [
+    //         bundleComponent,
+    //         { transform: "translateY(0%)" },
+    //         { duration: 0.2, easing: "ease-in-out" }
+    //       ],
+    //       [
+    //         ".bundle_cart-trigger",
+    //         {
+    //           transform: [
+    //             "translateY(0%)",
+    //             "translateY(-10%)",
+    //             "translateY(0%)",
+    //             "translateY(-10%)",
+    //             "translateY(0%)"
+    //           ]
+    //         },
+    //         { duration: 0.64, easing: "ease-in-out" }
+    //       ],
+    //       [ bundleComponent, { opacity: 0 }, { duration: 0.3 }],
+    //       [ map, { opacity: 0 }, { duration: 0.3, at: "<" }]
+    //     ];
   
-        // Add animation to aray
-        animations.push(...mobileAnimations);
-      }
+    //     // Add animation to aray
+    //     animations.push(...mobileAnimations);
+    //   }
   
-      const addToBundleAnim = Motion.timeline(animations, {
-        defaultEasing: "ease-in-out"
-      });
+    //   const addToBundleAnim = Motion.timeline(animations, {
+    //     defaultEasing: "ease-in-out"
+    //   });
   
-      // After the animation is finished then scroll bundle to the next step 
-      // - Delete cloned blocks
+    //   // After the animation is finished then scroll bundle to the next step 
+    //   // - Delete cloned blocks
   
-      addToBundleAnim.finished.then(() => {
-        // Scrolling the bundle down when a product is added
-        const targetPosition = bundleStepsItems[state.currentStep].offsetTop;
+    //   addToBundleAnim.finished.then(() => {
+    //     // Scrolling the bundle down when a product is added
+    //     const targetPosition = bundleStepsItems[state.currentStep].offsetTop;
   
-        // Adjust for the height of the "your bundle" sticky header
-        const stickyHeaderOffset = 50; // Adjust this value to your needs
-        const finalScrollPosition = targetPosition - stickyHeaderOffset;
+    //     // Adjust for the height of the "your bundle" sticky header
+    //     const stickyHeaderOffset = 50; // Adjust this value to your needs
+    //     const finalScrollPosition = targetPosition - stickyHeaderOffset;
   
-        // Smoothly scroll to the final position
-        bundleOverflow.scrollTo({
-          top: finalScrollPosition,
-          behavior: "smooth"
-        });
+    //     // Smoothly scroll to the final position
+    //     bundleOverflow.scrollTo({
+    //       top: finalScrollPosition,
+    //       behavior: "smooth"
+    //     });
   
-        // Remove clones
-        productBlocks.forEach((_, index) => {
-          const clonedProductBlock = document.querySelector(
-            `[data-cloned-index="${index}"]`
-          );
-          clonedProductBlock?.remove();
-        });
-      });
-    }
+    //     // Remove clones
+    //     productBlocks.forEach((_, index) => {
+    //       const clonedProductBlock = document.querySelector(
+    //         `[data-cloned-index="${index}"]`
+    //       );
+    //       clonedProductBlock?.remove();
+    //     });
+    //   });
+    // }
 
     /// Changed animation function 
 
