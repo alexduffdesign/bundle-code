@@ -803,112 +803,249 @@ document.addEventListener("DOMContentLoaded", function () {
     // UI Functions (mainly for add to bundle action) // 
     
     // 1. Animate the product into the cart
-    function animateAddedProductToCart(productBlocks) {
-      const animations = [];
+    // function animateAddedProductToCart(productBlocks) {
+    //   const animations = [];
   
-      productBlocks.forEach((productBlock, index) => {
+    //   productBlocks.forEach((productBlock, index) => {
+    //     const clonedProductBlock = productBlock.cloneNode(true);
+    //     const rect = productBlock.getBoundingClientRect();
+    //     clonedProductBlock.style.position = "fixed";
+    //     clonedProductBlock.style.top = rect.top + "px";
+    //     clonedProductBlock.style.left = rect.left + "px";
+    //     clonedProductBlock.style.width = rect.width + "px";
+    //     clonedProductBlock.style.zIndex = 1000 + index;
+  
+    //     // Add the cloned product card to the body
+    //     body.appendChild(clonedProductBlock);
+  
+    //     // Retrieve all [bundle-product] inside the current [bundle-item]
+    //     // If the editingStep is set (in edit mode), then we use that steps bundle-product as a target
+    //     const bundleProducts = getBundleProductsInsideBundleItem();
+  
+    //     // Use the index to get the specific [bundle-product] for animation
+    //     const targetElement = bundleProducts[index];
+    //     const targetRect = targetElement.getBoundingClientRect();
+  
+    //     // Calculate the translation values
+    //     const translateYValue = targetRect.top - rect.top;
+    //     const translateXValue = targetRect.left - rect.left;
+  
+    //     // Animate them to the bundle
+    //     const animationForThisProduct = [
+    //       [
+    //         clonedProductBlock,
+    //         {
+    //           transform: [
+    //             "translate(0%, 0%) scale(1)",
+    //             "translate(5%, -20%) scale(1)",
+    //             `translate(${translateXValue}px, ${translateYValue}px) scale(0.1)`
+    //           ],
+    //           opacity: [1, 0]
+    //         },
+    //         { duration: 0.5 }
+    //       ]
+    //     ];
+  
+    //     // Add this animation to the array
+    //     animations.push(...animationForThisProduct);
+    //   });
+  
+    //   // If we're on mobile this will be the animation
+    //   if (isMobile()) {
+    //     const mobileAnimations = [
+    //       [
+    //         bundleComponent,
+    //         { transform: "translateY(0%)" },
+    //         { duration: 0.2, easing: "ease-in-out" }
+    //       ],
+    //       [
+    //         ".bundle_cart-trigger",
+    //         {
+    //           transform: [
+    //             "translateY(0%)",
+    //             "translateY(-10%)",
+    //             "translateY(0%)",
+    //             "translateY(-10%)",
+    //             "translateY(0%)"
+    //           ]
+    //         },
+    //         { duration: 0.64, easing: "ease-in-out" }
+    //       ],
+    //       [ bundleComponent, { opacity: 0 }, { duration: 0.3 }],
+    //       [ map, { opacity: 0 }, { duration: 0.3, at: "<" }]
+    //     ];
+  
+    //     // Add animation to aray
+    //     animations.push(...mobileAnimations);
+    //   }
+  
+    //   const addToBundleAnim = Motion.timeline(animations, {
+    //     defaultEasing: "ease-in-out"
+    //   });
+  
+    //   // After the animation is finished then scroll bundle to the next step 
+    //   // - Delete cloned blocks
+  
+    //   addToBundleAnim.finished.then(() => {
+    //     // Scrolling the bundle down when a product is added
+    //     const targetPosition = bundleStepsItems[state.currentStep].offsetTop;
+  
+    //     // Adjust for the height of the "your bundle" sticky header
+    //     const stickyHeaderOffset = 50; // Adjust this value to your needs
+    //     const finalScrollPosition = targetPosition - stickyHeaderOffset;
+  
+    //     // Smoothly scroll to the final position
+    //     bundleOverflow.scrollTo({
+    //       top: finalScrollPosition,
+    //       behavior: "smooth"
+    //     });
+  
+    //     // Remove clones
+    //     productBlocks.forEach((_, index) => {
+    //       const clonedProductBlock = document.querySelector(
+    //         `[data-cloned-index="${index}"]`
+    //       );
+    //       clonedProductBlock?.remove();
+    //     });
+    //   });
+    // }
+
+    /// Changed animation function 
+
+      /**
+       * Clones a product block and sets its initial style.
+       * @param {HTMLElement} productBlock - The product block to clone.
+       * @param {number} index - The index of the product block.
+       * @returns {HTMLElement} The cloned product block element.
+       */
+      function cloneProductBlock(productBlock, index) {
         const clonedProductBlock = productBlock.cloneNode(true);
         const rect = productBlock.getBoundingClientRect();
         clonedProductBlock.style.position = "fixed";
-        clonedProductBlock.style.top = rect.top + "px";
-        clonedProductBlock.style.left = rect.left + "px";
-        clonedProductBlock.style.width = rect.width + "px";
+        clonedProductBlock.style.top = `${rect.top}px`;
+        clonedProductBlock.style.left = `${rect.left}px`;
+        clonedProductBlock.style.width = `${rect.width}px`;
         clonedProductBlock.style.zIndex = 1000 + index;
-  
-        // Add the cloned product card to the body
-        body.appendChild(clonedProductBlock);
-  
-        // Retrieve all [bundle-product] inside the current [bundle-item]
-        // If the editingStep is set (in edit mode), then we use that steps bundle-product as a target
-        const bundleProducts = getBundleProductsInsideBundleItem();
-  
-        // Use the index to get the specific [bundle-product] for animation
-        const targetElement = bundleProducts[index];
-        const targetRect = targetElement.getBoundingClientRect();
-  
-        // Calculate the translation values
-        const translateYValue = targetRect.top - rect.top;
-        const translateXValue = targetRect.left - rect.left;
-  
-        // Animate them to the bundle
-        const animationForThisProduct = [
-          [
-            clonedProductBlock,
-            {
-              transform: [
-                "translate(0%, 0%) scale(1)",
-                "translate(5%, -20%) scale(1)",
-                `translate(${translateXValue}px, ${translateYValue}px) scale(0.1)`
-              ],
-              opacity: [1, 0]
-            },
-            { duration: 0.5 }
-          ]
-        ];
-  
-        // Add this animation to the array
-        animations.push(...animationForThisProduct);
-      });
-  
-      // If we're on mobile this will be the animation
-      if (isMobile()) {
-        const mobileAnimations = [
-          [
-            bundleComponent,
-            { transform: "translateY(0%)" },
-            { duration: 0.2, easing: "ease-in-out" }
-          ],
-          [
-            ".bundle_cart-trigger",
-            {
-              transform: [
-                "translateY(0%)",
-                "translateY(-10%)",
-                "translateY(0%)",
-                "translateY(-10%)",
-                "translateY(0%)"
-              ]
-            },
-            { duration: 0.64, easing: "ease-in-out" }
-          ],
-          [ bundleComponent, { opacity: 0 }, { duration: 0.3 }],
-          [ map, { opacity: 0 }, { duration: 0.3, at: "<" }]
-        ];
-  
-        // Add animation to aray
-        animations.push(...mobileAnimations);
-      }
-  
-      const addToBundleAnim = Motion.timeline(animations, {
-        defaultEasing: "ease-in-out"
-      });
-  
-      // After the animation is finished then scroll bundle to the next step 
-      // - Delete cloned blocks
-  
-      addToBundleAnim.finished.then(() => {
-        // Scrolling the bundle down when a product is added
-        const targetPosition = bundleStepsItems[state.currentStep].offsetTop;
-  
-        // Adjust for the height of the "your bundle" sticky header
-        const stickyHeaderOffset = 50; // Adjust this value to your needs
-        const finalScrollPosition = targetPosition - stickyHeaderOffset;
-  
-        // Smoothly scroll to the final position
-        bundleOverflow.scrollTo({
-          top: finalScrollPosition,
-          behavior: "smooth"
-        });
-  
-        // Remove clones
-        productBlocks.forEach((_, index) => {
-          const clonedProductBlock = document.querySelector(
-            `[data-cloned-index="${index}"]`
-          );
-          clonedProductBlock?.remove();
-        });
-      });
+        return clonedProductBlock;
     }
+    
+    /**
+     * Calculates translation values for animating the product block.
+     * @param {HTMLElement} productBlock - The original product block.
+     * @param {HTMLElement} targetElement - The target element for animation.
+     * @returns {Object} An object with translateX and translateY values.
+     */
+    function calculateTranslation(productBlock, targetElement) {
+        const rect = productBlock.getBoundingClientRect();
+        const targetRect = targetElement.getBoundingClientRect();
+        const translateY = targetRect.top - rect.top;
+        const translateX = targetRect.left - rect.left;
+        return { translateX, translateY };
+    }
+    
+    /**
+     * Creates animation descriptors for desktop view.
+     * @param {HTMLElement[]} productBlocks - An array of product block elements.
+     * @returns {AnimationDescriptor[]} An array of animation descriptors for each product block.
+     */
+    function createDesktopAnimations(productBlocks) {
+        const animations = [];
+        productBlocks.forEach((productBlock, index) => {
+            const clonedProductBlock = cloneProductBlock(productBlock, index);
+            const bundleProducts = getBundleProductsInsideBundleItem(); // Assuming this is a predefined function
+            const targetElement = bundleProducts[index];
+            const { translateX, translateY } = calculateTranslation(productBlock, targetElement);
+            animations.push([
+                clonedProductBlock,
+                {
+                    transform: [
+                        "translate(0%, 0%) scale(1)",
+                        "translate(5%, -20%) scale(1)",
+                        `translate(${translateX}px, ${translateY}px) scale(0.1)`
+                    ],
+                    opacity: [1, 0]
+                },
+                { duration: 0.5 }
+            ]);
+        });
+        return animations;
+    }
+    
+    /**
+     * Creates animation descriptors specifically for mobile view.
+     * @returns {AnimationDescriptor[]} An array of animation descriptors for mobile animations.
+     */
+    function createMobileAnimations() {
+        return [
+            [bundleComponent, { transform: "translateY(0%)" }, { duration: 0.2, easing: "ease-in-out" }],
+            [
+                ".bundle_cart-trigger",
+                {
+                    transform: [
+                        "translateY(0%)",
+                        "translateY(-10%)",
+                        "translateY(0%)",
+                        "translateY(-10%)",
+                        "translateY(0%)"
+                    ]
+                },
+                { duration: 0.64, easing: "ease-in-out" }
+            ],
+            [bundleComponent, { opacity: 0 }, { duration: 0.3 }],
+            [map, { opacity: 0 }, { duration: 0.3, at: "<" }]
+        ];
+    }
+    
+    /**
+     * Manages the animation timeline, including triggering animations and post-animation cleanup.
+     * @param {AnimationDescriptor[]} animations - An array of animation descriptors.
+     * @returns {Promise} A promise that resolves when the animations are completed.
+     */
+    function handleAnimationTimeline(animations) {
+        const addToBundleAnim = Motion.timeline(animations, {
+            defaultEasing: "ease-in-out"
+        });
+
+        return addToBundleAnim.finished.then(() => {
+            // Scrolling the bundle down when a product is added
+            const targetPosition = bundleStepsItems[state.currentStep].offsetTop;
+            const stickyHeaderOffset = 50; // Adjust this value as needed
+            const finalScrollPosition = targetPosition - stickyHeaderOffset;
+            
+            // Smoothly scroll to the final position
+            bundleOverflow.scrollTo({
+                top: finalScrollPosition,
+                behavior: "smooth"
+            });
+
+            // Remove cloned product blocks
+            animations.forEach(([clonedProductBlock]) => {
+                if (clonedProductBlock.nodeType === Node.ELEMENT_NODE) {
+                    clonedProductBlock.remove();
+                }
+            });
+        });
+    }
+    
+    /**
+     * Animates the addition of a product to the cart.
+     * @param {HTMLElement[]} productBlocks - An array of product block elements.
+     */
+    function animateAddedProductToCart(productBlocks) {
+        let animations;
+        if (isMobile()) {
+            animations = createMobileAnimations();
+        } else {
+            animations = createDesktopAnimations(productBlocks);
+        }
+        
+        handleAnimationTimeline(animations).then(() => {
+            // Any additional tasks post animation can be added here.
+        });
+    }
+  
+
+
   
     // 2. Add the product data to the bundle
     // Refactored to handle both adding and removing product data
@@ -1060,6 +1197,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     
+
 
     function activateStepImage(stepItems) {
       const stepImageEl = stepItems.querySelector(
