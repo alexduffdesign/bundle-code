@@ -856,7 +856,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const mobileAnimations = [
           [
             bundleComponent, 
-            { opacity: 1, transform: "translateY(0%)" }, { duration: 0.64 }  
+            { opacity: 1, transform: "translateY(0%)" }, { duration: 0.34 }  
           ],
           [
             ".bundle_cart-trigger",
@@ -873,10 +873,10 @@ document.addEventListener("DOMContentLoaded", function () {
           ], 
           [
             bundleComponent, 
-            { opacity: 0, transform: "translateY(150%)" }, { duration: 0.64 }  
+            { opacity: 0, transform: "translateY(150%)" }, { duration: 0.34 }  
           ],
           [
-            map, { opacity: 0 }, { at: "<", duration: 0.64 }
+            map, { opacity: 0 }, { at: "<", duration: 0.34 }
           ]
         ];
             // Add animation to aray
