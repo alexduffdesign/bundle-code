@@ -569,7 +569,7 @@ document.addEventListener("DOMContentLoaded", function () {
       bundleGuide.classList.remove("is--active");
     
       // Reset UI to no-popup state
-      if (state.currentStep !== state.prizeSteps) {
+      if (state.currentStep === state.prizeSteps) {
       scrollToTop();
       }
 
