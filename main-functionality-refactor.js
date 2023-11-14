@@ -1147,6 +1147,8 @@ document.addEventListener("DOMContentLoaded", function () {
       seaEl.classList.remove("is--active");
       skyEl.classList.remove("is--active");
       meadowEl.classList.remove("is--active");
+
+      body.style.overflow = "auto";
     }
     
     function activatePrizes(step) {
@@ -1164,6 +1166,8 @@ document.addEventListener("DOMContentLoaded", function () {
         products.classList.remove("is--active");
         meadowEl.classList.add("is--active");
       }
+
+      body.style.overflow = "hidden";
     }
     
     function getCurrentStepData(stepIndex) {
