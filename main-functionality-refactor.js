@@ -436,7 +436,9 @@ document.addEventListener("DOMContentLoaded", function () {
       if (isProductAddedForStep(state.currentStep) && state.currentStep != state.prizeSteps[2]) {
       bundleGuide.classList.add("is--active");
       }
+      if (isMobile()){
       showHeaderAndFooter(); 
+      }
     }
       
     function editMode(stepValue) {
@@ -483,7 +485,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updatePopup(popupDataCurrent);
       }
 
-      setTimeout(() => openNextStepPopup(), 1100);
+      setTimeout(() => openNextStepPopup(), isMobile() ? 820 : 1100);
     }
 
 
