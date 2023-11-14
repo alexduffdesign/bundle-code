@@ -972,19 +972,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     // 4 Update position of the indicator
-    function updateIndicatorPosition(currentStep) {
-      const steps = document.querySelectorAll('.bundle_step');
-      let cumulativeHeight = 0;
-    
-      // Add the height of all previous steps to get the position for the currentStep indicator
-      steps.forEach((step, index) => {
-        if (index < currentStep) {
-          cumulativeHeight += step.offsetHeight;
+    function updateIndicatorPosition(currentStep, totalSteps) {
+      const indicatorThumbs = document.querySelectorAll(
+        ".bundle_indicator-thumb"
+      );
+      const stepPercentage = ((currentStep) / totalSteps) * 100 + 10;
+  
+      indicatorThumbs.forEach((indicatorThumb) => {
+        if (indicatorThumb.classList.contains("is--map")) {
+          // Horizontal progress for mobile top indicator
+          indicatorThumb.style.transform = `translateX(${stepPercentage - 100}%)`;
+        } else {
+          // Vertical progress for the bundle indicator
+          indicatorThumb.style.transform = `translateY(${stepPercentage - 100}%)`;
         }
       });
-    
-      // Assuming 'bundleCartIndicator' is the indicator thumb
-      bundleCartIndicator.style.transform = `translateY(${cumulativeHeight}px)`;
     }
 
     // 5. Update the next step popup
