@@ -413,11 +413,16 @@ document.addEventListener("DOMContentLoaded", function () {
       // If the step involves a prize, activate the prize UI
       if (isPrizeStep(state.currentStep)) {
         activatePrizes(state.currentStep);
+
+        if (isMobile()) {
         showMap();
         hideBundle();
         console.log("its a prize step");
+        }
       } else { 
+        if (isMobile()) {
         showHeaderAndFooter();
+        }
         }
     
       // Perform UI updates after state changes
