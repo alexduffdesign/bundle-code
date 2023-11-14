@@ -1148,7 +1148,7 @@ document.addEventListener("DOMContentLoaded", function () {
       skyEl.classList.remove("is--active");
       meadowEl.classList.remove("is--active");
 
-      body.style.overflow = "auto";
+      // body.style.overflow = "auto";
     }
     
     function activatePrizes(step) {
@@ -1167,7 +1167,7 @@ document.addEventListener("DOMContentLoaded", function () {
         meadowEl.classList.add("is--active");
       }
 
-      body.style.overflow = "hidden";
+      // body.style.overflow = "none";
     }
     
     function getCurrentStepData(stepIndex) {
