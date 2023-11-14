@@ -984,7 +984,7 @@ document.addEventListener("DOMContentLoaded", function () {
           indicatorThumb.style.transform = `translateX(${stepPercentage - 100}%)`;
         } else {
           // Vertical progress for the bundle indicator
-          indicatorThumb.style.transform = `translateY(${stepPercentage - 95}%)`;
+          indicatorThumb.style.transform = `translateY(${stepPercentage - 100}%)`;
         }
       });
     }
