@@ -976,7 +976,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const indicatorThumbs = document.querySelectorAll(
         ".bundle_indicator-thumb"
       );
-      const stepPercentage = ((currentStep) / totalSteps) * 100 + 10;
+      const stepPercentage = ((currentStep) / totalSteps) * 100 + 20;
   
       indicatorThumbs.forEach((indicatorThumb) => {
         if (indicatorThumb.classList.contains("is--map")) {
