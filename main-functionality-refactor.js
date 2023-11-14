@@ -414,7 +414,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (isPrizeStep(state.currentStep)) {
         activatePrizes(state.currentStep);
         
-        hideHeaderAndFooter();
+        hideBundle();
         console.log("its a prize step");
       } else { 
         showHeaderAndFooter();
