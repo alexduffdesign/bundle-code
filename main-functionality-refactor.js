@@ -859,7 +859,7 @@ document.addEventListener("DOMContentLoaded", function () {
             { opacity: 1, transform: "translateY(0%)" }, { duration: 0.34 }  
           ],
           [
-            map, { opacity: 1 }, { at: ">", duration: 0.34 }
+            map, { opacity: 1 }, { at: "<", duration: 0.34 }
           ],
           [
             ".bundle_cart-trigger",
