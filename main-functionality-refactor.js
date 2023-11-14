@@ -485,7 +485,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updatePopup(popupDataCurrent);
       }
 
-      setTimeout(() => openNextStepPopup(), isMobile() ? 820 : 1100);
+      setTimeout(() => openNextStepPopup(), isMobile() ? 1100 : 820);
     }
 
 
