@@ -478,7 +478,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updatePopup(popupDataCurrent);
       }
 
-      setTimeout(() => openNextStepPopup(), 1000);
+      setTimeout(() => openNextStepPopup(), 1100);
     }
 
 
